@@ -7,4 +7,4 @@ These are coding exercises meant to sharpen your programming abilities, analogou
 1. [Prime Factors](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata)
 1. [Bowling Game](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata)
 
-For more info about them, go to the `docs/presentations` folder.
+For more info about them, go to the `docs` or `docs/presentations` folder.
