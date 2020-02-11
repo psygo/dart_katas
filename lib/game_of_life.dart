@@ -14,19 +14,24 @@ Any live cell with:
 
 class GameOfLife {
 
-  final int height;
-  final int width;
+  final int _height;
+  final int _width;
   final String _deadCharacter = '-';
   final String _aliveCharacter = '+';
   List<List<String>> _grid;
 
   GameOfLife({
-    this.height,
-    this.width,
-  }){
-    _grid = _emptyGrid(height: height, width: width);
+    int height,
+    int width,
+  }):
+    this._height = height,
+    this._width = width
+  {
+    _grid = _emptyGrid(height: _height, width: _width);
   }
 
+  get height => _height;
+  get width => _width;
   get grid => _grid;
 
   List<List<String>> _emptyGrid({
@@ -37,4 +42,28 @@ class GameOfLife {
       .filled(width, _deadCharacter, growable: false);
     return List<List<String>>.filled(height, emptyLine, growable: false);
   }
+}
+
+
+class Cell {
+  Status _status;
+
+  Cell({
+    Status status,
+  }):
+    _status = status;
+
+  get status => _status;
+  
+  void set status(
+    Status newStatus,
+  ){
+    _status = newStatus;
+  }
+}
+
+
+enum Status {
+  dead,
+  alive,
 }
