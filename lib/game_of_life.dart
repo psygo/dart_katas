@@ -14,42 +14,67 @@ Any live cell with:
 
 class GameOfLife {
 
+  static const String _deadCharacter = '-';
+  static const String _aliveCharacter = '+';
+
   final int _height;
   final int _width;
-  final String _deadCharacter = '-';
-  final String _aliveCharacter = '+';
-  List<List<Cell>> _grid;
+  List<List<List<Cell>>> _grids = [];
 
   GameOfLife({
-    int height,
-    int width,
+    List<List<String>> initialGrid,
   }):
-    this._height = height,
-    this._width = width
+    _height = initialGrid.length,
+    _width = initialGrid.first.length
   {
-    _grid = _emptyGrid(height: _height, width: _width);
+    _grids.add(_parseGridFromString(initialGrid: initialGrid));
   }
 
-  int get height => _height;
-  int get width => _width;
-
-  List<List<String>> get grid {
-    
-  }
-
-  List<List<Cell>> _emptyGrid({
-    int height,
-    int width,
+  List<List<Cell>> _parseGridFromString({
+    List<List<String>> initialGrid,
   }){
+    List<List<Cell>> parsedGrid = _emptyGrid();
+
+    for (int heightIndex = 0; heightIndex < _height; heightIndex++){
+      for (int widthIndex = 0; widthIndex < _width; widthIndex++){
+        if (initialGrid[heightIndex][widthIndex] == _deadCharacter){
+          parsedGrid[heightIndex][widthIndex] = Cell(status: Status.dead);
+        }
+        else if (initialGrid[heightIndex][widthIndex] == _aliveCharacter) {
+          parsedGrid[heightIndex][widthIndex] = Cell(status: Status.alive);
+        }
+      }
+    }
+
+    return parsedGrid;
+  }
+
+  List<List<Cell>> _emptyGrid(){
     Cell deadCell = Cell(status: Status.dead);
-
-    List<Cell> emptyLine = List<Cell>
-      .filled(width, deadCell, growable: false);
-
+    List<Cell> parsedGridDeadLine = List<Cell>
+      .filled(_width, deadCell, growable: false);
     List<List<Cell>> emptyGrid = List<List<Cell>>
-      .filled(height, emptyLine, growable: false);
-
+      .filled(_height, parsedGridDeadLine, growable: false);
+    
     return emptyGrid;
+  }
+
+  List<List<String>> get lastGrid {
+    List<String> stringDeadLine = List
+      .filled(_width, _deadCharacter, growable: false);
+    List<List<String>> lastGridAsStrings = List
+      .filled(_height, stringDeadLine, growable: false);
+    List<List<Cell>> lastGridAsCells = _grids.last;
+
+    for (int heightIndex = 0; heightIndex < _height; heightIndex++){
+      for (int widthIndex = 0; widthIndex < _width; widthIndex++){
+        if (lastGridAsCells[heightIndex][widthIndex].status == Status.alive){
+          lastGridAsStrings[heightIndex][widthIndex] = _aliveCharacter;
+        }
+      }
+    }
+
+    return lastGridAsStrings;
   }
 
 }

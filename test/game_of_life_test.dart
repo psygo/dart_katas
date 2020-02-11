@@ -8,10 +8,7 @@ void main(){
   GameOfLife _game;
 
   setUp((){
-    _game = GameOfLife(
-      height: 4,
-      width: 8,
-    );
+
   });
 
   test('Empty Grid', (){
@@ -22,7 +19,9 @@ void main(){
       ['-', '-', '-', '-', '-', '-', '-', '-'],
     ];
 
-    expect(_game.grid, emptyGrid);
+    _game = GameOfLife(initialGrid: emptyGrid);
+
+    expect(_game.lastGrid, emptyGrid);
   });
 
 }
