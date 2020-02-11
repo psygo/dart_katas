@@ -46,4 +46,17 @@ void main(){
     expect(_game.score(), 16);
   });
 
+  void _rollStrike(){
+    _game.roll(10);
+  }
+
+  test('testStrike', (){
+    _rollStrike();
+    _game.roll(3);
+    _game.roll(4);
+    _rollMany(16, 0);
+
+    expect(_game.score(), 24);
+  });
+
 }
