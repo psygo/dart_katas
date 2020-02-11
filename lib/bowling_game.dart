@@ -1,9 +1,12 @@
 class BowlingGame {
-  void roll(int pins){
+  
+  int _score = 0;
 
+  void roll(int pins){
+    _score += pins;
   }
 
   int score(){
-    return 0;
+    return _score;
   }
 }

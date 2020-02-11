@@ -5,9 +5,14 @@ import '../lib/bowling_game.dart';
 
 void main(){
 
-  test('testGutterGame', (){
-    BowlingGame game = BowlingGame();
+  BowlingGame game;
 
+  setUp(() {
+    game = BowlingGame();
+  });
+
+  test('testGutterGame', (){
+    
     for (int i = 0; i < 20; i++){
       game.roll(0);
     }
@@ -16,7 +21,6 @@ void main(){
   });
 
   test('testAllOnes', (){
-    BowlingGame game = BowlingGame();
 
     for (int i = 0; i < 20; i++){
       game.roll(1);
