@@ -1,0 +1,3 @@
+name: learning_tests
+dependencies:
+  test: ^1.12.0
