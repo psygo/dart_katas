@@ -59,4 +59,10 @@ void main(){
     expect(_game.score(), 24);
   });
 
+  test('testPerfectGame', (){
+    _rollMany(12, 10);
+
+    expect(_game.score(), 300);
+  });
+
 }
