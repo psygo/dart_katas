@@ -18,7 +18,7 @@ class GameOfLife {
   final int _width;
   final String _deadCharacter = '-';
   final String _aliveCharacter = '+';
-  List<List<String>> _grid;
+  List<List<Cell>> _grid;
 
   GameOfLife({
     int height,
@@ -30,18 +30,23 @@ class GameOfLife {
     _grid = _emptyGrid(height: _height, width: _width);
   }
 
-  get height => _height;
-  get width => _width;
-  get grid => _grid;
+  int get height => _height;
+  int get width => _width;
 
-  List<List<String>> _emptyGrid({
+  List<List<String>> get grid {
+    
+  }
+
+  List<List<Cell>> _emptyGrid({
     int height,
     int width,
   }){
-    List<String> emptyLine = List<String>
-      .filled(width, _deadCharacter, growable: false);
+    Cell deadCell = Cell(status: Status.dead);
 
-    List<List<String>> emptyGrid = List<List<String>>
+    List<Cell> emptyLine = List<Cell>
+      .filled(width, deadCell, growable: false);
+
+    List<List<Cell>> emptyGrid = List<List<Cell>>
       .filled(height, emptyLine, growable: false);
 
     return emptyGrid;
@@ -59,7 +64,7 @@ class Cell {
   }):
     _status = status;
 
-  get status => _status;
+  Status get status => _status;
 
   void set status(
     Status newStatus,
