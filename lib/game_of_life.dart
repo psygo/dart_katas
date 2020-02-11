@@ -9,18 +9,20 @@ Any live cell with:
 4. exactly three live neighbours becomes a live cell.
 */
 
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 
 
 class GameOfLife {
 
   final int height;
   final int width;
+  final String _deadCharacter = '-';
+  final String _aliveCharacter = '+';
   List<List<String>> _grid;
 
   GameOfLife({
-    @required this.height,
-    @required this.width,
+    this.height,
+    this.width,
   }){
     _grid = _emptyGrid(height: height, width: width);
   }
@@ -31,7 +33,8 @@ class GameOfLife {
     int height,
     int width,
   }){
-    List<String> emptyLine = List<String>.filled(width, '-', growable: false);
+    List<String> emptyLine = List<String>
+      .filled(width, _deadCharacter, growable: false);
     return List<List<String>>.filled(height, emptyLine, growable: false);
   }
 }
