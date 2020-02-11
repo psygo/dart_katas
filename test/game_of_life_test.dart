@@ -7,21 +7,36 @@ void main(){
 
   GameOfLife _game;
 
+  List<List<String>> _emptyGrid = [
+    ['-', '-', '-', '-', '-', '-', '-', '-'],
+    ['-', '-', '-', '-', '-', '-', '-', '-'],
+    ['-', '-', '-', '-', '-', '-', '-', '-'],
+    ['-', '-', '-', '-', '-', '-', '-', '-'],
+  ];
+
   setUp((){
 
   });
 
   test('Empty Grid', (){
-    List<List<String>> emptyGrid = [
+
+    _game = GameOfLife(initialGrid: _emptyGrid);
+
+    expect(_game.lastGrid, _emptyGrid);
+  });
+
+  test('One living cell', (){
+    List<List<String>> oneLivingCell = [
       ['-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '*', '-', '-', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-'],
     ];
 
-    _game = GameOfLife(initialGrid: emptyGrid);
+    _game = GameOfLife(initialGrid: oneLivingCell);
+    _game.play();
 
-    expect(_game.lastGrid, emptyGrid);
+    expect(_game.lastGrid, _emptyGrid);
   });
 
 }
