@@ -11,20 +11,23 @@ void main(){
     game = BowlingGame();
   });
 
-  test('testGutterGame', (){
-    
-    for (int i = 0; i < 20; i++){
-      game.roll(0);
+  void _rollMany(
+    int n,
+    int pins,
+  ){
+    for (int i = 0; i < n; i++){
+      game.roll(pins);
     }
+  }
+
+  test('testGutterGame', (){
+    _rollMany(20, 0);
 
     expect(game.score(), 0);
   });
 
   test('testAllOnes', (){
-
-    for (int i = 0; i < 20; i++){
-      game.roll(1);
-    }
+    _rollMany(20, 1);
 
     expect(game.score(), 20);
   });
