@@ -13,21 +13,44 @@ class GridParser {
     _deadCharacter = deadCharacter ?? '-',
     _aliveCharacter = aliveCharacter ?? '+';
 
+  List<List<T>> _createGridWithSameElements<T>({
+    int height,
+    int width,
+    T element,
+  }) {
+    final vanillaGrid = <List<T>>[];
+
+    for (int heightIndex = 0; heightIndex < height; heightIndex++) {
+      final vanillaLine = <T>[];
+      for (int widthIndex = 0; widthIndex < width; widthIndex++) {
+        vanillaLine.add(element);
+      }
+      vanillaGrid.add(vanillaLine);
+    }
+
+    return vanillaGrid;
+  }
+
   List<List<Cell>> _emptyCellGrid({
     int height,
     int width,
   }){
-    List<List<Cell>> emptyCellGrid = [];
+    return _createGridWithSameElements(
+      height: height, 
+      width: width, 
+      element: Cell.dead(),
+    );
+  }
 
-    for (int heightIndex = 0; heightIndex < height; heightIndex++){
-      List<Cell> emptyCellLine = [];
-      for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        emptyCellLine.add(Cell.dead());
-      }
-      emptyCellGrid.add(emptyCellLine);
-    }
-
-    return emptyCellGrid;
+  List<List<String>> _emptyStringGrid({
+    height,
+    width,
+  }){
+    return _createGridWithSameElements(
+      height: height,
+      width: width,
+      element: _deadCharacter,
+    );
   }
 
   void _heightWidthLooper(
@@ -60,6 +83,24 @@ class GridParser {
     });
 
     return parsedGrid;
+  }
+
+  List<List<String>> cellGridToStringGrid(
+    List<List<Cell>> cellGrid,
+  ){
+    int height = cellGrid.length;
+    int width = cellGrid.first.length;
+    List<List<String>> stringGrid = 
+      _emptyStringGrid(height: height, width: width);
+
+    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
+      Cell cell = cellGrid[heightIndex][widthIndex];
+      if (cell.isAlive){
+        stringGrid[heightIndex][widthIndex] = _aliveCharacter;
+      }
+    });
+
+    return stringGrid;
   }
 
 }

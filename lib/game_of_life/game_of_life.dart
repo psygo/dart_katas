@@ -40,31 +40,23 @@ class GameOfLife {
   {
     List<List<Cell>> initialCellGrid = _gridParser
       .parseStringGrid(stringGrid: initialGrid);
-
+    
     _grids.add(initialCellGrid);
   }
 
-  List<List<String>> _emptyStringGrid(){
-    List<String> deadStringLine = List
-      .filled(_width, _deadCharacter, growable: false);
-    List<List<String>> emptyGrid = List
-      .filled(_height, deadStringLine, growable: false);
-    
-    return emptyGrid;
-  }
-
   List<List<String>> get lastGrid {
-    List<List<String>> lastGridAsStrings = _emptyStringGrid();
-    List<List<Cell>> lastCellGrid = _grids.last;
+    List<List<String>> lastGridAsStrings = _gridParser
+      .cellGridToStringGrid(_grids.last);
+    // List<List<Cell>> lastCellGrid = _grids.last;
 
-    for (int heightIndex = 0; heightIndex < _height; heightIndex++){
-      for (int widthIndex = 0; widthIndex < _width; widthIndex++){
-        Cell cell = lastCellGrid[heightIndex][widthIndex];
-        if (cell.isAlive){
-          lastGridAsStrings[heightIndex][widthIndex] = _aliveCharacter;
-        }
-      }
-    }
+    // for (int heightIndex = 0; heightIndex < _height; heightIndex++){
+    //   for (int widthIndex = 0; widthIndex < _width; widthIndex++){
+    //     Cell cell = lastCellGrid[heightIndex][widthIndex];
+    //     if (cell.isAlive){
+    //       lastGridAsStrings[heightIndex][widthIndex] = _aliveCharacter;
+    //     }
+    //   }
+    // }
 
     return lastGridAsStrings;
   }

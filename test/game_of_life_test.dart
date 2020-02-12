@@ -14,25 +14,32 @@ void main(){
     ['-', '-', '-', '-', '-', '-', '-', '-'],
   ];
 
-  test('Empty Grid', (){
+  group('Game of Life', (){
+    
+    test('Empty Grid', (){
 
-    _game = GameOfLife(initialGrid: _emptyGrid);
+      _game = GameOfLife(initialGrid: _emptyGrid);
 
-    expect(_game.lastGrid, _emptyGrid);
+      expect(_game.lastGrid, _emptyGrid);
+    });
+
+    test('One living cell', (){
+      List<List<String>> oneLivingCell = [
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '+', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+      ];
+
+      _game = GameOfLife(initialGrid: oneLivingCell);
+      _game.play();
+
+      expect(_game.lastGrid, _emptyGrid);
+    });
   });
 
-  test('One living cell', (){
-    List<List<String>> oneLivingCell = [
-      ['-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '+', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-'],
-    ];
+  group('Grid Parser', (){
 
-    _game = GameOfLife(initialGrid: oneLivingCell);
-    _game.play();
-
-    expect(_game.lastGrid, _emptyGrid);
   });
 
 }
