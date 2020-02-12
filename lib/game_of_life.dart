@@ -101,16 +101,37 @@ class GridParser {
     _deadCharacter = deadCharacter ?? '-',
     _aliveCharacter = aliveCharacter ?? '+';
 
-  Cell _deadCell() => Cell.dead();
-
-  List<Cell> _deadCellLine(int width) => List<Cell>
-    .filled(width, Cell.dead(), growable: false);
-
   List<List<Cell>> _emptyCellGrid({
-    height,
-    width
-  }) => List<List<Cell>>
-      .filled(height, _deadCellLine(width), growable: false);
+    int height,
+    int width,
+  }){
+    List<List<Cell>> emptyCellGrid = [];
+
+    for (int heightIndex = 0; heightIndex < height; heightIndex++){
+
+      List<Cell> emptyCellLine = [];
+
+      for (int widthIndex = 0; widthIndex < width; widthIndex++){
+        emptyCellLine.add(Cell.dead());
+      }
+
+      emptyCellGrid.add(emptyCellLine);
+    }
+
+    return emptyCellGrid;
+  }
+
+  void _heightWidthLooper(
+    int height,
+    int width,
+    Function function,
+  ){
+    for (int heightIndex = 0; heightIndex < height; heightIndex++){
+      for (int widthIndex = 0; widthIndex < width; widthIndex++){
+        function();
+      }
+    }
+  }
 
   List<List<Cell>> parseStringGrid({
     List<List<String>> stringGrid,
@@ -119,46 +140,20 @@ class GridParser {
     int width = stringGrid.first.length;
     List<List<Cell>> parsedGrid = _emptyCellGrid(height: height, width: width);
 
-    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
-      String stringCell = stringGrid[heightIndex][widthIndex];
-      if (stringCell == _deadCharacter){
-        parsedGrid[heightIndex][widthIndex] = Cell.dead();
-      }
-      else if (stringCell == _aliveCharacter) {
-        parsedGrid[heightIndex][widthIndex] = Cell.alive();
-        print('im alive');
-        print(heightIndex);
-        print(widthIndex);
-      }
-    });
-
-    // for (int heightIndex = 0; heightIndex < height; heightIndex++){
-    //   for (int widthIndex = 0; widthIndex < width; widthIndex++){
-    //     String stringCell = stringGrid[heightIndex][widthIndex];
-    //     if (stringCell == _deadCharacter){
-    //       parsedGrid[heightIndex][widthIndex] = Cell.dead();
-    //     }
-    //     else if (stringCell == _aliveCharacter) {
-    //       parsedGrid[heightIndex][widthIndex] = Cell.alive();
-    //     }
-    //   }
-    // }
-
-    print(parsedGrid[1][3]._status);
-
-    return parsedGrid;
-  }
-
-  void _heightWidthLooper(
-    int height,
-    int width,
-    Function(List<List>) function(int heightIndex, int widthIndex),
-  ){
     for (int heightIndex = 0; heightIndex < height; heightIndex++){
       for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        function(heightIndex, widthIndex);
+        String stringCell = stringGrid[heightIndex][widthIndex];
+        if (stringCell == _deadCharacter){
+          parsedGrid[heightIndex][widthIndex] = Cell.dead();
+        }
+        else if (stringCell == _aliveCharacter) {
+          parsedGrid[heightIndex][widthIndex] = Cell.alive();
+          print('called');
+        }
       }
     }
+
+    return parsedGrid;
   }
 
 }
@@ -193,6 +188,8 @@ class Cell {
 
   bool operator ==(otherObject) => 
     otherObject is Cell && otherObject.status == _status;
+
+  int get hashCode => _status.hashCode;
 
 }
 
