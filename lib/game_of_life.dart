@@ -108,13 +108,10 @@ class GridParser {
     List<List<Cell>> emptyCellGrid = [];
 
     for (int heightIndex = 0; heightIndex < height; heightIndex++){
-
       List<Cell> emptyCellLine = [];
-
       for (int widthIndex = 0; widthIndex < width; widthIndex++){
         emptyCellLine.add(Cell.dead());
       }
-
       emptyCellGrid.add(emptyCellLine);
     }
 
@@ -124,11 +121,11 @@ class GridParser {
   void _heightWidthLooper(
     int height,
     int width,
-    Function function,
+    Function(int heightIndex, int widthIndex) function,
   ){
     for (int heightIndex = 0; heightIndex < height; heightIndex++){
       for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        function();
+        function(heightIndex, widthIndex);
       }
     }
   }
@@ -140,18 +137,16 @@ class GridParser {
     int width = stringGrid.first.length;
     List<List<Cell>> parsedGrid = _emptyCellGrid(height: height, width: width);
 
-    for (int heightIndex = 0; heightIndex < height; heightIndex++){
-      for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        String stringCell = stringGrid[heightIndex][widthIndex];
-        if (stringCell == _deadCharacter){
-          parsedGrid[heightIndex][widthIndex] = Cell.dead();
-        }
-        else if (stringCell == _aliveCharacter) {
-          parsedGrid[heightIndex][widthIndex] = Cell.alive();
-          print('called');
-        }
+    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
+      String stringCell = stringGrid[heightIndex][widthIndex];
+      if (stringCell == _deadCharacter){
+        parsedGrid[heightIndex][widthIndex] = Cell.dead();
       }
-    }
+      else if (stringCell == _aliveCharacter) {
+        parsedGrid[heightIndex][widthIndex] = Cell.alive();
+        print('called');
+      }
+    });
 
     return parsedGrid;
   }
