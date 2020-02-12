@@ -15,8 +15,6 @@ import 'cell.dart';
 // import 'package:flutter/foundation.dart'; // for `@required`
 import 'package:collection/collection.dart';
 
-// TODO: implement the rules for the play() function
-
 
 class GameOfLife {
 
@@ -50,7 +48,11 @@ class GameOfLife {
     List<List<Cell>> gridRight,
   }) => !DeepCollectionEquality().equals(gridLeft, gridRight);
 
-  void play(){
+  void play({
+    int maxGenerations = 100,
+  }){
+    int currentGeneration = 0;
+    bool shouldGenerateNextGen = true;
     List<List<Cell>> nextGrid;
     List<List<Cell>> baseGrid;
 
@@ -59,8 +61,14 @@ class GameOfLife {
       nextGrid = _gridParser.emptyCellGrid(height: _height, width: _width);
 
       _grids.add(nextGrid);
-    
-    } while (_isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid));
+
+      // TODO: implement the rules for the play() function
+      
+      currentGeneration++;
+      shouldGenerateNextGen = 
+        _isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid) 
+        && currentGeneration < maxGenerations;
+    } while (shouldGenerateNextGen);
 
     _grids.removeLast();
   }
