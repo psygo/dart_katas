@@ -152,7 +152,7 @@ class GridParser {
   void _heightWidthLooper(
     int height,
     int width,
-    Function function(int heightIndex, int widthIndex),
+    Function(List<List>) function(int heightIndex, int widthIndex),
   ){
     for (int heightIndex = 0; heightIndex < height; heightIndex++){
       for (int widthIndex = 0; widthIndex < width; widthIndex++){
