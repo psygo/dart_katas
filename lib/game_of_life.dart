@@ -119,19 +119,46 @@ class GridParser {
     int width = stringGrid.first.length;
     List<List<Cell>> parsedGrid = _emptyCellGrid(height: height, width: width);
 
-    for (int heightIndex = 0; heightIndex < height; heightIndex++){
-      for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        String stringCell = stringGrid[heightIndex][widthIndex];
-        if (stringCell == _deadCharacter){
-          parsedGrid[heightIndex][widthIndex] = Cell.dead();
-        }
-        else if (stringCell == _aliveCharacter) {
-          parsedGrid[heightIndex][widthIndex] = Cell.alive();
-        }
+    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
+      String stringCell = stringGrid[heightIndex][widthIndex];
+      if (stringCell == _deadCharacter){
+        parsedGrid[heightIndex][widthIndex] = Cell.dead();
       }
-    }
+      else if (stringCell == _aliveCharacter) {
+        parsedGrid[heightIndex][widthIndex] = Cell.alive();
+        print('im alive');
+        print(heightIndex);
+        print(widthIndex);
+      }
+    });
+
+    // for (int heightIndex = 0; heightIndex < height; heightIndex++){
+    //   for (int widthIndex = 0; widthIndex < width; widthIndex++){
+    //     String stringCell = stringGrid[heightIndex][widthIndex];
+    //     if (stringCell == _deadCharacter){
+    //       parsedGrid[heightIndex][widthIndex] = Cell.dead();
+    //     }
+    //     else if (stringCell == _aliveCharacter) {
+    //       parsedGrid[heightIndex][widthIndex] = Cell.alive();
+    //     }
+    //   }
+    // }
+
+    print(parsedGrid[1][3]._status);
 
     return parsedGrid;
+  }
+
+  void _heightWidthLooper(
+    int height,
+    int width,
+    Function function(int heightIndex, int widthIndex),
+  ){
+    for (int heightIndex = 0; heightIndex < height; heightIndex++){
+      for (int widthIndex = 0; widthIndex < width; widthIndex++){
+        function(heightIndex, widthIndex);
+      }
+    }
   }
 
 }
