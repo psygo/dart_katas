@@ -10,6 +10,7 @@ Any live cell with:
 */
 
 // import 'package:flutter/foundation.dart'; // for `@required`
+import 'package:collection/collection.dart';
 
 
 class GameOfLife {
@@ -85,13 +86,24 @@ class GameOfLife {
     return lastGridAsStrings;
   }
 
+  bool _isGridNotEqual({
+    List<List<Cell>> gridLeft,
+    List<List<Cell>> gridRight,
+  }) => !DeepCollectionEquality().equals(gridLeft, gridRight);
+
   void play(){
     List<List<Cell>> nextGrid;
+    List<List<Cell>> baseGrid;
 
     do {
+      baseGrid = _grids.last;
       nextGrid = _emptyCellGrid();
-    } while (nextGrid != _grids.last); // should be penultimate
-    // won't work because of equality between collections
+
+      _grids.add(nextGrid);
+    
+    } while (_isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid));
+
+    _grids.removeLast();
   }
 
 }
@@ -115,6 +127,9 @@ class Cell {
   ){
     _status = newStatus;
   }
+
+  bool operator ==(otherObject) => 
+    otherObject is Cell && otherObject.status == _status;
 
 }
 
