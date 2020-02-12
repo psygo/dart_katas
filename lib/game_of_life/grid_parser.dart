@@ -31,7 +31,7 @@ class GridParser {
     return vanillaGrid;
   }
 
-  List<List<Cell>> _emptyCellGrid({
+  List<List<Cell>> emptyCellGrid({
     int height,
     int width,
   }){
@@ -70,7 +70,7 @@ class GridParser {
   }){
     int height = stringGrid.length;
     int width = stringGrid.first.length;
-    List<List<Cell>> parsedGrid = _emptyCellGrid(height: height, width: width);
+    List<List<Cell>> parsedGrid = emptyCellGrid(height: height, width: width);
 
     _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       String stringCell = stringGrid[heightIndex][widthIndex];

@@ -15,16 +15,10 @@ import 'cell.dart';
 // import 'package:flutter/foundation.dart'; // for `@required`
 import 'package:collection/collection.dart';
 
-// TODO: use the double for's on the grids as a function
-// TODO: refactor the usual deadLine and deadGrid variables to functions
 // TODO: implement the rules for the play() function
-// TODO: Maybe create a new class for parsing the grid
 
 
 class GameOfLife {
-
-  static const String _deadCharacter = '-';
-  static const String _aliveCharacter = '+';
 
   final int _height;
   final int _width;
@@ -47,16 +41,6 @@ class GameOfLife {
   List<List<String>> get lastGrid {
     List<List<String>> lastGridAsStrings = _gridParser
       .cellGridToStringGrid(_grids.last);
-    // List<List<Cell>> lastCellGrid = _grids.last;
-
-    // for (int heightIndex = 0; heightIndex < _height; heightIndex++){
-    //   for (int widthIndex = 0; widthIndex < _width; widthIndex++){
-    //     Cell cell = lastCellGrid[heightIndex][widthIndex];
-    //     if (cell.isAlive){
-    //       lastGridAsStrings[heightIndex][widthIndex] = _aliveCharacter;
-    //     }
-    //   }
-    // }
 
     return lastGridAsStrings;
   }
@@ -70,15 +54,15 @@ class GameOfLife {
     List<List<Cell>> nextGrid;
     List<List<Cell>> baseGrid;
 
-    // do {
-    //   baseGrid = _grids.last;
-    //   nextGrid = _emptyCellGrid();
+    do {
+      baseGrid = _grids.last;
+      nextGrid = _gridParser.emptyCellGrid(height: _height, width: _width);
 
-    //   _grids.add(nextGrid);
+      _grids.add(nextGrid);
     
-    // } while (_isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid));
+    } while (_isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid));
 
-    // _grids.removeLast();
+    _grids.removeLast();
   }
 
 }
