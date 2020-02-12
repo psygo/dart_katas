@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../lib/game_of_life.dart';
+import '../lib/game_of_life/game_of_life.dart';
 
 
 void main(){
