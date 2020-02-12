@@ -58,11 +58,9 @@ class GameOfLife {
 
     do {
       baseGrid = _grids.last;
-      nextGrid = _gridParser.emptyCellGrid(height: _height, width: _width);
+      nextGrid = _applyRules(baseGrid: baseGrid);
 
       _grids.add(nextGrid);
-
-      // TODO: implement the rules for the play() function
       
       currentGeneration++;
       shouldGenerateNextGen = 
@@ -71,6 +69,15 @@ class GameOfLife {
     } while (shouldGenerateNextGen);
 
     _grids.removeLast();
+  }
+
+  _applyRules({
+    List<List<Cell>> baseGrid,
+  }){
+    List<List<Cell>> emptyCellGrid = _gridParser
+      .emptyCellGrid(height: _height, width: _width);
+
+    
   }
 
 }
