@@ -74,11 +74,40 @@ class GameOfLife {
   _applyRules({
     List<List<Cell>> baseGrid,
   }){
-    List<List<Cell>> emptyCellGrid = _gridParser
+    List<List<Cell>> nextGrid = _gridParser
       .emptyCellGrid(height: _height, width: _width);
 
-    
+    _gridParser
+      .heightWidthLooper(_height, _width, (int heightIndex, int widthIndex){
+        _vicinityLooper(heightIndex, widthIndex, 
+          (int heightStep, int widthStep){
+            try {
+
+            } catch(e) {
+
+            }
+          });
+      });
   }
+
+  _vicinityLooper(
+    int heightIndex,
+    int widthIndex,
+    Function(int heightStep, int widthStep) function,
+  ){
+    for (int heightStep = -1; heightStep < 1; heightStep++){
+      for (int widthStep = -1; widthStep < 1; widthStep++){
+        if (_isNotCellItself(heightStep, widthStep)){
+          int neighborHeightIndex = heightIndex + heightStep;
+          int neighborWidthIndex = widthIndex + widthStep;
+          function(heightStep, widthStep);
+        }
+      }
+    }
+  }
+
+  bool _isNotCellItself(heightStep, widthStep) => 
+    !(heightStep == 0 && widthStep == 0);
 
 }
 

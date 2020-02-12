@@ -53,7 +53,7 @@ class GridParser {
     );
   }
 
-  void _heightWidthLooper(
+  void heightWidthLooper(
     int height,
     int width,
     Function(int heightIndex, int widthIndex) function,
@@ -72,7 +72,7 @@ class GridParser {
     int width = stringGrid.first.length;
     List<List<Cell>> parsedGrid = emptyCellGrid(height: height, width: width);
 
-    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
+    heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       String stringCell = stringGrid[heightIndex][widthIndex];
       if (stringCell == _deadCharacter){
         parsedGrid[heightIndex][widthIndex] = Cell.dead();
@@ -93,7 +93,7 @@ class GridParser {
     List<List<String>> stringGrid = 
       _emptyStringGrid(height: height, width: width);
 
-    _heightWidthLooper(height, width, (int heightIndex, int widthIndex){
+    heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       Cell cell = cellGrid[heightIndex][widthIndex];
       if (cell.isAlive){
         stringGrid[heightIndex][widthIndex] = _aliveCharacter;
