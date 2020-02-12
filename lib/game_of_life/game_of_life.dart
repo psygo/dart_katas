@@ -78,7 +78,7 @@ class GameOfLife {
     
     // } while (_isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid));
 
-    _grids.removeLast();
+    // _grids.removeLast();
   }
 
 }

@@ -16,14 +16,14 @@ class GridParser {
   List<List<T>> _createGridWithSameElements<T>({
     int height,
     int width,
-    T element,
+    T Function() elementGenerator,
   }) {
     final vanillaGrid = <List<T>>[];
 
     for (int heightIndex = 0; heightIndex < height; heightIndex++) {
       final vanillaLine = <T>[];
       for (int widthIndex = 0; widthIndex < width; widthIndex++) {
-        vanillaLine.add(element);
+        vanillaLine.add(elementGenerator());
       }
       vanillaGrid.add(vanillaLine);
     }
@@ -38,7 +38,7 @@ class GridParser {
     return _createGridWithSameElements(
       height: height, 
       width: width, 
-      element: Cell.dead(),
+      elementGenerator: () => Cell.dead(),
     );
   }
 
@@ -49,7 +49,7 @@ class GridParser {
     return _createGridWithSameElements(
       height: height,
       width: width,
-      element: _deadCharacter,
+      elementGenerator: () => _deadCharacter,
     );
   }
 
