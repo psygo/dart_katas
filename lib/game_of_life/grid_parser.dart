@@ -9,10 +9,12 @@ class GridParser {
   final String _aliveCharacter;
   final String _deadCharacter;
 
-  GridParser([
-    this._aliveCharacter = standardAliveCharacter,
-    this._deadCharacter = standardDeadCharacter,
-  ]);
+  GridParser(
+    aliveCharacter,
+    deadCharacter,
+  ):
+    _aliveCharacter = aliveCharacter ?? standardAliveCharacter,
+    _deadCharacter = deadCharacter ?? standardDeadCharacter;
 
   List<List<Cell>> emptyCellGrid(
     int height,
