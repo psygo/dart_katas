@@ -39,7 +39,13 @@ class GameOfLife {
     .cellGridToStringGrid(_grids.last);
 
   List<List<List<String>>> get allGrids {
-    
+    final List<List<List<String>>> stringGrids = [];
+
+    for (final List<List<Cell>> grid in _grids){
+      stringGrids.add(_gridParser.cellGridToStringGrid(grid));
+    }
+
+    return stringGrids;
   }
 
   void play({
