@@ -59,18 +59,20 @@ class GridParser {
     final int width = stringGrid.first.length;
     final List<List<Cell>> parsedGrid = emptyCellGrid(height, width);
 
-    heightWidthLooper(height, width, (int heightIndex, int widthIndex){
-      final String stringCell = stringGrid[heightIndex][widthIndex];
-      if (isStringCellAlive(stringCell)) {
-        parsedGrid[heightIndex][widthIndex] = Cell.alive();
+    heightWidthLooper(height, width, 
+      (int heightIndex, int widthIndex){
+        final String stringCell = stringGrid[heightIndex][widthIndex];
+        if (isStringCellAlive(stringCell)) {
+          parsedGrid[heightIndex][widthIndex] = Cell.alive();
+        }
+        else if (isStringCellDead(stringCell)){
+          parsedGrid[heightIndex][widthIndex] = Cell.dead();
+        }
+        else {
+          print('Weird inserted character...');
+        }
       }
-      else if (isStringCellDead(stringCell)){
-        parsedGrid[heightIndex][widthIndex] = Cell.dead();
-      }
-      else {
-        print('Weird inserted character...');
-      }
-    });
+    );
 
     return parsedGrid;
   }
@@ -97,12 +99,14 @@ class GridParser {
     final int width = cellGrid.first.length;
     final List<List<String>> stringGrid = _emptyStringGrid(height, width);
 
-    heightWidthLooper(height, width, (int heightIndex, int widthIndex){
-      final Cell cell = cellGrid[heightIndex][widthIndex];
-      if (cell.isAlive){
-        stringGrid[heightIndex][widthIndex] = _aliveCharacter;
+    heightWidthLooper(height, width, 
+      (int heightIndex, int widthIndex){
+        final Cell cell = cellGrid[heightIndex][widthIndex];
+        if (cell.isAlive){
+          stringGrid[heightIndex][widthIndex] = _aliveCharacter;
+        }
       }
-    });
+    );
 
     return stringGrid;
   }

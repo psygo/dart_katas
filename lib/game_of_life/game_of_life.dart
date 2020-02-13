@@ -20,8 +20,7 @@ class GameOfLife {
     _height = initialGrid.length,
     _width = initialGrid.first.length
   {
-    List<List<Cell>> initialCellGrid = _gridParser
-      .parseStringGrid(initialGrid);
+    List<List<Cell>> initialCellGrid = _gridParser.parseStringGrid(initialGrid);
     
     _grids.add(initialCellGrid);
   }
@@ -85,8 +84,8 @@ class GameOfLife {
       .emptyCellGrid(_height, _width);
 
     // int errorCounter = 0;
-    _gridParser
-      .heightWidthLooper(_height, _width, (int heightIndex, int widthIndex){
+    _gridParser.heightWidthLooper(_height, _width, 
+      (int heightIndex, int widthIndex){
         
         final Cell currentCell = baseGrid[heightIndex][widthIndex];
         int totalAliveNeighbors = 0;
@@ -102,12 +101,14 @@ class GameOfLife {
             } catch(e) {
               // errorCounter++;
             }
-          });
+          }
+        );
         
         if (_willLive(currentCell.isAlive, totalAliveNeighbors)){
           nextGrid[heightIndex][widthIndex].status = Status.alive;
         }
-      });
+      }
+    );
 
     return nextGrid;
   }
