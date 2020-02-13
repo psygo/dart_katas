@@ -94,8 +94,4 @@ void main(){
     });
   });
 
-  group('Grid Parser', (){
-
-  });
-
 }
