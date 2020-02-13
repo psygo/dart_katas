@@ -10,15 +10,24 @@ void main(){
 
   group('Game of Life', (){
 
-    test('Empty grid', (){
-      _game = GameOfLife(initialGrid: emptyGrid);
+    GameOfLife _setUpAndPlayGame({
+      List<List<String>> initialGrid,
+      int maxGenerations = GameOfLife.defaultMaxGenerations,
+    }){
+      _game = GameOfLife(initialGrid: initialGrid);
+      _game.play(maxGenerations: maxGenerations);
+
+      return _game;
+    }
+
+    test('Empty grid initialization', (){
+      GameOfLife _game = GameOfLife(initialGrid: emptyGrid);
 
       expect(_game.lastGrid, emptyGrid);
     });
 
     test('One living cell', (){
-      _game = GameOfLife(initialGrid: oneLivingCell);
-      _game.play();
+      _game = _setUpAndPlayGame(initialGrid: oneLivingCell);
 
       expect(_game.lastGrid, emptyGrid);
     });
@@ -76,6 +85,5 @@ void main(){
       expect(_game.allGrids, gliderAllGrids);
     });
   });
-
 
 }

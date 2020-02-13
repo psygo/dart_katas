@@ -18,6 +18,8 @@ import 'package:collection/collection.dart';
 
 class GameOfLife {
 
+  static const int defaultMaxGenerations = 100;
+
   final int _height;
   final int _width;
   final GridParser _gridParser = GridParser();
@@ -49,7 +51,7 @@ class GameOfLife {
   }
 
   void play({
-    int maxGenerations = 100,
+    int maxGenerations = defaultMaxGenerations,
   }){
     int currentGeneration = 0;
     List<List<Cell>> nextGrid;
