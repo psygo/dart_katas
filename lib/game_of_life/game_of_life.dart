@@ -1,17 +1,3 @@
-/*
-# Game of Life's Rules
-
-Any live cell with:
-
-  1. fewer than two live neighbours dies, as if caused by underpopulation.
-  2. more than three live neighbours dies, as if by overcrowding.
-  3. two or three live neighbours lives on to the next generation.
-
-Any dead cell with:
-
-  4. exactly three live neighbours becomes a live cell.
-*/
-
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
