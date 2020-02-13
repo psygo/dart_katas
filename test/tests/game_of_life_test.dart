@@ -66,7 +66,14 @@ void main(){
       const int enoughGenerationsToValidate = 4;
       _game.play(maxGenerations: enoughGenerationsToValidate);
 
-      expect(_game.lastGrid, glider3);
+      final List<List<List<String>>> gliderAllGrids = [
+        glider0,
+        glider1,
+        glider2,
+        glider3,
+      ];
+
+      expect(_game.allGrids, gliderAllGrids);
     });
   });
 
