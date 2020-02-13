@@ -3,15 +3,16 @@ import './cell.dart';
 
 class GridParser {
 
-  final String _deadCharacter;
-  final String _aliveCharacter;
+  static const standardAliveCharacter = '+';
+  static const standardDeadCharacter = '-';
 
-  GridParser({
-    String deadCharacter,
-    String aliveCharacter,
-  }):
-    _deadCharacter = deadCharacter ?? '-',
-    _aliveCharacter = aliveCharacter ?? '+';
+  final String _aliveCharacter;
+  final String _deadCharacter;
+
+  GridParser([
+    this._aliveCharacter = standardAliveCharacter,
+    this._deadCharacter = standardDeadCharacter,
+  ]);
 
   List<List<Cell>> emptyCellGrid({
     int height,

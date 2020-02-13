@@ -8,13 +8,13 @@ class Cell {
 
   Status _status;
 
-  Cell({
+  Cell(
     Status status,
-  }):
+  ):
     _status = status;
 
-  factory Cell.dead() => Cell(status: Status.dead);
-  factory Cell.alive() => Cell(status: Status.alive);
+  factory Cell.dead() => Cell(Status.dead);
+  factory Cell.alive() => Cell(Status.alive);
 
   Status get status => _status;
   bool get isAlive => _status == Status.alive;
