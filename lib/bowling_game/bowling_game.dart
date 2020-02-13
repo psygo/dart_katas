@@ -1,6 +1,6 @@
 class BowlingGame {
 
-  List<int> _rolls = List<int>.filled(21, 0, growable: false);
+  final List<int> _rolls = List<int>.filled(21, 0, growable: false);
   int _currentRoll = 0;
 
   void roll(
