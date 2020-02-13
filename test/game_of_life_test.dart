@@ -92,6 +92,10 @@ void main(){
 
       expect(_game.lastGrid, blinkerResult);
     });
+
+    test('allGrids getter', (){
+
+    });
   });
 
 

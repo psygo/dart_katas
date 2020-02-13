@@ -38,6 +38,10 @@ class GameOfLife {
   List<List<String>> get lastGrid => _gridParser
     .cellGridToStringGrid(_grids.last);
 
+  List<List<List<String>>> get allGrids {
+    
+  }
+
   void play({
     int maxGenerations = 100,
   }){
