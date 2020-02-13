@@ -30,7 +30,7 @@ class GameOfLife {
     _width = initialGrid.first.length
   {
     List<List<Cell>> initialCellGrid = _gridParser
-      .parseStringGrid(stringGrid: initialGrid);
+      .parseStringGrid(initialGrid);
     
     _grids.add(initialCellGrid);
   }
@@ -47,7 +47,7 @@ class GameOfLife {
 
     do {
       List<List<Cell>> baseGrid = _grids.last;
-      nextGrid = _applyRules(baseGrid: baseGrid);
+      nextGrid = _applyRules(baseGrid);
 
       _grids.add(nextGrid);
       
@@ -64,24 +64,24 @@ class GameOfLife {
     _grids.removeLast();
   }
 
-  bool _isGridNotEqual({
+  bool _isGridNotEqual(
     List<List<Cell>> gridLeft,
     List<List<Cell>> gridRight,
-  }) => !DeepCollectionEquality().equals(gridLeft, gridRight);
+  ) => !DeepCollectionEquality().equals(gridLeft, gridRight);
 
   bool _shouldGenerateNextGen(
     List<List<Cell>> nextGrid,
     List<List<Cell>> baseGrid,
     int currentGeneration,
     int maxGenerations,
-  ) => _isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid) 
+  ) => _isGridNotEqual(nextGrid, baseGrid) 
     && currentGeneration < maxGenerations;
 
-  List<List<Cell>> _applyRules({
+  List<List<Cell>> _applyRules(
     List<List<Cell>> baseGrid,
-  }){
+  ){
     final List<List<Cell>> nextGrid = _gridParser
-      .emptyCellGrid(height: _height, width: _width);
+      .emptyCellGrid(_height, _width);
 
     // int errorCounter = 0;
     _gridParser

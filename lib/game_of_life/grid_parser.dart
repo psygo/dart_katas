@@ -14,29 +14,29 @@ class GridParser {
     this._deadCharacter = standardDeadCharacter,
   ]);
 
-  List<List<Cell>> emptyCellGrid({
+  List<List<Cell>> emptyCellGrid(
     int height,
     int width,
-  }) => _createGridWithSameElements(
-      height: height, 
-      width: width, 
-      elementGenerator: () => Cell.dead(),
+  ) => _createGridWithSameElements(
+      height, 
+      width, 
+      () => Cell.dead(),
     );
 
-  List<List<String>> _emptyStringGrid({
+  List<List<String>> _emptyStringGrid(
     height,
     width,
-  }) => _createGridWithSameElements(
-      height: height,
-      width: width,
-      elementGenerator: () => _deadCharacter,
+  ) => _createGridWithSameElements(
+      height,
+      width,
+      () => _deadCharacter,
     );
 
-  List<List<T>> _createGridWithSameElements<T>({
+  List<List<T>> _createGridWithSameElements<T>(
     int height,
     int width,
     T Function() elementGenerator,
-  }) {
+  ) {
     final vanillaGrid = <List<T>>[];
 
     for (int heightIndex = 0; heightIndex < height; heightIndex++) {
@@ -50,13 +50,12 @@ class GridParser {
     return vanillaGrid;
   }
 
-  List<List<Cell>> parseStringGrid({
+  List<List<Cell>> parseStringGrid(
     List<List<String>> stringGrid,
-  }){
+  ){
     final int height = stringGrid.length;
     final int width = stringGrid.first.length;
-    final List<List<Cell>> parsedGrid = 
-      emptyCellGrid(height: height, width: width);
+    final List<List<Cell>> parsedGrid = emptyCellGrid(height, width);
 
     heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       final String stringCell = stringGrid[heightIndex][widthIndex];
@@ -94,8 +93,7 @@ class GridParser {
   ){
     final int height = cellGrid.length;
     final int width = cellGrid.first.length;
-    final List<List<String>> stringGrid = 
-      _emptyStringGrid(height: height, width: width);
+    final List<List<String>> stringGrid = _emptyStringGrid(height, width);
 
     heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       final Cell cell = cellGrid[heightIndex][widthIndex];
