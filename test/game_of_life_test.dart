@@ -15,7 +15,7 @@ void main(){
   ];
 
   group('Game of Life', (){
-    
+
     test('Empty grid', (){
 
       _game = GameOfLife(initialGrid: _emptyGrid);
@@ -70,6 +70,27 @@ void main(){
       _game.play();
 
       expect(_game.lastGrid, blockResult);
+    });
+
+    test('Blinker', (){
+      List<List<String>> blinker = [
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '+', '-', '-', '-', '-'],
+        ['-', '-', '-', '+', '-', '-', '-', '-'],
+        ['-', '-', '-', '+', '-', '-', '-', '-'],
+      ];
+
+      List<List<String>> blinkerResult = [
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+        ['-', '-', '+', '+', '+', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '-'],
+      ];
+
+      _game = GameOfLife(initialGrid: blinker);
+      _game.play(maxGenerations: 6);
+
+      expect(_game.lastGrid, blinkerResult);
     });
   });
 

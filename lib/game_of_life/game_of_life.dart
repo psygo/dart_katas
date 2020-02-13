@@ -70,27 +70,26 @@ class GameOfLife {
   List<List<Cell>> _applyRules({
     List<List<Cell>> baseGrid,
   }){
-    List<List<Cell>> nextGrid = _gridParser
+    final List<List<Cell>> nextGrid = _gridParser
       .emptyCellGrid(height: _height, width: _width);
 
-    int errorCounter = 0;
+    // int errorCounter = 0;
     _gridParser
       .heightWidthLooper(_height, _width, (int heightIndex, int widthIndex){
         
-        Cell currentCell = baseGrid[heightIndex][widthIndex];
+        final Cell currentCell = baseGrid[heightIndex][widthIndex];
         int totalAliveNeighbors = 0;
-        
         
         _vicinityLooper(heightIndex, widthIndex, 
           (int neighborHeightIndex, int neighborWidthIndex){
             try {
-              Cell neighborCell 
+              final Cell neighborCell 
                 = baseGrid[neighborHeightIndex][neighborWidthIndex];
               if (neighborCell.isAlive){
                 totalAliveNeighbors++;
               }
             } catch(e) {
-              errorCounter++;
+              // errorCounter++;
             }
           });
         
@@ -98,8 +97,6 @@ class GameOfLife {
           nextGrid[heightIndex][widthIndex].status = Status.alive;
         }
       });
-
-    print('Number of Border-Caught Errors: $errorCounter');
 
     return nextGrid;
   }
@@ -109,11 +106,11 @@ class GameOfLife {
     int widthIndex,
     Function(int neighborHeightIndex, int neighborWidthIndex) function,
   ){
-    for (int heightStep = -1; heightStep < 1; heightStep++){
-      for (int widthStep = -1; widthStep < 1; widthStep++){
+    for (int heightStep = -1; heightStep <= 1; heightStep++){
+      for (int widthStep = -1; widthStep <= 1; widthStep++){
         if (_isNotTheCellItself(heightStep, widthStep)){
-          int neighborHeightIndex = heightIndex + heightStep;
-          int neighborWidthIndex = widthIndex + widthStep;
+          final int neighborHeightIndex = heightIndex + heightStep;
+          final int neighborWidthIndex = widthIndex + widthStep;
           function(neighborHeightIndex, neighborWidthIndex);
         }
       }
@@ -127,17 +124,22 @@ class GameOfLife {
     bool isAlive,
     int totalAliveNeighbors,
   ){
-    if (isAlive && totalAliveNeighbors < 2){
-      return false;
-    } else if (isAlive && totalAliveNeighbors > 3){
-      return false;
-    } else if (isAlive && 
-      (totalAliveNeighbors == 2 || totalAliveNeighbors == 3)){
-      return true;
-    } else if (!isAlive && totalAliveNeighbors == 3){
-      return true;
-    } else {
-      return false;
-    }
+    if (ruleUnderpopulation(isAlive, totalAliveNeighbors)) return false;
+    else if (ruleOverpopulation(isAlive, totalAliveNeighbors)) return false;
+    else if (ruleSurvive(isAlive, totalAliveNeighbors)) return true;
+    else if (ruleComeToLife(isAlive, totalAliveNeighbors)) return true;
+    else return false;
   }
+
+  bool ruleUnderpopulation(bool isAlive, int totalAliveNeighbors) 
+    => isAlive && totalAliveNeighbors < 2;
+
+  bool ruleOverpopulation(bool isAlive, int totalAliveNeighbors) 
+    => isAlive && totalAliveNeighbors > 3;
+
+  bool ruleSurvive(bool isAlive, int totalAliveNeighbors) 
+    => isAlive && (totalAliveNeighbors == 2 || totalAliveNeighbors == 3);
+  
+  bool ruleComeToLife(bool isAlive, int totalAliveNeighbors) 
+    => !isAlive && totalAliveNeighbors == 3;
 }

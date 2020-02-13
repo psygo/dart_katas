@@ -13,6 +13,24 @@ class GridParser {
     _deadCharacter = deadCharacter ?? '-',
     _aliveCharacter = aliveCharacter ?? '+';
 
+  List<List<Cell>> emptyCellGrid({
+    int height,
+    int width,
+  }) => _createGridWithSameElements(
+      height: height, 
+      width: width, 
+      elementGenerator: () => Cell.dead(),
+    );
+
+  List<List<String>> _emptyStringGrid({
+    height,
+    width,
+  }) => _createGridWithSameElements(
+      height: height,
+      width: width,
+      elementGenerator: () => _deadCharacter,
+    );
+
   List<List<T>> _createGridWithSameElements<T>({
     int height,
     int width,
@@ -29,40 +47,6 @@ class GridParser {
     }
 
     return vanillaGrid;
-  }
-
-  List<List<Cell>> emptyCellGrid({
-    int height,
-    int width,
-  }){
-    return _createGridWithSameElements(
-      height: height, 
-      width: width, 
-      elementGenerator: () => Cell.dead(),
-    );
-  }
-
-  List<List<String>> _emptyStringGrid({
-    height,
-    width,
-  }){
-    return _createGridWithSameElements(
-      height: height,
-      width: width,
-      elementGenerator: () => _deadCharacter,
-    );
-  }
-
-  void heightWidthLooper(
-    int height,
-    int width,
-    Function(int heightIndex, int widthIndex) function,
-  ){
-    for (int heightIndex = 0; heightIndex < height; heightIndex++){
-      for (int widthIndex = 0; widthIndex < width; widthIndex++){
-        function(heightIndex, widthIndex);
-      }
-    }
   }
 
   List<List<Cell>> parseStringGrid({
@@ -83,6 +67,18 @@ class GridParser {
     });
 
     return parsedGrid;
+  }
+
+  void heightWidthLooper(
+    int height,
+    int width,
+    Function(int heightIndex, int widthIndex) function,
+  ){
+    for (int heightIndex = 0; heightIndex < height; heightIndex++){
+      for (int widthIndex = 0; widthIndex < width; widthIndex++){
+        function(heightIndex, widthIndex);
+      }
+    }
   }
 
   List<List<String>> cellGridToStringGrid(
