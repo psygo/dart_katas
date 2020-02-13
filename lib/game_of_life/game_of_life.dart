@@ -9,11 +9,11 @@ Any live cell with:
 4. exactly three live neighbours becomes a live cell.
 */
 
-import 'grid_parser.dart';
-import 'cell.dart';
-
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
+
+import 'cell.dart';
+import 'grid_parser.dart';
 
 
 class GameOfLife {
