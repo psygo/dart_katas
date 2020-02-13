@@ -21,59 +21,55 @@ void main(){
     }
 
     test('Empty grid initialization', (){
-      GameOfLife _game = GameOfLife(initialGrid: emptyGrid);
+      final GameOfLife _game = GameOfLife(initialGrid: emptyGrid);
 
       expect(_game.lastGrid, emptyGrid);
     });
 
     test('One living cell', (){
-      _game = _setUpAndPlayGame(initialGrid: oneLivingCell);
+      final GameOfLife _game = _setUpAndPlayGame(initialGrid: oneLivingCell);
 
       expect(_game.lastGrid, emptyGrid);
     });
 
     test('Two living cells', (){
-      _game = GameOfLife(initialGrid: twoLivingCells);
-      _game.play();
+      final GameOfLife _game = _setUpAndPlayGame(initialGrid: twoLivingCells);
 
       expect(_game.lastGrid, emptyGrid);
     });
 
     test('Three living cells to Block', (){
-      _game = GameOfLife(initialGrid: threeLivingCells);
-      _game.play();
+      final GameOfLife _game = _setUpAndPlayGame(initialGrid: threeLivingCells);
 
       expect(_game.lastGrid, block);
     });
 
     test('Blinker', (){
-      _game = GameOfLife(initialGrid: blinker0);
       const int enoughGenerationsToValidate = 6;
-      _game.play(maxGenerations: enoughGenerationsToValidate);
+      final GameOfLife _game = _setUpAndPlayGame(
+        initialGrid: blinker0,
+        maxGenerations: enoughGenerationsToValidate,
+      );
 
       expect(_game.lastGrid, blinker1);
     });
 
     test('Bee Hive', (){
-      _game = GameOfLife(initialGrid: beeHive);
       const int enoughGenerationsToValidate = 6;
-      _game.play(maxGenerations: enoughGenerationsToValidate);
-
-      expect(_game.lastGrid, beeHive);
-    });
-
-    test('Bee Hive', (){
-      _game = GameOfLife(initialGrid: beeHive);
-      const int enoughGenerationsToValidate = 6;
-      _game.play(maxGenerations: enoughGenerationsToValidate);
+      final GameOfLife _game = _setUpAndPlayGame(
+        initialGrid: beeHive,
+        maxGenerations: enoughGenerationsToValidate,
+      );
 
       expect(_game.lastGrid, beeHive);
     });
 
     test('Glider', (){
-      _game = GameOfLife(initialGrid: glider0);
       const int enoughGenerationsToValidate = 4;
-      _game.play(maxGenerations: enoughGenerationsToValidate);
+      final GameOfLife _game = _setUpAndPlayGame(
+        initialGrid: glider0,
+        maxGenerations: enoughGenerationsToValidate,
+      );
 
       final List<List<List<String>>> gliderAllGrids = [
         glider0,
