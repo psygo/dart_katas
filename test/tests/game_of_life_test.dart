@@ -6,15 +6,13 @@ import '../mocks/game_of_life_mocks.dart';
 
 void main(){
 
-  GameOfLife _game;
-
   group('Game of Life', (){
 
     GameOfLife _setUpAndPlayGame({
       List<List<String>> initialGrid,
       int maxGenerations = GameOfLife.defaultMaxGenerations,
     }){
-      _game = GameOfLife(initialGrid: initialGrid);
+      final GameOfLife _game = GameOfLife(initialGrid: initialGrid);
       _game.play(maxGenerations: maxGenerations);
 
       return _game;

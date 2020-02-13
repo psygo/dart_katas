@@ -9,11 +9,11 @@ Any live cell with:
 4. exactly three live neighbours becomes a live cell.
 */
 
-import './grid_parser.dart';
+import 'grid_parser.dart';
 import 'cell.dart';
 
-// import 'package:flutter/foundation.dart'; // for `@required`
 import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 
 
 class GameOfLife {
@@ -26,7 +26,7 @@ class GameOfLife {
   final List<List<List<Cell>>> _grids = [];
 
   GameOfLife({
-    List<List<String>> initialGrid,
+    @required List<List<String>> initialGrid,
   }):
     _height = initialGrid.length,
     _width = initialGrid.first.length
