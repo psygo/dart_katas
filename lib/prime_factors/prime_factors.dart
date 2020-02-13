@@ -3,7 +3,7 @@ class PrimeFactors {
   static List<int> generate(
     int n,
   ){
-    List<int> primes = <int>[];
+    final List<int> primes = <int>[];
     
     for (int candidate = 2; n > 1; candidate++){
       for (; n % candidate == 0; n ~/= candidate){
