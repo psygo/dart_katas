@@ -36,12 +36,8 @@ class GameOfLife {
     _grids.add(initialCellGrid);
   }
 
-  List<List<String>> get lastGrid {
-    List<List<String>> lastGridAsStrings = _gridParser
-      .cellGridToStringGrid(_grids.last);
-
-    return lastGridAsStrings;
-  }
+  List<List<String>> get lastGrid => _gridParser
+    .cellGridToStringGrid(_grids.last);
 
   bool _isGridNotEqual({
     List<List<Cell>> gridLeft,
@@ -71,17 +67,19 @@ class GameOfLife {
     _grids.removeLast();
   }
 
-  _applyRules({
+  List<List<Cell>> _applyRules({
     List<List<Cell>> baseGrid,
   }){
     List<List<Cell>> nextGrid = _gridParser
       .emptyCellGrid(height: _height, width: _width);
 
+    int errorCounter = 0;
     _gridParser
       .heightWidthLooper(_height, _width, (int heightIndex, int widthIndex){
         
         Cell currentCell = baseGrid[heightIndex][widthIndex];
         int totalAliveNeighbors = 0;
+        
         
         _vicinityLooper(heightIndex, widthIndex, 
           (int neighborHeightIndex, int neighborWidthIndex){
@@ -92,14 +90,18 @@ class GameOfLife {
                 totalAliveNeighbors++;
               }
             } catch(e) {
-
+              errorCounter++;
             }
           });
         
         if (_willLive(currentCell.isAlive, totalAliveNeighbors)){
-          baseGrid[heightIndex][widthIndex].status = Status.alive;
+          nextGrid[heightIndex][widthIndex].status = Status.alive;
         }
       });
+
+    print('Number of Border-Caught Errors: $errorCounter');
+
+    return nextGrid;
   }
 
   _vicinityLooper(
@@ -134,6 +136,8 @@ class GameOfLife {
       return true;
     } else if (!isAlive && totalAliveNeighbors == 3){
       return true;
+    } else {
+      return false;
     }
   }
 }
