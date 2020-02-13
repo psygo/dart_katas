@@ -5,7 +5,9 @@ These are coding exercises meant to sharpen your programming abilities, analogou
 ## Featured Katas
 
 1. [Prime Factors](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata)
+    - By Object Mentor (probably Robert C. Martin, aka Uncle Bob).
 1. [Bowling Game](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata)
+    - By Object Mentor (probably Robert C. Martin, aka Uncle Bob).
 1. [Game of Life](http://codingdojo.org/kata/GameOfLife/)
     - By me, without any prior knowledge, except for the rules themselves.
     - Since I struggle a bit when learning some of the more advanced Dart features &mdash; and because I created considerable overhead with the `GridParser` class &mdash;, this particular kata took me about 2 days to complete.
