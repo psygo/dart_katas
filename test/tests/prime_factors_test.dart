@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../lib/prime_factors/prime_factors.dart';
+import '../../lib/prime_factors/prime_factors.dart';
 
 
 void main() {

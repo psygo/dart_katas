@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../lib/bowling_game/bowling_game.dart';
+import '../../lib/bowling_game/bowling_game.dart';
 
 
 void main(){
