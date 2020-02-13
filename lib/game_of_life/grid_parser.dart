@@ -52,12 +52,13 @@ class GridParser {
   List<List<Cell>> parseStringGrid({
     List<List<String>> stringGrid,
   }){
-    int height = stringGrid.length;
-    int width = stringGrid.first.length;
-    List<List<Cell>> parsedGrid = emptyCellGrid(height: height, width: width);
+    final int height = stringGrid.length;
+    final int width = stringGrid.first.length;
+    final List<List<Cell>> parsedGrid = 
+      emptyCellGrid(height: height, width: width);
 
     heightWidthLooper(height, width, (int heightIndex, int widthIndex){
-      String stringCell = stringGrid[heightIndex][widthIndex];
+      final String stringCell = stringGrid[heightIndex][widthIndex];
       if (stringCell == _deadCharacter){
         parsedGrid[heightIndex][widthIndex] = Cell.dead();
       }
@@ -84,13 +85,13 @@ class GridParser {
   List<List<String>> cellGridToStringGrid(
     List<List<Cell>> cellGrid,
   ){
-    int height = cellGrid.length;
-    int width = cellGrid.first.length;
-    List<List<String>> stringGrid = 
+    final int height = cellGrid.length;
+    final int width = cellGrid.first.length;
+    final List<List<String>> stringGrid = 
       _emptyStringGrid(height: height, width: width);
 
     heightWidthLooper(height, width, (int heightIndex, int widthIndex){
-      Cell cell = cellGrid[heightIndex][widthIndex];
+      final Cell cell = cellGrid[heightIndex][widthIndex];
       if (cell.isAlive){
         stringGrid[heightIndex][widthIndex] = _aliveCharacter;
       }

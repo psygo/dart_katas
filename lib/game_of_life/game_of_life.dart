@@ -20,15 +20,14 @@ class GameOfLife {
 
   final int _height;
   final int _width;
-  final GridParser _gridParser;
-  List<List<List<Cell>>> _grids = [];
+  final GridParser _gridParser = GridParser();
+  final List<List<List<Cell>>> _grids = [];
 
   GameOfLife({
     List<List<String>> initialGrid,
   }):
     _height = initialGrid.length,
-    _width = initialGrid.first.length,
-    _gridParser = GridParser()
+    _width = initialGrid.first.length
   {
     List<List<Cell>> initialCellGrid = _gridParser
       .parseStringGrid(stringGrid: initialGrid);
@@ -39,33 +38,44 @@ class GameOfLife {
   List<List<String>> get lastGrid => _gridParser
     .cellGridToStringGrid(_grids.last);
 
-  bool _isGridNotEqual({
-    List<List<Cell>> gridLeft,
-    List<List<Cell>> gridRight,
-  }) => !DeepCollectionEquality().equals(gridLeft, gridRight);
-
   void play({
     int maxGenerations = 100,
   }){
     int currentGeneration = 0;
-    bool shouldGenerateNextGen = true;
     List<List<Cell>> nextGrid;
     List<List<Cell>> baseGrid;
 
     do {
-      baseGrid = _grids.last;
+      List<List<Cell>> baseGrid = _grids.last;
       nextGrid = _applyRules(baseGrid: baseGrid);
 
       _grids.add(nextGrid);
       
       currentGeneration++;
-      shouldGenerateNextGen = 
-        _isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid) 
-        && currentGeneration < maxGenerations;
-    } while (shouldGenerateNextGen);
+    } while (
+        _shouldGenerateNextGen(
+          nextGrid, 
+          baseGrid, 
+          currentGeneration, 
+          maxGenerations,
+        )
+      );
 
     _grids.removeLast();
   }
+
+  bool _isGridNotEqual({
+    List<List<Cell>> gridLeft,
+    List<List<Cell>> gridRight,
+  }) => !DeepCollectionEquality().equals(gridLeft, gridRight);
+
+  bool _shouldGenerateNextGen(
+    List<List<Cell>> nextGrid,
+    List<List<Cell>> baseGrid,
+    int currentGeneration,
+    int maxGenerations,
+  ) => _isGridNotEqual(gridLeft: nextGrid, gridRight: baseGrid) 
+    && currentGeneration < maxGenerations;
 
   List<List<Cell>> _applyRules({
     List<List<Cell>> baseGrid,
