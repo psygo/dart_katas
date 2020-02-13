@@ -59,16 +59,22 @@ class GridParser {
 
     heightWidthLooper(height, width, (int heightIndex, int widthIndex){
       final String stringCell = stringGrid[heightIndex][widthIndex];
-      if (stringCell == _deadCharacter){
+      if (isStringCellAlive(stringCell)) {
+        parsedGrid[heightIndex][widthIndex] = Cell.alive();
+      }
+      else if (isStringCellDead(stringCell)){
         parsedGrid[heightIndex][widthIndex] = Cell.dead();
       }
-      else if (stringCell == _aliveCharacter) {
-        parsedGrid[heightIndex][widthIndex] = Cell.alive();
+      else {
+        print('Weird inserted character...');
       }
     });
 
     return parsedGrid;
   }
+
+  bool isStringCellAlive(String stringCell) => stringCell == _aliveCharacter;
+  bool isStringCellDead(String stringCell) => stringCell == _deadCharacter;
 
   void heightWidthLooper(
     int height,

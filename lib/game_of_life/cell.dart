@@ -13,13 +13,8 @@ class Cell {
   }):
     _status = status;
 
-  factory Cell.dead(){
-    return Cell(status: Status.dead);
-  }
-
-  factory Cell.alive(){
-    return Cell(status: Status.alive);
-  }
+  factory Cell.dead() => Cell(status: Status.dead);
+  factory Cell.alive() => Cell(status: Status.alive);
 
   Status get status => _status;
   bool get isAlive => _status == Status.alive;
@@ -33,7 +28,5 @@ class Cell {
 
   bool operator ==(otherObject) => 
     otherObject is Cell && otherObject.status == _status;
-
-  int get hashCode => _status.hashCode;
 
 }
