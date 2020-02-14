@@ -10,7 +10,8 @@ abstract class PrimeGenerator {
 
 class EratosSievePrimeGenerator implements PrimeGenerator {
 
-  static const double maxUpperLimit = 1e9;
+  static final int maxUpperLimit = 1e9.toInt();
+  static const String maxUpperLimitErrorMsg = 'Beyond the Maximum Upper Limit';
 
   final int _upperInclusiveLimit;
   List<int> _primes;
@@ -18,8 +19,8 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
   EratosSievePrimeGenerator({
     @required int upperInclusiveLimit,
   }):
-    _upperInclusiveLimit = upperInclusiveLimit;
-    
+    _upperInclusiveLimit = upperInclusiveLimit <= maxUpperLimit 
+      ? upperInclusiveLimit : throw ArgumentError(maxUpperLimitErrorMsg);
 
   int get upperLimit => _upperInclusiveLimit;
   List<int> get primes => _primes;
@@ -47,19 +48,16 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
   }
 
   List<int> _generateIntegers(int upperInclusiveLimit) 
-    => List<int>.generate(upperInclusiveLimit, 
-      (int i){
-        if (i < maxUpperLimit) return i + 2;
-        else return null;
-      }
-    );
+    => List<int>.generate(upperInclusiveLimit, (int i) => i + 2);
 
   List<int> _filterIntegers(
     List<int> allIntegers,
     List<bool> booleanFilter,
-  ) => allIntegers.where((int integer){
+  ) => allIntegers.where(
+    (int integer){
       final int integerIndex = allIntegers.indexOf(integer);
       return booleanFilter[integerIndex]; 
-    }).toList();
+    }
+  ).toList();
   
 }

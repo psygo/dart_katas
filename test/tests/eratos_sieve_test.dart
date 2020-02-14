@@ -61,6 +61,13 @@ void main(){
       expect(primes, primesUpTo100);
     });
 
+    test('Error when beyond maximum upper limit', (){
+      expect(
+        () => EratosSievePrimeGenerator(upperInclusiveLimit: 2e9.toInt()), 
+        throwsArgumentError,
+      );
+    });
+
   });
 
 }
