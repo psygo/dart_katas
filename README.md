@@ -20,4 +20,6 @@ These are coding exercises meant to sharpen your programming abilities, analogou
         - Only using bases up to `sqrt(N)`.
         - Starting the sieve on the base from `base^2`.
 
+> I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
+
 For more info about them, go to the `docs` or `docs/presentations` folder.
