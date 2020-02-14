@@ -13,7 +13,7 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
   static const double maxUpperLimit = 1e9;
 
   final int _upperInclusiveLimit;
-  final List<int> _primes = [];
+  List<int> _primes = [];
 
   EratosSievePrimeGenerator({
     @required int upperInclusiveLimit,
@@ -27,21 +27,26 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
   @override
   void generatePrimes(){
 
-    List<int> allIntegers = _generateIntegers(_upperInclusiveLimit);
-    int topRange = pow(_upperInclusiveLimit, 2).ceil() + 1;
+    final List<int> allIntegers = _generateIntegers(_upperInclusiveLimit - 1);
+    final List<bool> booleanExcluders = List<bool>
+      .filled(_upperInclusiveLimit - 1, true);
+    final int topRange = sqrt(_upperInclusiveLimit).ceil() + 1;
 
-    for (int baseOfSieve = 0; baseOfSieve <= topRange; baseOfSieve++){
+    for (int baseOfSieve = 2; baseOfSieve <= topRange; baseOfSieve++){
       for (
         int testedInteger = pow(baseOfSieve, 2).toInt(); 
         testedInteger <= _upperInclusiveLimit; 
-        testedInteger += baseOfSieve){
-          try {
-            allIntegers.remove(testedInteger);
-          } catch(e){
-            print(e);
-          }
+        testedInteger += baseOfSieve
+      ){
+        final int testedIntegerIndex = allIntegers.indexOf(testedInteger);
+        booleanExcluders[testedIntegerIndex] = false;
       }
     }
+
+    _primes = allIntegers.where((int integer){
+      final int integerIndex = allIntegers.indexOf(integer);
+      return booleanExcluders[integerIndex]; 
+    }).toList();
   }
 
   List<int> _generateIntegers(int upperInclusiveLimit) 

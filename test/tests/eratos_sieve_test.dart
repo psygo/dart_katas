@@ -18,25 +18,32 @@ void main(){
       return _eratosSievePrimeGenerator.primes;
     }
 
-    test('Generate first prime', (){
+    test('1 prime', (){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 2);
 
       expect(primes, [2]);
     });
 
-    test('Generate first two primes', (){
+    test('2 primes', (){
       final List<int> primes = 
-        _initializeAndGeneratePrimes(upperInclusiveLimit: 5);
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 3);
 
       expect(primes, [2, 3]);
     });
 
-    test('Generate first three primes', (){
+    test('3 primes', (){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 5);
 
       expect(primes, [2, 3, 5]);
+    });
+
+    test('Up to 9', (){
+      final List<int> primes = 
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 9);
+
+      expect(primes, [2, 3, 5, 7]);
     });
 
   });
