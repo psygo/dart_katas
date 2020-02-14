@@ -36,6 +36,7 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
     _baseLooper(topRange, 
       (int baseOfSieve){
         final int baseOfSieveIndex = allIntegers.indexOf(baseOfSieve);
+        
         if (_isBaseNotExcluded(booleanExcluders, baseOfSieveIndex)){
           _seiveLooper(baseOfSieve, 
             (int testedInteger){
