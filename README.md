@@ -15,7 +15,7 @@ These are coding exercises meant to sharpen your programming abilities, analogou
     - The `GridParser` class was not necessary. I created it so string grids could be converted into objects in the background and, so, we had truly OOP software &mdash; but is it really?
     - When going through the grid, on the borders, I avoided the typical `null` error of having invalid indices by shielding the logic with a *try-catch*. A more ideal OOP solution would be to create an outer buffer layer of *Null Cells* (Null-Object Pattern), which would represent nothingness in terms of the rules.
 1. [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
-    - By me, with some prior knowledge. I had already created a simple version of the algorithm when I was learning Python 1.5 years ago.
+    - By me, with some prior knowledge. [I had already created a simple version](http://fanaro.com.br/python-basics-eratosthenes-and-problem-51/) of the algorithm when I was learning Python 1.5 years ago.
     - This is only one version of the sieve, there are many others much more optimized. This version features two optimizations:
         - Only using bases up to `sqrt(N)`.
         - Starting the sieve on the base from `base^2`.
