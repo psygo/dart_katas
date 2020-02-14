@@ -54,6 +54,13 @@ void main(){
       expect(primes, primesUpTo50);
     });
 
+    test('Up to 100', (){
+      final List<int> primes = 
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 100);
+
+      expect(primes, primesUpTo100);
+    });
+
   });
 
 }
