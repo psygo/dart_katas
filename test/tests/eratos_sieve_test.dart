@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 import '../../lib/eratos_sieve/eratos_sieve.dart';
+import '../mocks/eratos_sieve_mocks.dart';
 
 
 void main(){
@@ -22,28 +23,35 @@ void main(){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 2);
 
-      expect(primes, [2]);
+      expect(primes, primesUpTo2);
     });
 
     test('2 primes', (){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 3);
 
-      expect(primes, [2, 3]);
+      expect(primes, primesUpTo3);
     });
 
     test('3 primes', (){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 5);
 
-      expect(primes, [2, 3, 5]);
+      expect(primes, primesUpTo5);
     });
 
     test('Up to 9', (){
       final List<int> primes = 
         _initializeAndGeneratePrimes(upperInclusiveLimit: 9);
 
-      expect(primes, [2, 3, 5, 7]);
+      expect(primes, primesUpTo7);
+    });
+
+    test('Up to 50', (){
+      final List<int> primes = 
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 50);
+
+      expect(primes, primesUpTo50);
     });
 
   });
