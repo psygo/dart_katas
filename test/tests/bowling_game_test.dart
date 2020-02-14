@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 
 import '../../lib/bowling_game/bowling_game.dart';
+import '../mocks/bowling_game_mocks.dart';
 
 
 void main(){
@@ -11,25 +12,24 @@ void main(){
     _game = BowlingGame();
   });
 
-  void _rollMany(
+  void _rollManyPins(
     int n,
     int pins,
   ){
-    for (int i = 0; i < n; i++){
+    for (int rollIndex = 0; rollIndex < n; rollIndex++){
       _game.roll(pins);
     }
   }
 
-  test('testGutter_game', (){
-    _rollMany(20, 0);
+  test('Test canonical games: gutter, all ones and perfect', (){
+    rollsPinsAndScores.forEach(
+      (Map<String, int> rollsPins, int score){
+        _game = BowlingGame();
+        _rollManyPins(rollsPins['rolls'], rollsPins['pins']);
 
-    expect(_game.score(), 0);
-  });
-
-  test('testAllOnes', (){
-    _rollMany(20, 1);
-
-    expect(_game.score(), 20);
+        expect(_game.score(), score);
+      }
+    );
   });
 
   void _rollSpare(){
@@ -41,7 +41,7 @@ void main(){
     _rollSpare();
     _game.roll(3);
 
-    _rollMany(17, 0);
+    _rollManyPins(17, 0);
 
     expect(_game.score(), 16);
   });
@@ -54,15 +54,10 @@ void main(){
     _rollStrike();
     _game.roll(3);
     _game.roll(4);
-    _rollMany(16, 0);
+    
+    _rollManyPins(16, 0);
 
     expect(_game.score(), 24);
-  });
-
-  test('testPerfectGame', (){
-    _rollMany(12, 10);
-
-    expect(_game.score(), 300);
   });
 
 }
