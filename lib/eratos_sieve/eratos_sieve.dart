@@ -1,9 +1,35 @@
-class EratosSievePrimeGenerator {
+abstract class PrimeGenerator {
+  List<int> generatePrimesUpToInclusive(int inclusiveUpperLimit);
+  Iterable<int> _integersBiggerThanOneUpTo(int n);
+}
 
-  static List<int> generatePrimesUpTo(
-    int inclusiveUpperLimit,
+
+class EratosSievePrimeGenerator implements PrimeGenerator {
+
+  EratosSievePrimeGenerator();
+
+  @override
+  List<int> generatePrimesUpToInclusive(
+    int upperLimit,
   ){
-    return [2];
+    final Iterable<int> integerIterator = 
+      _integersBiggerThanOneUpTo(upperLimit);
+
+    final List<int> primes = [];
+
+    integerIterator.forEach((int n){
+      primes.add(n);
+    });
+
+    return primes;
+  }
+
+  @override
+  Iterable<int> _integersBiggerThanOneUpTo(
+    int n
+  ) sync* {
+    int k = 2;
+    while (k <= n) yield k++;
   }
 
 }
