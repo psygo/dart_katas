@@ -1,35 +1,33 @@
 abstract class PrimeGenerator {
-  List<int> generatePrimesUpToInclusive(int inclusiveUpperLimit);
-  Iterable<int> _integersBiggerThanOneUpTo(int n);
+  void generatePrimesUpToInclusive(int inclusiveUpperLimit);
 }
 
 
 class EratosSievePrimeGenerator implements PrimeGenerator {
 
+  final List<int> _primes = [];
+
   EratosSievePrimeGenerator();
 
+  List<int> get primes => _primes;
+
   @override
-  List<int> generatePrimesUpToInclusive(
+  void generatePrimesUpToInclusive(
     int upperLimit,
   ){
-    final Iterable<int> integerIterator = 
-      _integersBiggerThanOneUpTo(upperLimit);
+    final List<int> integers = List<int>
+      .generate(upperLimit, (int i) => i + 2);
 
-    final List<int> primes = [];
-
-    integerIterator.forEach((int n){
-      primes.add(n);
-    });
-
-    return primes;
+    for (final int baseOfSieve in integers){
+      for (final int testedInteger in integers){
+        if (_isNotMultipleAndNotTheSame(testedInteger, baseOfSieve) ){
+          _primes.add(testedInteger);
+        }
+      }
+    }
   }
 
-  @override
-  Iterable<int> _integersBiggerThanOneUpTo(
-    int n
-  ) sync* {
-    int k = 2;
-    while (k <= n) yield k++;
-  }
+  bool _isNotMultipleAndNotTheSame(int testedInteger, int baseOfSieve) 
+    => !(testedInteger % baseOfSieve == 0) && testedInteger != baseOfSieve;
 
 }
