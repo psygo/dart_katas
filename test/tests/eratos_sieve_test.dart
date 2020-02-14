@@ -62,8 +62,9 @@ void main(){
     });
 
     test('Error when beyond maximum upper limit', (){
+      final int beyondUpperLimit = 2 * EratosSievePrimeGenerator.maxUpperLimit;
       expect(
-        () => EratosSievePrimeGenerator(upperInclusiveLimit: 2e9.toInt()), 
+        () => EratosSievePrimeGenerator(upperInclusiveLimit: beyondUpperLimit), 
         throwsArgumentError,
       );
     });
