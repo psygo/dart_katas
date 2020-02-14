@@ -56,9 +56,16 @@ void main(){
 
     test('Up to 100', (){
       final List<int> primes = 
-        _initializeAndGeneratePrimes(upperInclusiveLimit: 100);
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 1e2.toInt());
 
-      expect(primes, primesUpTo100);
+      expect(primes, primesUpTo1e2);
+    });
+
+    test('Up to 1000', (){
+      final List<int> primes = 
+        _initializeAndGeneratePrimes(upperInclusiveLimit: 1e3.toInt());
+
+      expect(primes, primesUpTo1e3);
     });
 
     test('Error when beyond maximum upper limit', (){
