@@ -7,26 +7,26 @@ void main(){
 
   group('Main Sieve Tests', (){
 
-    final EratosSievePrimeGenerator _eratosSievePrimeGenerator =
-      EratosSievePrimeGenerator();
-
     test('Generate first prime', (){
-      _eratosSievePrimeGenerator
-        .generatePrimesUpToInclusive(2);
+      final EratosSievePrimeGenerator _eratosSievePrimeGenerator =
+        EratosSievePrimeGenerator(upperInclusiveLimit: 2);
+      _eratosSievePrimeGenerator.generatePrimes();
 
       expect(_eratosSievePrimeGenerator.primes, [2]);
     });
 
     test('Generate first two primes', (){
-      _eratosSievePrimeGenerator
-        .generatePrimesUpToInclusive(3);
+      final EratosSievePrimeGenerator _eratosSievePrimeGenerator =
+        EratosSievePrimeGenerator(upperInclusiveLimit: 3);
+      _eratosSievePrimeGenerator.generatePrimes();
 
       expect(_eratosSievePrimeGenerator.primes, [2, 3]);
     });
 
     test('Generate first three primes', (){
-      _eratosSievePrimeGenerator
-        .generatePrimesUpToInclusive(5);
+      final EratosSievePrimeGenerator _eratosSievePrimeGenerator =
+        EratosSievePrimeGenerator(upperInclusiveLimit: 3);
+      _eratosSievePrimeGenerator.generatePrimes();
 
       expect(_eratosSievePrimeGenerator.primes, [2, 3, 5]);
     });
