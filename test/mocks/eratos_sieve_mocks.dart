@@ -1,3 +1,13 @@
+final Map<int, List<int>> upperInclusiveLimits = {
+  2: primesUpTo2,
+  3: primesUpTo3,
+  5: primesUpTo5,
+  9: primesUpTo9,
+  50: primesUpTo50,
+  1e2.toInt(): primesUpTo1e2,
+  1e3.toInt(): primesUpTo1e3,
+};
+
 const List<int> primesUpTo2 = [
   2,
 ];
@@ -44,13 +54,3 @@ const List<int> primesUpTo1e3 = [
   877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 
   947, 953, 967, 971, 977, 983, 991, 997,
 ];
-
-final Map<int, List<int>> upperInclusiveLimits = {
-  2: primesUpTo2,
-  3: primesUpTo3,
-  5: primesUpTo5,
-  9: primesUpTo9,
-  50: primesUpTo50,
-  1e2.toInt(): primesUpTo1e2,
-  1e3.toInt(): primesUpTo1e3,
-};

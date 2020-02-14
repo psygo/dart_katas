@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 import '../../lib/game_of_life/game_of_life.dart';
@@ -9,9 +10,10 @@ void main(){
   group('Game of Life', (){
 
     GameOfLife _setUpAndPlayGame({
-      List<List<String>> initialGrid,
-      int maxGenerations = GameOfLife.defaultMaxGenerations,
+      @required List<List<String>> initialGrid,
+      int maxGenerations,
     }){
+      maxGenerations = maxGenerations ?? GameOfLife.defaultMaxGenerations;
       final GameOfLife _game = GameOfLife(initialGrid: initialGrid);
       _game.play(maxGenerations: maxGenerations);
 
@@ -23,43 +25,18 @@ void main(){
 
       expect(_game.lastGrid, emptyGrid);
     });
+    
+    test('Simple shapes and results', (){
+      initialGridsAndResults.forEach(
+        (List<List<String>> initialGrid, List<List<String>> expectedGrid){
+          final GameOfLife _game = _setUpAndPlayGame(
+            initialGrid: initialGrid,
+            maxGenerations: initialGridsAndMaxGenerations[initialGrid],
+          );
 
-    test('One living cell', (){
-      final GameOfLife _game = _setUpAndPlayGame(initialGrid: oneLivingCell);
-
-      expect(_game.lastGrid, emptyGrid);
-    });
-
-    test('Two living cells', (){
-      final GameOfLife _game = _setUpAndPlayGame(initialGrid: twoLivingCells);
-
-      expect(_game.lastGrid, emptyGrid);
-    });
-
-    test('Three living cells to Block', (){
-      final GameOfLife _game = _setUpAndPlayGame(initialGrid: threeLivingCells);
-
-      expect(_game.lastGrid, block);
-    });
-
-    test('Blinker', (){
-      const int enoughGenerationsToValidate = 6;
-      final GameOfLife _game = _setUpAndPlayGame(
-        initialGrid: blinker0,
-        maxGenerations: enoughGenerationsToValidate,
+          expect(_game.lastGrid, expectedGrid);
+        }
       );
-
-      expect(_game.lastGrid, blinker1);
-    });
-
-    test('Bee Hive', (){
-      const int enoughGenerationsToValidate = 6;
-      final GameOfLife _game = _setUpAndPlayGame(
-        initialGrid: beeHive,
-        maxGenerations: enoughGenerationsToValidate,
-      );
-
-      expect(_game.lastGrid, beeHive);
     });
 
     test('Glider', (){

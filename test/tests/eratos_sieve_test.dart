@@ -23,7 +23,7 @@ void main(){
       upperInclusiveLimits.forEach(
         (int upperInclusiveLimit, List<int> expectedPrimes){
           final List<int> primes = _initializeAndGeneratePrimes(
-            upperInclusiveLimit: upperInclusiveLimit
+            upperInclusiveLimit: upperInclusiveLimit,
           );
 
           expect(primes, expectedPrimes);
