@@ -13,7 +13,7 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
   static const double maxUpperLimit = 1e9;
 
   final int _upperInclusiveLimit;
-  List<int> _primes = [];
+  List<int> _primes;
 
   EratosSievePrimeGenerator({
     @required int upperInclusiveLimit,
@@ -43,10 +43,7 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
       }
     }
 
-    _primes = allIntegers.where((int integer){
-      final int integerIndex = allIntegers.indexOf(integer);
-      return booleanExcluders[integerIndex]; 
-    }).toList();
+    _primes = _filterIntegers(allIntegers, booleanExcluders);
   }
 
   List<int> _generateIntegers(int upperInclusiveLimit) 
@@ -57,7 +54,12 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
       }
     );
 
-  bool _isNotMultipleAndNotTheSame(int testedInteger, int baseOfSieve) 
-    => !(testedInteger % baseOfSieve == 0) && testedInteger != baseOfSieve;
-
+  List<int> _filterIntegers(
+    List<int> allIntegers,
+    List<bool> booleanFilter,
+  ) => allIntegers.where((int integer){
+      final int integerIndex = allIntegers.indexOf(integer);
+      return booleanFilter[integerIndex]; 
+    }).toList();
+  
 }
