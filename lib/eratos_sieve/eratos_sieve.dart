@@ -33,21 +33,43 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
       _generateBooleanExcluders(_upperInclusiveLimit);
     final int topRange = _calculateTopRange(_upperInclusiveLimit);
 
-    for (int baseOfSieve = 2; baseOfSieve < topRange; baseOfSieve++){
-      final int baseOfSieveIndex = allIntegers.indexOf(baseOfSieve);
-      if (_isBaseNotExcluded(booleanExcluders, baseOfSieveIndex)){
-        for (
-          int testedInteger = pow(baseOfSieve, 2).toInt(); 
-          testedInteger <= _upperInclusiveLimit; 
-          testedInteger += baseOfSieve
-        ){
-          final int testedIntegerIndex = allIntegers.indexOf(testedInteger);
-          booleanExcluders[testedIntegerIndex] = true;
+    _baseLooper(topRange, 
+      (int baseOfSieve){
+        final int baseOfSieveIndex = allIntegers.indexOf(baseOfSieve);
+        if (_isBaseNotExcluded(booleanExcluders, baseOfSieveIndex)){
+          _seiveLooper(baseOfSieve, 
+            (int testedInteger){
+              final int testedIntegerIndex = allIntegers.indexOf(testedInteger);
+              booleanExcluders[testedIntegerIndex] = true;
+            }
+          );
         }
       }
-    }
+    );
 
     _primes = _filterIntegers(allIntegers, booleanExcluders);
+  }
+
+  void _baseLooper(
+    int topRange,
+    Function(int baseOfSieve) function,
+  ){
+    for (int baseOfSieve = 2; baseOfSieve < topRange; baseOfSieve++){
+      function(baseOfSieve);
+    }
+  }
+
+  void _seiveLooper(
+    int baseOfSieve,
+    Function(int testedInteger) function,
+  ){
+    for (
+      int testedInteger = _calculateStartOfSieve(baseOfSieve); 
+      testedInteger <= _upperInclusiveLimit; 
+      testedInteger += baseOfSieve
+    ){
+      function(testedInteger);
+    }
   }
 
   List<int> _generateIntegers(int upperInclusiveLimit) 
@@ -61,6 +83,8 @@ class EratosSievePrimeGenerator implements PrimeGenerator {
 
   bool _isBaseNotExcluded(List<bool> booleanExcluders, int baseIndex) 
     => !booleanExcluders[baseIndex];
+
+  int _calculateStartOfSieve(int base) => pow(base, 2).toInt(); 
 
   List<int> _filterIntegers(
     List<int> allIntegers,
