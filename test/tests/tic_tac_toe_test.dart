@@ -6,8 +6,8 @@ import '../mocks/tic_tac_toe_mocks.dart';
 
 // TODO: 
 // Given an almost winning board, 
-// when a player completes a row, a column or a diagonal, 
-// then the game must recognize who won.
+// When a player completes a row, a column or a diagonal, 
+// Then the game must recognize who won.
 
 
 void main(){
@@ -19,7 +19,7 @@ void main(){
   });
 
   test('Empty board', (){
-    expect(_game.board, TicTacToeGame.emptyBoard);
+    expect(_game.board, emptyBoard);
   });
 
   test('First symbol insertion', (){
