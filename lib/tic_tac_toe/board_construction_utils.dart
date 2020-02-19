@@ -24,4 +24,23 @@ class BoardUtils {
     );
   }
 
+  static List<List<T>> transposeList<T>(
+    List<List<T>> originalList,
+  ){
+    final List<List<T>> transposedList = [];
+    
+    for (int colIndex = 0; colIndex < originalList.first.length; colIndex++){
+      
+      final List<T> transposedRow = [];
+      
+      for (int rowIndex = 0; rowIndex < originalList.length; rowIndex++){
+        transposedRow.add(originalList[rowIndex][colIndex]);
+      }
+      
+      transposedList.add(transposedRow);
+    }
+    
+    return transposedList;
+  }
+
 }

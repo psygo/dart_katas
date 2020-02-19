@@ -21,3 +21,9 @@ const String simpleHorizontalWin = '''\n
    O | O |  
      |   |  
   ''';
+
+const String simpleVerticalWin = '''\n
+   X | O |  
+   X | O |  
+   X |   |  
+  ''';

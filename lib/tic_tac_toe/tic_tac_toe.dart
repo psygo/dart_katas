@@ -172,7 +172,16 @@ class TicTacToeGame {
   }
 
   void _checkVerticalWin(){
-
+    List<List<Cell>> transposedBoard = BoardUtils.transposeList(_board);
+    BoardUtils.looper(defaultBoardSize, 
+      (int rowIndex){
+        final Set<Cell> rowSet = Set<Cell>.from(transposedBoard[rowIndex]);
+        if (rowSet.length == 1 && rowSet.first.status != Status.empty) {
+          _winner = rowSet.first.status;
+          _gameNotFinished = false;
+        }
+      }
+    );
   }
 
   void _checkDiagonalWin(){
