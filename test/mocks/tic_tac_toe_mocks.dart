@@ -1,0 +1,5 @@
+const String emptyGrid = '''
+    |   |   
+    |   |   
+    |   |   
+''';
