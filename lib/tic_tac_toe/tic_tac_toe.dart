@@ -7,7 +7,7 @@ class TicTacToeGame {
 
   static const String defaultX = 'X';
   static const String defaultO = 'O';
-  static const String defaultEmpty = '';
+  static const String defaultEmpty = ' ';
   static const String emptyIndexedBoard = '''
    00 | 01 | 02
    10 | 11 | 12
@@ -17,7 +17,7 @@ class TicTacToeGame {
   final String _symbolX;
   final String _symbolO;
   final String _startingSymbol;
-  String _currentSymbol;
+  Status _currentSymbol;
   final List<List<Cell>> _board = [];
 
   TicTacToeGame({
@@ -29,7 +29,7 @@ class TicTacToeGame {
     _symbolO = symbolO ?? defaultO,
     _startingSymbol = startingSymbol ?? defaultX
   {
-    _currentSymbol = startingSymbol;
+    _currentSymbol = _startingSymbol == _symbolX ? Status.x : Status.o;
     _initializeBoard();
   }
 
@@ -51,21 +51,25 @@ class TicTacToeGame {
   String get symbolX => _symbolX;
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
-  String get currentSymbol => _currentSymbol;
+
+  String get currentSymbol {
+    
+  }
+
   String get board {
     String stringBoard = emptyIndexedBoard;
     for (int rowIndex = 0; rowIndex < 3; rowIndex++){
       for (int colIndex = 0; colIndex < 3; colIndex++){
-        String toReplace = '$rowIndex$colIndex';
+        String toReplace = _stringifyRowCol(rowIndex, colIndex);
         switch (_board[rowIndex][colIndex].status){
           case Status.empty: 
-            stringBoard.replaceFirst(toReplace, defaultEmpty);
+            stringBoard = stringBoard.replaceFirst(toReplace, defaultEmpty);
             break;
           case Status.o: 
-            stringBoard.replaceFirst(toReplace, _symbolO);
+            stringBoard = stringBoard.replaceFirst(toReplace, _symbolO);
             break;
           case Status.x:
-            stringBoard.replaceFirst(toReplace, _symbolX);
+            stringBoard = stringBoard.replaceFirst(toReplace, _symbolX);
             break;
         }
       }
@@ -73,22 +77,20 @@ class TicTacToeGame {
     return stringBoard;
   }
 
+  String _stringifyRowCol(int rowIndex, int colIndex) => '$rowIndex$colIndex';
+
   void playSymbol({
     @required List<int> position,
   }){
     final int rowIndex = position[0];
     final int colIndex = position[1];
-    final String rowColString = _stringifyRowCol(rowIndex, colIndex);
 
-    _board = _board.replaceFirst(rowColString, _currentSymbol);
-
-    print(_board);
+    _board[rowIndex][colIndex].status = _currentSymbol;
 
     _currentSymbol = _switchSymbols(_currentSymbol);
   }
 
-  String _stringifyRowCol(int rowIndex, int colIndex) => '$rowIndex$colIndex';
-  String _switchSymbols(String currentSymbol) 
-    => currentSymbol == _symbolO ? _symbolX : _symbolO;
+  Status _switchSymbols(Status currentSymbol) 
+    => currentSymbol == Status.o ? Status.x : Status.o;
 
 }
