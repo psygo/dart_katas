@@ -15,3 +15,9 @@ const String secondMove = '''\n
      |   |  
      |   |  
   ''';
+
+const String simpleHorizontalWin = '''\n
+   X | X | X
+   O | O |  
+     |   |  
+  ''';

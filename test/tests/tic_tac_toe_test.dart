@@ -9,6 +9,11 @@ import '../mocks/tic_tac_toe_mocks.dart';
 // When  : a player completes a row, a column or a diagonal, 
 // Then  : the game must recognize who won.
 
+const String fristBddTest = '''\n
+    Given : a board
+    When  : player completes row, column or diagonal
+    Then  : the game recognizes who won
+    ''';
 
 void main(){
 
@@ -19,11 +24,7 @@ void main(){
   });
 
   group(
-    '''\n
-    Given : a board
-    When  : player completes row, column or diagonal
-    Then  : the game recognizes who won
-    ''', (){
+    'First BDD Tests', (){
       test('Empty board', (){
         expect(_game.board, emptyBoard);
       });
@@ -49,6 +50,16 @@ void main(){
         _game.playSymbol(position: [0, 1]);
 
         expect(() => _game.playSymbol(position: [0, 1]), throwsArgumentError);
+      });
+
+      test('Simple horizontal win', (){
+        _game.playSymbol(position: [0, 0]);
+        _game.playSymbol(position: [1, 0]);
+        _game.playSymbol(position: [0, 1]);
+        _game.playSymbol(position: [1, 1]);
+        _game.playSymbol(position: [0, 2]);
+
+        expect(_game.winner, 'X wins.');
       });
   });
 

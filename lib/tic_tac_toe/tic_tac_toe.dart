@@ -24,6 +24,8 @@ class TicTacToeGame {
   final String _startingSymbol;
   Status _currentSymbol;
   final List<List<Cell>> _board = [];
+  bool _gameNotFinished = true;
+  Status _winner = Status.empty;
 
   TicTacToeGame({
     String symbolX,
@@ -66,6 +68,21 @@ class TicTacToeGame {
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
   String get currentSymbol => _statusToString(_currentSymbol);
+  String get winner {
+    switch (_winner){
+      case Status.empty:
+        return 'No winner yet.';
+        break;
+      case Status.x:
+        return '$_symbolX wins.';
+        break;
+      case Status.o:
+        return '$_symbolO wins.';
+        break;
+      default:
+        throw Exception;
+    }
+  }
 
   String get board {
     String stringBoard = emptyIndexedBoard;
@@ -94,11 +111,11 @@ class TicTacToeGame {
       case Status.empty: 
         return stringBoard.replaceFirst(indicesAsString, defaultEmpty);
         break;
-      case Status.o: 
-        return stringBoard.replaceFirst(indicesAsString, _symbolO);
-        break;
       case Status.x:
         return stringBoard.replaceFirst(indicesAsString, _symbolX);
+        break;
+      case Status.o: 
+        return stringBoard.replaceFirst(indicesAsString, _symbolO);
         break;
       default:
         return defaultEmpty;
@@ -108,12 +125,16 @@ class TicTacToeGame {
   void playSymbol({
     @required List<int> position,
   }){
-    final int rowIndex = position[0];
-    final int colIndex = position[1];
+    if (_gameNotFinished){
+      final int rowIndex = position[0];
+      final int colIndex = position[1];
 
-    _updateStatusOfCell(rowIndex, colIndex);
+      _updateStatusOfCell(rowIndex, colIndex);
 
-    _currentSymbol = _switchStatus(_currentSymbol);
+      _checkIfWinner();
+
+      _currentSymbol = _switchStatus(_currentSymbol);
+    }
   }
 
   void _updateStatusOfCell(
@@ -131,5 +152,31 @@ class TicTacToeGame {
 
   Status _switchStatus(Status currentSymbol) 
     => currentSymbol == Status.o ? Status.x : Status.o;
+
+  void _checkIfWinner(){
+    _checkHorizontalWin();
+    _checkVerticalWin();
+    _checkDiagonalWin();
+  }
+
+  void _checkHorizontalWin(){
+    BoardUtils.looper(defaultBoardSize, 
+      (int rowIndex){
+        final Set<Cell> rowSet = Set<Cell>.from(_board[rowIndex]);
+        if (rowSet.length == 1 && rowSet.first.status != Status.empty) {
+          _winner = rowSet.first.status;
+          _gameNotFinished = false;
+        }
+      }
+    );
+  }
+
+  void _checkVerticalWin(){
+
+  }
+
+  void _checkDiagonalWin(){
+
+  }
 
 }
