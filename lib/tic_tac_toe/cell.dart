@@ -17,7 +17,8 @@ class Cell {
   factory Cell.empty() => Cell(Status.empty);
 
   Status get status => _status;
-  
+  bool get isEmpty => _status == Status.empty;
+
   void set status(
     Status newStatus
   ){

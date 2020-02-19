@@ -44,6 +44,12 @@ void main(){
 
         expect(_game.board, secondMove);
       });
+
+      test('Error when trying to override a position', (){
+        _game.playSymbol(position: [0, 1]);
+
+        expect(() => _game.playSymbol(position: [0, 1]), throwsArgumentError);
+      });
   });
 
   

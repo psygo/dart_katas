@@ -34,9 +34,14 @@ class TicTacToeGame {
     _symbolO = symbolO ?? defaultO,
     _startingSymbol = startingSymbol ?? defaultX
   {
-    _currentSymbol = _startingSymbol == _symbolX ? Status.x : Status.o;
+    _currentSymbol = _stringToStatus(_startingSymbol);
     _initializeBoard();
   }
+
+  Status _stringToStatus(String string) 
+    => string == _symbolX ? Status.x : Status.o;
+  String _statusToString(Status status)
+    => status == Status.x ? _symbolX : symbolO;
 
   List<Cell> _emptyRow(){
     final List<Cell> emptyRow = [];
@@ -60,18 +65,15 @@ class TicTacToeGame {
   String get symbolX => _symbolX;
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
-
-  String get currentSymbol {
-    return _currentSymbol == Status.o ? _symbolO : _symbolX;
-  }
+  String get currentSymbol => _statusToString(_currentSymbol);
 
   String get board {
     String stringBoard = emptyIndexedBoard;
 
     BoardUtils.doubleLooper(defaultBoardSize, 
       (int rowIndex, int colIndex){
-        String indicesAsString = _stringifyRowCol(rowIndex, colIndex);
-        Status cellStatus = _cellStatusFromIndex(rowIndex, colIndex);
+        final String indicesAsString = _stringifyRowCol(rowIndex, colIndex);
+        final Status cellStatus = _cellStatusFromIndex(rowIndex, colIndex);
         stringBoard = 
           _replaceIndexWithStatus(stringBoard, indicesAsString, cellStatus);
       }
@@ -109,12 +111,25 @@ class TicTacToeGame {
     final int rowIndex = position[0];
     final int colIndex = position[1];
 
-    _board[rowIndex][colIndex].status = _currentSymbol;
+    _updateStatusOfCell(rowIndex, colIndex);
 
-    _currentSymbol = _switchSymbols(_currentSymbol);
+    _currentSymbol = _switchStatus(_currentSymbol);
   }
 
-  Status _switchSymbols(Status currentSymbol) 
+  void _updateStatusOfCell(
+    int rowIndex,
+    int colIndex,
+  ){
+    final Cell cell = _board[rowIndex][colIndex];
+    if (cell.isEmpty){
+      cell.status = _currentSymbol;
+    } else {
+      final String statusAsString = _statusToString(cell.status);
+      throw ArgumentError('Space already filled by $statusAsString.');
+    }
+  }
+
+  Status _switchStatus(Status currentSymbol) 
     => currentSymbol == Status.o ? Status.x : Status.o;
 
 }
