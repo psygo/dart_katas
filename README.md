@@ -19,6 +19,7 @@ These are coding exercises meant to sharpen your programming abilities, analogou
     - This is only one version of the sieve, there are many others much more optimized. This version features two optimizations:
         - Only using bases up to `sqrt(N)`.
         - Starting the sieve on the base from `base^2`.
+1. [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe)
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 
