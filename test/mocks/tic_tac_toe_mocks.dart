@@ -28,8 +28,14 @@ const String simpleVerticalWin = '''\n
    X |   |  
   ''';
 
-const String simpleDiagonalWin = '''\n
+const String simpleNormalDiagonalWin = '''\n
    X | O | O
      | X |  
      |   | X
+  ''';
+
+const String simpleReverseDiagonalWin = '''\n
+   O | O | X
+     | X |  
+   X |   |  
   ''';

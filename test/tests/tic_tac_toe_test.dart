@@ -81,6 +81,16 @@ void main(){
 
         expect(_game.winner, 'X wins.');
       });
+
+      test('Simple reverse diagonal win', (){
+        _game.playSymbol(position: [0, 2]);
+        _game.playSymbol(position: [0, 0]);
+        _game.playSymbol(position: [1, 1]);
+        _game.playSymbol(position: [0, 1]);
+        _game.playSymbol(position: [2, 0]);
+
+        expect(_game.winner, 'X wins.');
+      });
   });
 
 }

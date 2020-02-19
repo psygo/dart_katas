@@ -185,7 +185,14 @@ class TicTacToeGame {
   }
 
   void _checkDiagonalWin(){
+    final List<Cell> normalDiagonal = BoardUtils.extractNormalDiagonal(_board);
+    final Set<Cell> normalDiagonalSet = Set<Cell>.from(normalDiagonal);
+    if (normalDiagonalSet.length == 1 && normalDiagonal.first.status != Status.empty){
+      _winner = normalDiagonal.first.status;
+      _gameNotFinished = false;
+    }
 
+    
   }
 
 }

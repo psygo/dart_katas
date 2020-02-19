@@ -1,3 +1,6 @@
+import 'dart:math';
+
+
 class BoardUtils {
 
   static void looper(
@@ -41,6 +44,23 @@ class BoardUtils {
     }
     
     return transposedList;
+  }
+
+  static List<T> extractDiagonal<T>(
+    List<List<T>> originalList,
+  ){
+    final int rows = originalList.length;
+    final int cols = originalList.first.length;
+    final int diagSize = min(rows, cols);
+    final List<T> diag = [];
+
+    looper(diagSize, 
+      (int diagIndex){
+        diag.add(originalList[diagIndex][diagIndex]);
+      }
+    );
+
+    return diag;
   }
 
 }
