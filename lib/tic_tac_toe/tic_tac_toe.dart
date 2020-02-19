@@ -40,7 +40,7 @@ class TicTacToeGame {
 
   List<Cell> _emptyRow(){
     final List<Cell> emptyRow = [];
-    BoardConstructionUtils.looper(defaultBoardSize, 
+    BoardUtils.looper(defaultBoardSize, 
       (int rowIndex){
         emptyRow.add(Cell.empty());
       }
@@ -49,7 +49,7 @@ class TicTacToeGame {
   }
 
   void _initializeBoard(){
-    BoardConstructionUtils.looper(defaultBoardSize, 
+    BoardUtils.looper(defaultBoardSize, 
       (int colIndex){
         List<Cell> emptyRow = _emptyRow();
         _board.add(emptyRow);
@@ -67,26 +67,41 @@ class TicTacToeGame {
 
   String get board {
     String stringBoard = emptyIndexedBoard;
-    for (int rowIndex = 0; rowIndex < 3; rowIndex++){
-      for (int colIndex = 0; colIndex < 3; colIndex++){
-        String toReplace = _stringifyRowCol(rowIndex, colIndex);
-        switch (_board[rowIndex][colIndex].status){
-          case Status.empty: 
-            stringBoard = stringBoard.replaceFirst(toReplace, defaultEmpty);
-            break;
-          case Status.o: 
-            stringBoard = stringBoard.replaceFirst(toReplace, _symbolO);
-            break;
-          case Status.x:
-            stringBoard = stringBoard.replaceFirst(toReplace, _symbolX);
-            break;
-        }
+
+    BoardUtils.doubleLooper(defaultBoardSize, 
+      (int rowIndex, int colIndex){
+        String indicesAsString = _stringifyRowCol(rowIndex, colIndex);
+        Status cellStatus = _cellStatusFromIndex(rowIndex, colIndex);
+        stringBoard = 
+          _replaceIndexWithStatus(stringBoard, indicesAsString, cellStatus);
       }
-    }
+    );
     return stringBoard;
   }
 
   String _stringifyRowCol(int rowIndex, int colIndex) => '$rowIndex$colIndex';
+  Status _cellStatusFromIndex(int rowIndex, int colIndex) => 
+    _board[rowIndex][colIndex].status;
+
+  String _replaceIndexWithStatus(
+    String stringBoard,
+    String indicesAsString,
+    Status cellStatus,
+  ){
+    switch (cellStatus){
+      case Status.empty: 
+        return stringBoard.replaceFirst(indicesAsString, defaultEmpty);
+        break;
+      case Status.o: 
+        return stringBoard.replaceFirst(indicesAsString, _symbolO);
+        break;
+      case Status.x:
+        return stringBoard.replaceFirst(indicesAsString, _symbolX);
+        break;
+      default:
+        return defaultEmpty;
+    }
+  }
 
   void playSymbol({
     @required List<int> position,

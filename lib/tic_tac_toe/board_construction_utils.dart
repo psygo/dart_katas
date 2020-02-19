@@ -1,4 +1,4 @@
-class BoardConstructionUtils {
+class BoardUtils {
 
   static void looper(
     int totalLoops,
@@ -7,6 +7,21 @@ class BoardConstructionUtils {
     for (int loopIndex = 0; loopIndex < totalLoops; loopIndex++){
       function(loopIndex);
     }
-  } 
+  }
+
+  static void doubleLooper(
+    int totalLoops,
+    Function(int outerLoopIndex, int innerLoopIndex) function,
+  ){
+    looper(totalLoops, 
+      (int outerLoopIndex){
+        looper(totalLoops, 
+          (int innerLoopIndex){
+            function(outerLoopIndex, innerLoopIndex);
+          }
+        );
+      }
+    );
+  }
 
 }
