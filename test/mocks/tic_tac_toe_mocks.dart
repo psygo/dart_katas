@@ -1,11 +1,17 @@
-const String emptyBoard = '''
+const String emptyBoard = '''\n
      |   |  
      |   |  
      |   |  
   ''';
 
-const String firstSymbolInsertion = '''
+const String firstMove = '''\n
      | X |  
+     |   |  
+     |   |  
+  ''';
+
+const String secondMove = '''\n
+     | X | O
      |   |  
      |   |  
   ''';

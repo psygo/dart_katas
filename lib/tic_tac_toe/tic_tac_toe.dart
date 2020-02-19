@@ -1,6 +1,10 @@
 import 'package:meta/meta.dart';
 
+import 'board_construction_utils.dart';
 import 'cell.dart';
+
+
+// TODO: parameterize the construction of the empty indexed board
 
 
 class TicTacToeGame {
@@ -8,7 +12,8 @@ class TicTacToeGame {
   static const String defaultX = 'X';
   static const String defaultO = 'O';
   static const String defaultEmpty = ' ';
-  static const String emptyIndexedBoard = '''
+  static const int defaultBoardSize = 3;
+  static const String emptyIndexedBoard = '''\n
    00 | 01 | 02
    10 | 11 | 12
    20 | 21 | 22
@@ -34,18 +39,22 @@ class TicTacToeGame {
   }
 
   List<Cell> _emptyRow(){
-    List<Cell> emptyRow = [];
-    for (int colIndex = 0; colIndex < 3; colIndex++){
-      emptyRow.add(Cell.empty());
-    }
+    final List<Cell> emptyRow = [];
+    BoardConstructionUtils.looper(defaultBoardSize, 
+      (int rowIndex){
+        emptyRow.add(Cell.empty());
+      }
+    );
     return emptyRow;
   }
 
   void _initializeBoard(){
-    for (int rowIndex = 0; rowIndex < 3; rowIndex++){
-      List<Cell> emptyRow = _emptyRow();
-      _board.add(emptyRow);
-    }
+    BoardConstructionUtils.looper(defaultBoardSize, 
+      (int colIndex){
+        List<Cell> emptyRow = _emptyRow();
+        _board.add(emptyRow);
+      }
+    );
   }
 
   String get symbolX => _symbolX;
@@ -53,7 +62,7 @@ class TicTacToeGame {
   String get startingSymbol => _startingSymbol;
 
   String get currentSymbol {
-    
+    return _currentSymbol == Status.o ? _symbolO : _symbolX;
   }
 
   String get board {
