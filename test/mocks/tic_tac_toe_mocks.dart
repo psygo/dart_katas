@@ -1,5 +1,5 @@
-const String emptyGrid = '''
-    |   |   
+const String firstSymbolInsertion = '''
+    | X |   
     |   |   
     |   |   
 ''';
