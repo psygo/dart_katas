@@ -46,21 +46,36 @@ class BoardUtils {
     return transposedList;
   }
 
-  static List<T> extractDiagonal<T>(
+  static List<T> extractNormalDiagonal<T>(
     List<List<T>> originalList,
   ){
     final int rows = originalList.length;
     final int cols = originalList.first.length;
-    final int diagSize = min(rows, cols);
-    final List<T> diag = [];
+    final int normalDiagSize = min(rows, cols);
+    final List<T> normalDiag = [];
 
-    looper(diagSize, 
-      (int diagIndex){
-        diag.add(originalList[diagIndex][diagIndex]);
+    looper(normalDiagSize, 
+      (int normalDiagIndex){
+        normalDiag.add(originalList[normalDiagIndex][normalDiagIndex]);
       }
     );
 
-    return diag;
+    return normalDiag;
+  }
+
+  static List<T> extractReverseDiagonal<T>(
+    List<List<T>> originalList,
+  ){
+    final int cols = originalList.first.length;
+    final List<T> reverseDiag = [];
+
+    looper(originalList.length, 
+      (int rowIndex){
+        reverseDiag.add(originalList[rowIndex][cols - 1 - rowIndex]);
+      }
+    );
+
+    return reverseDiag;
   }
 
 }

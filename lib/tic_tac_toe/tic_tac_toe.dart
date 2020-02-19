@@ -192,7 +192,12 @@ class TicTacToeGame {
       _gameNotFinished = false;
     }
 
-    
+    final List<Cell> reverseDiagonal = BoardUtils.extractReverseDiagonal(_board);
+    final Set<Cell> reverseDiagonalSet = Set<Cell>.from(reverseDiagonal);
+    if (reverseDiagonalSet.length == 1 && reverseDiagonal.first.status != Status.empty){
+      _winner = reverseDiagonal.first.status;
+      _gameNotFinished = false;
+    }
   }
 
 }
