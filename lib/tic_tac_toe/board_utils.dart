@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'cell.dart';
+import 'tic_tac_toe.dart';
+
 
 class BoardUtils {
 
@@ -23,6 +26,30 @@ class BoardUtils {
             function(outerLoopIndex, innerLoopIndex);
           }
         );
+      }
+    );
+  }
+
+  static List<Cell> _emptyCellRow(
+    int size,
+  ){
+    final List<Cell> emptyCellRow = [];
+    looper(size, 
+      (int rowIndex){
+        emptyCellRow.add(Cell.empty());
+      }
+    );
+    return emptyCellRow;
+  }
+
+  static void initializeBoard(
+    int size,
+    List<List<Cell>> board,
+  ){
+    looper(size, 
+      (int colIndex){
+        final List<Cell> emptyRow = _emptyCellRow(size);
+        board.add(emptyRow);
       }
     );
   }

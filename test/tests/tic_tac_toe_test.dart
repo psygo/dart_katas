@@ -8,6 +8,7 @@ import '../mocks/tic_tac_toe_mocks.dart';
 // Given : an almost winning board, 
 // When  : a player completes a row, a column or a diagonal, 
 // Then  : the game must recognize who won.
+// TODO: Refactor the playSymbol in the tests to avoid duplication
 
 const String fristBddTest = '''\n
     Given : a board
@@ -30,7 +31,7 @@ void main(){
       });
 
       test('Current symbol getter', (){
-        expect(_game.currentSymbol, TicTacToeGame.defaultX);
+        expect(_game.currentSymbol, TicTacToeInterface.defaultX);
       });
 
       test('First move', (){

@@ -1,20 +1,16 @@
 import 'package:meta/meta.dart';
 
-import 'board_construction_utils.dart';
+import 'board_utils.dart';
 import 'cell.dart';
 
 
 // TODO: parameterize the construction of the empty indexed board
+// TODO: Implement a custom Exception class for the Winner's error
+// TODO: Refactor the rules to avoid duplication
+// TODO: Turn the _gameNotFinished property into a getter or method
 
 
 abstract class TicTacToeInterface {
-  void playSymbol();
-  String get board;
-}
-
-
-class TicTacToeGame implements TicTacToeInterface {
-
   static const String defaultX = 'X';
   static const String defaultO = 'O';
   static const String defaultEmpty = ' ';
@@ -25,11 +21,20 @@ class TicTacToeGame implements TicTacToeInterface {
    20 | 21 | 22
   ''';
 
+  void playSymbol();
+  String get board;
+  String get winner;
+}
+
+
+class TicTacToeGame implements TicTacToeInterface {
+
   final String _symbolX;
   final String _symbolO;
   final String _startingSymbol;
-  Status _currentSymbol;
+  final int _boardSize;
   final List<List<Cell>> _board = [];
+  Status _currentSymbol;
   bool _gameNotFinished = true;
   Status _winner = Status.empty;
 
@@ -37,13 +42,15 @@ class TicTacToeGame implements TicTacToeInterface {
     String symbolX,
     String symbolO,
     String startingSymbol,
+    int boardSize,
   }):
-    _symbolX = symbolX ?? defaultX,
-    _symbolO = symbolO ?? defaultO,
-    _startingSymbol = startingSymbol ?? defaultX
+    _symbolX = symbolX ?? TicTacToeInterface.defaultX,
+    _symbolO = symbolO ?? TicTacToeInterface.defaultO,
+    _boardSize = boardSize ?? TicTacToeInterface.defaultBoardSize,
+    _startingSymbol = startingSymbol ?? TicTacToeInterface.defaultX
   {
     _currentSymbol = _stringToStatus(_startingSymbol);
-    _initializeBoard();
+    BoardUtils.initializeBoard(_boardSize, _board);
   }
 
   Status _stringToStatus(String string) 
@@ -51,29 +58,12 @@ class TicTacToeGame implements TicTacToeInterface {
   String _statusToString(Status status)
     => status == Status.x ? _symbolX : symbolO;
 
-  List<Cell> _emptyRow(){
-    final List<Cell> emptyRow = [];
-    BoardUtils.looper(defaultBoardSize, 
-      (int rowIndex){
-        emptyRow.add(Cell.empty());
-      }
-    );
-    return emptyRow;
-  }
-
-  void _initializeBoard(){
-    BoardUtils.looper(defaultBoardSize, 
-      (int colIndex){
-        List<Cell> emptyRow = _emptyRow();
-        _board.add(emptyRow);
-      }
-    );
-  }
-
   String get symbolX => _symbolX;
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
   String get currentSymbol => _statusToString(_currentSymbol);
+
+  @override
   String get winner {
     switch (_winner){
       case Status.empty:
@@ -92,9 +82,9 @@ class TicTacToeGame implements TicTacToeInterface {
 
   @override
   String get board {
-    String stringBoard = emptyIndexedBoard;
+    String stringBoard = TicTacToeInterface.emptyIndexedBoard;
 
-    BoardUtils.doubleLooper(defaultBoardSize, 
+    BoardUtils.doubleLooper(_boardSize, 
       (int rowIndex, int colIndex){
         final String indicesAsString = _stringifyRowCol(rowIndex, colIndex);
         final Status cellStatus = _cellStatusFromIndex(rowIndex, colIndex);
@@ -116,7 +106,8 @@ class TicTacToeGame implements TicTacToeInterface {
   ){
     switch (cellStatus){
       case Status.empty: 
-        return stringBoard.replaceFirst(indicesAsString, defaultEmpty);
+        return stringBoard
+          .replaceFirst(indicesAsString, TicTacToeInterface.defaultEmpty);
         break;
       case Status.x:
         return stringBoard.replaceFirst(indicesAsString, _symbolX);
@@ -125,7 +116,7 @@ class TicTacToeGame implements TicTacToeInterface {
         return stringBoard.replaceFirst(indicesAsString, _symbolO);
         break;
       default:
-        return defaultEmpty;
+        return TicTacToeInterface.defaultEmpty;
     }
   }
 
@@ -168,7 +159,7 @@ class TicTacToeGame implements TicTacToeInterface {
   }
 
   void _checkHorizontalWin(){
-    BoardUtils.looper(defaultBoardSize, 
+    BoardUtils.looper(_boardSize, 
       (int rowIndex){
         final Set<Cell> rowSet = Set<Cell>.from(_board[rowIndex]);
         if (rowSet.length == 1 && rowSet.first.status != Status.empty) {
@@ -181,7 +172,7 @@ class TicTacToeGame implements TicTacToeInterface {
 
   void _checkVerticalWin(){
     List<List<Cell>> transposedBoard = BoardUtils.transposeList(_board);
-    BoardUtils.looper(defaultBoardSize, 
+    BoardUtils.looper(_boardSize, 
       (int rowIndex){
         final Set<Cell> rowSet = Set<Cell>.from(transposedBoard[rowIndex]);
         if (rowSet.length == 1 && rowSet.first.status != Status.empty) {

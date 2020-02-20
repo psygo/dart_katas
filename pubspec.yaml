@@ -1,4 +1,5 @@
 name: dart_katas
+
 dependencies:
   test: ^1.12.0
   meta: ^1.1.8
