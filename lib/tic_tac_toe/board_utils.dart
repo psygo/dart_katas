@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'cell.dart';
+import 'exceptions.dart';
 
 
 class BoardUtils {
@@ -68,7 +69,7 @@ class BoardUtils {
                 stringRow += symbolO;
                 break;
               default:
-                throw Exception;
+                throw CellToStringException('Invalid Status case.');
             }
             if (colIndex < cols - 1) stringRow += gridSpacer;
           }

@@ -9,6 +9,7 @@ import '../mocks/tic_tac_toe_mocks.dart';
 // When  : a player completes a row, a column or a diagonal, 
 // Then  : the game must recognize who won.
 // TODO: Refactor the playSymbol in the tests to avoid duplication
+// TODO: how does async_redux use given-when-then?
 
 const String fristBddTest = '''\n
     Given : a board

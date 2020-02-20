@@ -2,9 +2,9 @@ import 'package:meta/meta.dart';
 
 import 'board_utils.dart';
 import 'cell.dart';
+import 'exceptions.dart';
 
 
-// TODO: Implement a custom Exception class for the Winner's error
 // TODO: Implement tie
 
 
@@ -76,7 +76,7 @@ class TicTacToeGame implements TicTacToeInterface {
         return '$_symbolO wins.';
         break;
       default:
-        throw Exception;
+        throw WinnerException('There should be either a winner or no winner.');
     }
   }
 
