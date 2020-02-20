@@ -53,6 +53,26 @@ class BoardUtils {
     );
   }
 
+  static List<List<String>> cellBoardToStringBoard(
+    List<List<Cell>> cellBoard,
+    String symbolX,
+    String symbolO,
+    String symbolEmpty,
+  ){
+    final int rows = cellBoard.length;
+    final int cols = cellBoard.first.length;
+
+    looper(rows, 
+      (int rowIndex){
+        looper(cols, 
+          (int colIndex){
+            
+          }
+        );
+      }
+    );
+  }
+
   static List<List<T>> transposeList<T>(
     List<List<T>> originalList,
   ){
