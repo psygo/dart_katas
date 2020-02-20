@@ -10,12 +10,8 @@ import '../mocks/tic_tac_toe_mocks.dart';
 // Then  : the game must recognize who won.
 // TODO: Refactor the playSymbol in the tests to avoid duplication
 // TODO: how does async_redux use given-when-then?
+// TODO: check the expects of the boards for the winning scenarios
 
-const String fristBddTest = '''\n
-    Given : a board
-    When  : player completes row, column or diagonal
-    Then  : the game recognizes who won
-    ''';
 
 void main(){
 
@@ -25,74 +21,71 @@ void main(){
     _game = TicTacToeGame();
   });
 
-  group(
-    'First BDD Tests', (){
-      test('Empty board', (){
-        expect(_game.board, emptyBoard);
-      });
+  group('First BDD Tests', (){
 
-      test('Current symbol getter', (){
-        expect(_game.currentSymbol, TicTacToeInterface.defaultX);
-      });
+    void _playMoves(
+      List<List<int>> moves,
+    ){
+      moves.forEach(
+        (List<int> move){
+          _game.playSymbol(position: move);
+        }
+      );
+    }
 
-      test('First move', (){
-        _game.playSymbol(position: [0, 1]);
+    test('Empty board', (){
+      expect(_game.board, emptyBoard);
+    });
 
-        expect(_game.board, firstMove);
-      });
+    test('Current symbol getter', (){
+      expect(_game.currentSymbol, TicTacToeInterface.defaultX);
+    });
 
-      test('Second move', (){
-        _game.playSymbol(position: [0, 1]);
-        _game.playSymbol(position: [0, 2]);
+    test('First move', (){
+      _playMoves(firstMovePlays);
 
-        expect(_game.board, secondMove);
-      });
+      expect(_game.board, firstMoveBoard);
+    });
 
-      test('Error when trying to override a position', (){
-        _game.playSymbol(position: [0, 1]);
+    test('Second move', (){
+      _playMoves(secondMovePlays);
 
-        expect(() => _game.playSymbol(position: [0, 1]), throwsArgumentError);
-      });
+      expect(_game.board, secondMoveBoard);
+    });
 
-      test('Simple horizontal win', (){
-        _game.playSymbol(position: [0, 0]);
-        _game.playSymbol(position: [1, 0]);
-        _game.playSymbol(position: [0, 1]);
-        _game.playSymbol(position: [1, 1]);
-        _game.playSymbol(position: [0, 2]);
+    test('Error when trying to override a position', (){
+      _playMoves(firstMovePlays);
 
-        expect(_game.winner, 'X wins.');
-      });
+      expect(() => _playMoves(firstMovePlays), throwsArgumentError);
+    });
 
-      test('Simple vertical win', (){
-        _game.playSymbol(position: [0, 0]);
-        _game.playSymbol(position: [0, 1]);
-        _game.playSymbol(position: [1, 0]);
-        _game.playSymbol(position: [1, 1]);
-        _game.playSymbol(position: [2, 0]);
+    test('Simple horizontal win', (){
+      _playMoves(simpleHorizontalWinPlays);
 
-        expect(_game.winner, 'X wins.');
-      });
+      expect(_game.winner, 'X wins.');
+    });
 
-      test('Simple normal diagonal win', (){
-        _game.playSymbol(position: [0, 0]);
-        _game.playSymbol(position: [0, 1]);
-        _game.playSymbol(position: [1, 1]);
-        _game.playSymbol(position: [0, 2]);
-        _game.playSymbol(position: [2, 2]);
+    test('Simple vertical win', (){
+      _playMoves(simpleVerticalWinPlays);
 
-        expect(_game.winner, 'X wins.');
-      });
+      expect(_game.winner, 'X wins.');
+    });
 
-      test('Simple reverse diagonal win', (){
-        _game.playSymbol(position: [0, 2]);
-        _game.playSymbol(position: [0, 0]);
-        _game.playSymbol(position: [1, 1]);
-        _game.playSymbol(position: [0, 1]);
-        _game.playSymbol(position: [2, 0]);
+    test('Simple normal diagonal win', (){
+      _playMoves(simpleNormalDiagonalWinPlays);
 
-        expect(_game.winner, 'X wins.');
-      });
+      expect(_game.winner, 'X wins.');
+    });
+
+    test('Simple reverse diagonal win', (){
+      _playMoves(simpleReverseDiagonalWinPlays);
+
+      expect(_game.winner, 'X wins.');
+    });
+
+    test('Simple tie', (){
+
+    });
   });
 
 }
