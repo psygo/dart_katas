@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 
+import '../../lib/tic_tac_toe/exceptions.dart';
 import '../../lib/tic_tac_toe/tic_tac_toe.dart';
 import '../mocks/tic_tac_toe_mocks.dart';
 
@@ -56,8 +57,8 @@ void main(){
 
     test('Error when trying to override a position', (){
       _playMoves(firstMovePlays);
-
-      expect(() => _playMoves(firstMovePlays), throwsArgumentError);
+      
+      expect(() => _playMoves(firstMovePlays), throwsSpaceAlreadyFilledException);
     });
 
     test('Simple horizontal win', (){

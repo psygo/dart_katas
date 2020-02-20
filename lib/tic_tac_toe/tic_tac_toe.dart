@@ -100,6 +100,7 @@ class TicTacToeGame implements TicTacToeInterface {
       _updateStatusOfCell(rowIndex, colIndex);
 
       _checkIfWinner();
+      _checkTie();
 
       _currentSymbol = _switchStatus(_currentSymbol);
     } else {
@@ -116,12 +117,28 @@ class TicTacToeGame implements TicTacToeInterface {
       cell.status = _currentSymbol;
     } else {
       final String statusAsString = _statusToString(cell.status);
-      throw ArgumentError('Space already filled by $statusAsString.');
+      throw 
+        SpaceAlreadyFilledException('Space already filled by $statusAsString.');
     }
   }
 
   Status _switchStatus(Status currentSymbol) 
     => currentSymbol == Status.o ? Status.x : Status.o;
+
+  void _checkTie(){
+    BoardUtils.looper(_rows, 
+      (int rowIndex){
+        BoardUtils.looper(_cols, 
+          (int colIndex){
+            
+          }
+        );
+      }
+    );
+  }
+
+  int get _rows => _board.length;
+  int get _cols => _board.first.length;
 
   void _checkIfWinner(){
     _checkHorizontalWin();
@@ -130,7 +147,7 @@ class TicTacToeGame implements TicTacToeInterface {
   }
 
   void _checkHorizontalWin(){
-    BoardUtils.looper(_boardSize, 
+    BoardUtils.looper(_board.first.length, 
       (int rowIndex){
         final Set<Cell> rowSet = _reduceListToSet(_board[rowIndex]);
         _updateIfWinner(rowSet);
@@ -140,7 +157,7 @@ class TicTacToeGame implements TicTacToeInterface {
 
   void _checkVerticalWin(){
     List<List<Cell>> transposedBoard = BoardUtils.transposeList(_board);
-    BoardUtils.looper(_boardSize, 
+    BoardUtils.looper(_board.length, 
       (int colIndex){
         final Set<Cell> colSet = _reduceListToSet(transposedBoard[colIndex]);
         _updateIfWinner(colSet);
