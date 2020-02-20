@@ -101,6 +101,8 @@ class TicTacToeGame implements TicTacToeInterface {
       _checkIfWinner();
 
       _currentSymbol = _switchStatus(_currentSymbol);
+    } else {
+      throw GameAlreadyEndedException('The game has already ended.');
     }
   }
 

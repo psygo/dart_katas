@@ -14,3 +14,12 @@ class CellToStringException implements Exception {
   CellToStringException(this.cause);
 
 }
+
+
+class GameAlreadyEndedException implements Exception {
+
+  String cause;
+
+  GameAlreadyEndedException(this.cause);
+
+}
