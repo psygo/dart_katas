@@ -18,6 +18,7 @@ class Cell {
 
   Status get status => _status;
   bool get isEmpty => _status == Status.empty;
+  bool get isNotEmpty => !isEmpty;
 
   void set status(
     Status newStatus

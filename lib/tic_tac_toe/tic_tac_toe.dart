@@ -5,7 +5,6 @@ import 'cell.dart';
 import 'exceptions.dart';
 
 
-// TODO: Implement tie
 // TODO: Convert gameFinished to a Stream
 
 
@@ -31,6 +30,7 @@ class TicTacToeGame implements TicTacToeInterface {
   final int _boardSize;
   final List<List<Cell>> _board = [];
   Status _currentSymbol;
+  bool _isTie = false;
   Status _winner = Status.empty;
 
   TicTacToeGame({
@@ -59,14 +59,17 @@ class TicTacToeGame implements TicTacToeInterface {
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
   String get currentSymbol => _statusToString(_currentSymbol);
-  bool get _gameNotFinished => !gameFinished;
+  int get _rows => _board.length;
+  int get _cols => _board.first.length;
 
   @override 
-  bool get gameFinished => _winner != Status.empty;
+  bool get gameFinished => _winner != Status.empty || _isTie;
+  bool get _gameNotFinished => !gameFinished;
 
   @override
   String get winner {
-    switch (_winner){
+    if (_isTie) return 'It\'s a tie!';
+    else switch (_winner){
       case Status.empty:
         return 'No winner yet.';
         break;
@@ -126,19 +129,21 @@ class TicTacToeGame implements TicTacToeInterface {
     => currentSymbol == Status.o ? Status.x : Status.o;
 
   void _checkTie(){
+    int filledCells = 0;
+
     BoardUtils.looper(_rows, 
       (int rowIndex){
         BoardUtils.looper(_cols, 
           (int colIndex){
-            
+            final Cell cell = _board[rowIndex][colIndex];
+            if (cell.isNotEmpty) filledCells++;
           }
         );
       }
     );
-  }
 
-  int get _rows => _board.length;
-  int get _cols => _board.first.length;
+    if (filledCells == _rows * _cols) _isTie = true;
+  }
 
   void _checkIfWinner(){
     _checkHorizontalWin();

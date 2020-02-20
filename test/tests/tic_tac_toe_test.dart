@@ -57,7 +57,7 @@ void main(){
 
     test('Error when trying to override a position', (){
       _playMoves(firstMovePlays);
-      
+
       expect(() => _playMoves(firstMovePlays), throwsSpaceAlreadyFilledException);
     });
 
@@ -92,7 +92,7 @@ void main(){
     test('Simple tie', (){
       _playMoves(simpleTieMoves);
 
-      expect(_game.winner, 'It\'s a tie');
+      expect(_game.winner, 'It\'s a tie!');
       expect(_game.board, simpleTieBoard);
     });
   });
