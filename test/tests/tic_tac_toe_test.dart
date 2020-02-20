@@ -58,7 +58,10 @@ void main(){
     test('Error when trying to override a position', (){
       _playMoves(firstMovePlays);
 
-      expect(() => _playMoves(firstMovePlays), throwsSpaceAlreadyFilledException);
+      expect(
+        () => _playMoves(firstMovePlays), 
+        throwsSpaceAlreadyFilledException
+      );
     });
 
     test('Simple horizontal win', (){
@@ -94,6 +97,18 @@ void main(){
 
       expect(_game.winner, 'It\'s a tie!');
       expect(_game.board, simpleTieBoard);
+    });
+
+    test('Bigger board simple horizontal win with second player', (){
+      final TicTacToeGame customGame = TicTacToeGame(boardSize: 4);
+      simpleHorizontalWinBiggerMoves.forEach(
+        (List<int> move){
+          customGame.playSymbol(position: move);
+        }
+      );
+
+      expect(customGame.winner, 'O wins.');
+      expect(customGame.board, simpleHorizontalWinBiggerBoard);
     });
   });
 

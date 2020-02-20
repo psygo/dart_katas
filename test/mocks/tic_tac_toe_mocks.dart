@@ -91,3 +91,20 @@ const String simpleTieBoard = '''\n
  X | X | O
  O | O | X
 ''';
+
+const List<List<int>> simpleHorizontalWinBiggerMoves = [
+  [0, 0],
+  [1, 0],
+  [0, 1],
+  [1, 1],
+  [0, 2],
+  [1, 2],
+  [2, 0],
+  [1, 3],
+];
+const String simpleHorizontalWinBiggerBoard = '''\n
+ X | X | X |  
+ O | O | O | O
+ X |   |   |  
+   |   |   |  
+''';
