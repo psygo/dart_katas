@@ -6,6 +6,7 @@ import 'exceptions.dart';
 
 
 // TODO: Implement tie
+// TODO: Convert gameFinished to a Stream
 
 
 abstract class TicTacToeInterface {

@@ -39,9 +39,9 @@ const String simpleHorizontalWinBoard = '''\n
 const List<List<int>> simpleVerticalWinPlays = [
   [0, 0],
   [0, 1],
+  [1, 0],
   [1, 1],
-  [0, 2],
-  [2, 2],
+  [2, 0],
 ];
 const String simpleVerticalWinBoard = '''\n
  X | O |  
@@ -73,4 +73,21 @@ const String simpleReverseDiagonalWinBoard = '''\n
  O | O | X
    | X |  
  X |   |  
+''';
+
+const List<List<int>> simpleTieMoves = [
+  [0, 2],
+  [0, 0],
+  [1, 1],
+  [2, 0],
+  [1, 0],
+  [1, 2],
+  [0, 1],
+  [2, 1],
+  [2, 2],
+];
+const String simpleTieBoard = '''\n
+ O | X | X
+ X | X | O
+ O | O | X
 ''';

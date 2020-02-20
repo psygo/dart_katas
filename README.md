@@ -20,6 +20,7 @@ These are coding exercises meant to sharpen your programming abilities, analogou
         - Only using bases up to `sqrt(N)`.
         - Starting the sieve on the base from `base^2`.
 1. [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe)
+    - The `gameFinished` boolean with the status of the game should actually be some sort of *stream* or *subject*, this way the end-user could *observe* the status of the game and be updated in real-time.
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 

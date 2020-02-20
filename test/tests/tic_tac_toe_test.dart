@@ -10,7 +10,8 @@ import '../mocks/tic_tac_toe_mocks.dart';
 // Then  : the game must recognize who won.
 // TODO: Refactor the playSymbol in the tests to avoid duplication
 // TODO: how does async_redux use given-when-then?
-// TODO: check the expects of the boards for the winning scenarios
+// TODO: test tie
+// TODO: Test a bigger board size
 
 
 void main(){
@@ -63,28 +64,35 @@ void main(){
       _playMoves(simpleHorizontalWinPlays);
 
       expect(_game.winner, 'X wins.');
+      expect(_game.board, simpleHorizontalWinBoard);
     });
 
     test('Simple vertical win', (){
       _playMoves(simpleVerticalWinPlays);
 
       expect(_game.winner, 'X wins.');
+      expect(_game.board, simpleVerticalWinBoard);
     });
 
     test('Simple normal diagonal win', (){
       _playMoves(simpleNormalDiagonalWinPlays);
 
       expect(_game.winner, 'X wins.');
+      expect(_game.board, simpleNormalDiagonalWinBoard);
     });
 
     test('Simple reverse diagonal win', (){
       _playMoves(simpleReverseDiagonalWinPlays);
 
       expect(_game.winner, 'X wins.');
+      expect(_game.board, simpleReverseDiagonalWinBoard);
     });
 
     test('Simple tie', (){
+      _playMoves(simpleTieMoves);
 
+      expect(_game.winner, 'It\'s a tie');
+      expect(_game.board, simpleTieBoard);
     });
   });
 
