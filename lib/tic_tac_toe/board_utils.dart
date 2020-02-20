@@ -3,6 +3,9 @@ import 'dart:math';
 import 'cell.dart';
 
 
+// TODO: eliminate doubleLooper if it isn't used in the end
+
+
 class BoardUtils {
 
   static void looper(
@@ -15,12 +18,13 @@ class BoardUtils {
   }
 
   static void doubleLooper(
-    int totalLoops,
+    int totalOuterLoops,
+    int totalInnerLoops,
     Function(int outerLoopIndex, int innerLoopIndex) function,
   ){
-    looper(totalLoops, 
+    looper(totalOuterLoops, 
       (int outerLoopIndex){
-        looper(totalLoops, 
+        looper(totalInnerLoops, 
           (int innerLoopIndex){
             function(outerLoopIndex, innerLoopIndex);
           }
@@ -53,7 +57,7 @@ class BoardUtils {
     );
   }
 
-  static List<List<String>> cellBoardToStringBoard(
+  static String cellBoardToStringBoard(
     List<List<Cell>> cellBoard,
     String symbolX,
     String symbolO,
@@ -61,16 +65,39 @@ class BoardUtils {
   ){
     final int rows = cellBoard.length;
     final int cols = cellBoard.first.length;
+    const String doubleEnterFormatter = '\n\n';
+    const String space = ' ';
+    const String gridSpacer = ' | ';
+    String stringBoard = doubleEnterFormatter;
 
     looper(rows, 
       (int rowIndex){
+        String stringRow = space;
         looper(cols, 
           (int colIndex){
-            
+            final Cell cell = cellBoard[rowIndex][colIndex];
+            switch (cell.status) {
+              case Status.empty:
+                stringRow += symbolEmpty;
+                break;
+              case Status.x:
+                stringRow += symbolX;
+                break;
+              case Status.o:
+                stringRow += symbolO;
+                break;
+              default:
+                throw Exception;
+            }
+            if (colIndex < cols - 1) stringRow += gridSpacer;
           }
         );
+        stringRow += '\n';
+        stringBoard += stringRow;
       }
     );
+
+    return stringBoard;
   }
 
   static List<List<T>> transposeList<T>(

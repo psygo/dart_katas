@@ -4,8 +4,8 @@ import 'board_utils.dart';
 import 'cell.dart';
 
 
-// TODO: create a parser from List<List<Cell>> to List<List<String>>
 // TODO: Implement a custom Exception class for the Winner's error
+// TODO: Implement tie
 
 
 abstract class TicTacToeInterface {
@@ -13,11 +13,6 @@ abstract class TicTacToeInterface {
   static const String defaultO = 'O';
   static const String defaultEmpty = ' ';
   static const int defaultBoardSize = 3;
-  static const String emptyIndexedBoard = '''\n
-   00 | 01 | 02
-   10 | 11 | 12
-   20 | 21 | 22
-  ''';
 
   void playSymbol();
   String get board;
@@ -30,6 +25,7 @@ class TicTacToeGame implements TicTacToeInterface {
 
   final String _symbolX;
   final String _symbolO;
+  final String _symbolEmpty;
   final String _startingSymbol;
   final int _boardSize;
   final List<List<Cell>> _board = [];
@@ -39,11 +35,13 @@ class TicTacToeGame implements TicTacToeInterface {
   TicTacToeGame({
     String symbolX,
     String symbolO,
+    String symbolEmpty,
     String startingSymbol,
     int boardSize,
   }):
     _symbolX = symbolX ?? TicTacToeInterface.defaultX,
     _symbolO = symbolO ?? TicTacToeInterface.defaultO,
+    _symbolEmpty = symbolEmpty ?? TicTacToeInterface.defaultEmpty,
     _boardSize = boardSize ?? TicTacToeInterface.defaultBoardSize,
     _startingSymbol = startingSymbol ?? TicTacToeInterface.defaultX
   {
@@ -84,42 +82,10 @@ class TicTacToeGame implements TicTacToeInterface {
 
   @override
   String get board {
-    String stringBoard = TicTacToeInterface.emptyIndexedBoard;
+    String stringBoard = BoardUtils
+      .cellBoardToStringBoard(_board, _symbolX, _symbolO, _symbolEmpty);
 
-    BoardUtils.doubleLooper(_boardSize, 
-      (int rowIndex, int colIndex){
-        final String indicesAsString = _stringifyRowCol(rowIndex, colIndex);
-        final Status cellStatus = _cellStatusFromIndex(rowIndex, colIndex);
-        stringBoard = 
-          _replaceIndexWithStatus(stringBoard, indicesAsString, cellStatus);
-      }
-    );
     return stringBoard;
-  }
-
-  String _stringifyRowCol(int rowIndex, int colIndex) => '$rowIndex$colIndex';
-  Status _cellStatusFromIndex(int rowIndex, int colIndex) => 
-    _board[rowIndex][colIndex].status;
-
-  String _replaceIndexWithStatus(
-    String stringBoard,
-    String indicesAsString,
-    Status cellStatus,
-  ){
-    switch (cellStatus){
-      case Status.empty: 
-        return stringBoard
-          .replaceFirst(indicesAsString, TicTacToeInterface.defaultEmpty);
-        break;
-      case Status.x:
-        return stringBoard.replaceFirst(indicesAsString, _symbolX);
-        break;
-      case Status.o: 
-        return stringBoard.replaceFirst(indicesAsString, _symbolO);
-        break;
-      default:
-        return TicTacToeInterface.defaultEmpty;
-    }
   }
 
   @override
