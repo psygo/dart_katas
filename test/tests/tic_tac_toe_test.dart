@@ -5,14 +5,8 @@ import '../../lib/tic_tac_toe/tic_tac_toe.dart';
 import '../mocks/tic_tac_toe_mocks.dart';
 
 
-// TODO: 
-// Given : an almost winning board, 
-// When  : a player completes a row, a column or a diagonal, 
-// Then  : the game must recognize who won.
-// TODO: Refactor the playSymbol in the tests to avoid duplication
-// TODO: how does async_redux use given-when-then?
-// TODO: test tie
-// TODO: Test a bigger board size
+// TODO: Refactor the tests into more cohesive groups
+// TODO: create a mock table to avoid duplication
 
 
 void main(){
@@ -23,18 +17,17 @@ void main(){
     _game = TicTacToeGame();
   });
 
-  group('First BDD Tests', (){
+  void _playMoves(
+    List<List<int>> moves,
+  ){
+    moves.forEach(
+      (List<int> move){
+        _game.playSymbol(position: move);
+      }
+    );
+  }
 
-    void _playMoves(
-      List<List<int>> moves,
-    ){
-      moves.forEach(
-        (List<int> move){
-          _game.playSymbol(position: move);
-        }
-      );
-    }
-
+  group('API test', (){
     test('Empty board', (){
       expect(_game.board, emptyBoard);
     });
@@ -42,7 +35,20 @@ void main(){
     test('Current symbol getter', (){
       expect(_game.currentSymbol, TicTacToeInterface.defaultX);
     });
+  });
 
+  group('Error triggering', (){
+    test('Error when trying to override a position', (){
+      _playMoves(firstMovePlays);
+
+      expect(
+        () => _playMoves(firstMovePlays), 
+        throwsSpaceAlreadyFilledException
+      );
+    });
+  });
+
+  group('First BDD Tests', (){
     test('First move', (){
       _playMoves(firstMovePlays);
 
@@ -53,15 +59,6 @@ void main(){
       _playMoves(secondMovePlays);
 
       expect(_game.board, secondMoveBoard);
-    });
-
-    test('Error when trying to override a position', (){
-      _playMoves(firstMovePlays);
-
-      expect(
-        () => _playMoves(firstMovePlays), 
-        throwsSpaceAlreadyFilledException
-      );
     });
 
     test('Simple horizontal win', (){

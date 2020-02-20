@@ -5,9 +5,6 @@ import 'cell.dart';
 import 'exceptions.dart';
 
 
-// TODO: Convert gameFinished to a Stream
-
-
 abstract class TicTacToeInterface {
   static const String defaultX = 'X';
   static const String defaultO = 'O';
