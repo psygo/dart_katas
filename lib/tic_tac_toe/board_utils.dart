@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'cell.dart';
-import 'tic_tac_toe.dart';
 
 
 class BoardUtils {

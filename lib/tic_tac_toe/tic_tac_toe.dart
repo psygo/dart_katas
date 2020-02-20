@@ -6,8 +6,6 @@ import 'cell.dart';
 
 // TODO: create a parser from List<List<Cell>> to List<List<String>>
 // TODO: Implement a custom Exception class for the Winner's error
-// TODO: Refactor the rules to avoid duplication
-// TODO: Turn the _gameNotFinished property into a getter or method
 
 
 abstract class TicTacToeInterface {
@@ -24,6 +22,7 @@ abstract class TicTacToeInterface {
   void playSymbol();
   String get board;
   String get winner;
+  bool get gameFinished;
 }
 
 
@@ -61,6 +60,9 @@ class TicTacToeGame implements TicTacToeInterface {
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
   String get currentSymbol => _statusToString(_currentSymbol);
+  bool get _gameNotFinished => !gameFinished;
+
+  @override 
   bool get gameFinished => _winner != Status.empty;
 
   @override
@@ -124,7 +126,7 @@ class TicTacToeGame implements TicTacToeInterface {
   void playSymbol({
     @required List<int> position,
   }){
-    if (!gameFinished){
+    if (_gameNotFinished){
       final int rowIndex = position[0];
       final int colIndex = position[1];
 
