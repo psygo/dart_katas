@@ -7,7 +7,13 @@ import 'cell.dart';
 // TODO: parameterize the construction of the empty indexed board
 
 
-class TicTacToeGame {
+abstract class TicTacToeInterface {
+  void playSymbol();
+  String get board;
+}
+
+
+class TicTacToeGame implements TicTacToeInterface {
 
   static const String defaultX = 'X';
   static const String defaultO = 'O';
@@ -84,6 +90,7 @@ class TicTacToeGame {
     }
   }
 
+  @override
   String get board {
     String stringBoard = emptyIndexedBoard;
 
@@ -122,6 +129,7 @@ class TicTacToeGame {
     }
   }
 
+  @override
   void playSymbol({
     @required List<int> position,
   }){
