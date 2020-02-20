@@ -26,7 +26,11 @@ class Cell {
     _status = newStatus;
   }
 
+  @override
   bool operator ==(otherObject) => 
     otherObject is Cell && otherObject.status == _status;
+
+  @override
+  int get hashCode => _status.hashCode;
 
 }
