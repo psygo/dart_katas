@@ -35,7 +35,6 @@ class TicTacToeGame implements TicTacToeInterface {
   final int _boardSize;
   final List<List<Cell>> _board = [];
   Status _currentSymbol;
-  bool _gameNotFinished = true;
   Status _winner = Status.empty;
 
   TicTacToeGame({
@@ -62,6 +61,7 @@ class TicTacToeGame implements TicTacToeInterface {
   String get symbolO => _symbolO;
   String get startingSymbol => _startingSymbol;
   String get currentSymbol => _statusToString(_currentSymbol);
+  bool get gameFinished => _winner != Status.empty;
 
   @override
   String get winner {
@@ -124,7 +124,7 @@ class TicTacToeGame implements TicTacToeInterface {
   void playSymbol({
     @required List<int> position,
   }){
-    if (_gameNotFinished){
+    if (!gameFinished){
       final int rowIndex = position[0];
       final int colIndex = position[1];
 
@@ -162,10 +162,7 @@ class TicTacToeGame implements TicTacToeInterface {
     BoardUtils.looper(_boardSize, 
       (int rowIndex){
         final Set<Cell> rowSet = _reduceListToSet(_board[rowIndex]);
-        if (_setIsNormalizedAndNotEmpty(rowSet)) {
-          _winner = rowSet.first.status;
-          _gameNotFinished = false;
-        }
+        _updateIfWinner(rowSet);
       }
     );
   }
@@ -175,10 +172,7 @@ class TicTacToeGame implements TicTacToeInterface {
     BoardUtils.looper(_boardSize, 
       (int colIndex){
         final Set<Cell> colSet = _reduceListToSet(transposedBoard[colIndex]);
-        if (_setIsNormalizedAndNotEmpty(colSet)) {
-          _winner = colSet.first.status;
-          _gameNotFinished = false;
-        }
+        _updateIfWinner(colSet);
       }
     );
   }
@@ -191,23 +185,23 @@ class TicTacToeGame implements TicTacToeInterface {
   void _checkNormalDiagonalWin(){
     final List<Cell> normalDiagonal = BoardUtils.extractNormalDiagonal(_board);
     final Set<Cell> normalDiagonalSet = _reduceListToSet(normalDiagonal);
-    if (_setIsNormalizedAndNotEmpty(normalDiagonalSet)){
-      _winner = normalDiagonal.first.status;
-      _gameNotFinished = false;
-    }
+    _updateIfWinner(normalDiagonalSet);
   }
 
   void _checkReverseDiagonalWin(){
-    final List<Cell> reverseDiagonal = BoardUtils.extractReverseDiagonal(_board);
+    final List<Cell> reverseDiagonal 
+      = BoardUtils.extractReverseDiagonal(_board);
     final Set<Cell> reverseDiagonalSet = _reduceListToSet(reverseDiagonal);
-    if (_setIsNormalizedAndNotEmpty(reverseDiagonalSet)){
-      _winner = reverseDiagonalSet.first.status;
-      _gameNotFinished = false;
-    }
+    _updateIfWinner(reverseDiagonalSet);
   }
 
   Set<T> _reduceListToSet<T>(List<T> list) => Set<T>.from(list);
+
   bool _setIsNormalizedAndNotEmpty(Set<Cell> cellSet) 
     => cellSet.length == 1 && cellSet.first.status != Status.empty;
+
+  void _updateIfWinner(Set<Cell> cellSet){
+    if (_setIsNormalizedAndNotEmpty(cellSet)) _winner = cellSet.first.status;
+  }
 
 }
