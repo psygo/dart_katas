@@ -3,9 +3,6 @@ import 'dart:math';
 import 'cell.dart';
 
 
-// TODO: eliminate doubleLooper if it isn't used in the end
-
-
 class BoardUtils {
 
   static void looper(
@@ -15,22 +12,6 @@ class BoardUtils {
     for (int loopIndex = 0; loopIndex < totalLoops; loopIndex++){
       function(loopIndex);
     }
-  }
-
-  static void doubleLooper(
-    int totalOuterLoops,
-    int totalInnerLoops,
-    Function(int outerLoopIndex, int innerLoopIndex) function,
-  ){
-    looper(totalOuterLoops, 
-      (int outerLoopIndex){
-        looper(totalInnerLoops, 
-          (int innerLoopIndex){
-            function(outerLoopIndex, innerLoopIndex);
-          }
-        );
-      }
-    );
   }
 
   static List<Cell> _emptyCellRow(
