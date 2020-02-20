@@ -5,17 +5,15 @@ import '../../lib/tic_tac_toe/tic_tac_toe.dart';
 import '../mocks/tic_tac_toe_mocks.dart';
 
 
-// TODO: Refactor the tests into more cohesive groups
-// TODO: create a mock table to avoid duplication
-
-
 void main(){
 
   TicTacToeGame _game;
 
-  setUp((){
-    _game = TicTacToeGame();
-  });
+  _gameInitialization({
+    int boardSize = TicTacToeInterface.defaultBoardSize,
+  }){
+    _game = TicTacToeGame(boardSize: boardSize);
+  }
 
   void _playMoves(
     List<List<int>> moves,
@@ -28,6 +26,10 @@ void main(){
   }
 
   group('API test', (){
+    setUp((){
+      _gameInitialization();
+    });
+
     test('Empty board', (){
       expect(_game.board, emptyBoard);
     });
@@ -38,6 +40,10 @@ void main(){
   });
 
   group('Error triggering', (){
+    setUp((){
+      _gameInitialization();
+    });
+
     test('Error when trying to override a position', (){
       _playMoves(firstMovePlays);
 
@@ -65,16 +71,15 @@ void main(){
   });
 
   group('Other board formats', (){
-    test('Bigger (4x4) board simple horizontal win with second player', (){
-      final TicTacToeGame customGame = TicTacToeGame(boardSize: 4);
-      simpleHorizontalWinBiggerMoves.forEach(
-        (List<int> move){
-          customGame.playSymbol(position: move);
-        }
-      );
+    setUp((){
+      _gameInitialization(boardSize: 4);
+    });
 
-      expect(customGame.winner, oWinsMsg);
-      expect(customGame.board, simpleHorizontalWinBiggerBoard);
+    test('Bigger (4x4) board simple horizontal win with second player', (){
+      _playMoves(simpleHorizontalWinBiggerMoves);
+
+      expect(_game.winner, oWinsMsg);
+      expect(_game.board, simpleHorizontalWinBiggerBoard);
     });
   });
 
