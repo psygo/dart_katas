@@ -1,3 +1,21 @@
+import '../../lib/tic_tac_toe/tic_tac_toe.dart';
+
+
+final Map<List<List<int>>, List<dynamic>> movesByWinningStatusAndBoard = {
+  firstMovePlays: [noWinnerMsg, firstMoveBoard],
+  secondMovePlays: [noWinnerMsg, secondMoveBoard],
+  simpleHorizontalWinPlays: [xWinsMsg, simpleHorizontalWinBoard],
+  simpleVerticalWinPlays: [xWinsMsg, simpleVerticalWinBoard],
+  simpleNormalDiagonalWinPlays: [xWinsMsg, simpleNormalDiagonalWinBoard],
+  simpleReverseDiagonalWinPlays: [xWinsMsg, simpleReverseDiagonalWinBoard],
+  simpleTieMoves: [tieMsg, simpleTieBoard],
+};
+
+final String noWinnerMsg = TicTacToeInterface.defaultNoWinnerMsg;
+final String xWinsMsg = 'X' + TicTacToeInterface.defaultWinsMsg;
+final String oWinsMsg = 'O' + TicTacToeInterface.defaultWinsMsg;
+final String tieMsg = TicTacToeInterface.defaultTieMsg;
+
 const String emptyBoard = '''\n
    |   |  
    |   |  

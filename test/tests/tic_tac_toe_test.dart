@@ -48,55 +48,24 @@ void main(){
     });
   });
 
-  group('First BDD Tests', (){
-    test('First move', (){
-      _playMoves(firstMovePlays);
+  group('Move plays and winning scenarios', (){
+    test('Test move variations vs winning status and board configuration', (){
+      movesByWinningStatusAndBoard.forEach(
+        (List<List<int>> moves, List<dynamic> winningStatusAndBoard){
+          _game = TicTacToeGame();
+          final String winningStatus = winningStatusAndBoard[0];
+          final String finalBoard = winningStatusAndBoard[1];
 
-      expect(_game.board, firstMoveBoard);
+          _playMoves(moves);
+          expect(_game.winner, winningStatus);
+          expect(_game.board, finalBoard);
+        }
+      );
     });
+  });
 
-    test('Second move', (){
-      _playMoves(secondMovePlays);
-
-      expect(_game.board, secondMoveBoard);
-    });
-
-    test('Simple horizontal win', (){
-      _playMoves(simpleHorizontalWinPlays);
-
-      expect(_game.winner, 'X wins.');
-      expect(_game.board, simpleHorizontalWinBoard);
-    });
-
-    test('Simple vertical win', (){
-      _playMoves(simpleVerticalWinPlays);
-
-      expect(_game.winner, 'X wins.');
-      expect(_game.board, simpleVerticalWinBoard);
-    });
-
-    test('Simple normal diagonal win', (){
-      _playMoves(simpleNormalDiagonalWinPlays);
-
-      expect(_game.winner, 'X wins.');
-      expect(_game.board, simpleNormalDiagonalWinBoard);
-    });
-
-    test('Simple reverse diagonal win', (){
-      _playMoves(simpleReverseDiagonalWinPlays);
-
-      expect(_game.winner, 'X wins.');
-      expect(_game.board, simpleReverseDiagonalWinBoard);
-    });
-
-    test('Simple tie', (){
-      _playMoves(simpleTieMoves);
-
-      expect(_game.winner, 'It\'s a tie!');
-      expect(_game.board, simpleTieBoard);
-    });
-
-    test('Bigger board simple horizontal win with second player', (){
+  group('Other board formats', (){
+    test('Bigger (4x4) board simple horizontal win with second player', (){
       final TicTacToeGame customGame = TicTacToeGame(boardSize: 4);
       simpleHorizontalWinBiggerMoves.forEach(
         (List<int> move){
@@ -104,7 +73,7 @@ void main(){
         }
       );
 
-      expect(customGame.winner, 'O wins.');
+      expect(customGame.winner, oWinsMsg);
       expect(customGame.board, simpleHorizontalWinBiggerBoard);
     });
   });

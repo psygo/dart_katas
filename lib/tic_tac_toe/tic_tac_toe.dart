@@ -10,8 +10,12 @@ abstract class TicTacToeInterface {
   static const String defaultO = 'O';
   static const String defaultEmpty = ' ';
   static const int defaultBoardSize = 3;
+  static const String defaultNoWinnerMsg = 'No winner yet.';
+  static const String defaultWinsMsg = ' wins.';
+  static const String defaultTieMsg = 'It\'s a tie!';
 
   void playSymbol();
+
   String get board;
   String get winner;
   bool get gameFinished;
@@ -65,16 +69,16 @@ class TicTacToeGame implements TicTacToeInterface {
 
   @override
   String get winner {
-    if (_isTie) return 'It\'s a tie!';
+    if (_isTie) return TicTacToeInterface.defaultTieMsg;
     else switch (_winner){
       case Status.empty:
-        return 'No winner yet.';
+        return TicTacToeInterface.defaultNoWinnerMsg;
         break;
       case Status.x:
-        return '$_symbolX wins.';
+        return _symbolX + TicTacToeInterface.defaultWinsMsg;
         break;
       case Status.o:
-        return '$_symbolO wins.';
+        return _symbolO + TicTacToeInterface.defaultWinsMsg;
         break;
       default:
         throw WinnerException('There should be either a winner or no winner.');
