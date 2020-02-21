@@ -9,7 +9,7 @@ void main(){
 
   TicTacToeGame _game;
 
-  _gameInitialization({
+  void _gameInitialization({
     int boardSize = TicTacToeInterface.defaultBoardSize,
   }){
     _game = TicTacToeGame(boardSize: boardSize);
