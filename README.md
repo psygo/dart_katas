@@ -7,9 +7,9 @@ All of the katas were done using TDD, meaning they are not only tested by were t
 ## Featured Katas
 
 1. [Prime Factors](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata)
-    - By Object Mentor (probably Robert C. Martin, aka Uncle Bob).
+    - By Object Mentor (probably, hopefully Robert C. Martin, aka Uncle Bob).
 1. [Bowling Game](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata)
-    - By Object Mentor (probably Robert C. Martin, aka Uncle Bob).
+    - By Object Mentor (probably, hopefully Robert C. Martin, aka Uncle Bob).
 1. [Conway's Game of Life](http://codingdojo.org/kata/GameOfLife/)
     - By me, without any prior knowledge, except for the rules themselves.
     - Since I struggle a bit when learning some of the more advanced Dart features &mdash; and because I created considerable overhead with the `GridParser` class &mdash;, this particular kata took me about 2 days to complete.

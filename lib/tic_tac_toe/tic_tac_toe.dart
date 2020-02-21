@@ -104,7 +104,7 @@ class TicTacToeGame implements TicTacToeInterface {
       _updateStatusOfCell(rowIndex, colIndex);
 
       _checkIfWinner();
-      _checkTie();
+      _checkIfTie();
 
       _currentSymbol = _switchStatus(_currentSymbol);
     } else {
@@ -129,7 +129,7 @@ class TicTacToeGame implements TicTacToeInterface {
   Status _switchStatus(Status currentSymbol) 
     => currentSymbol == Status.o ? Status.x : Status.o;
 
-  void _checkTie(){
+  void _checkIfTie(){
     int filledCells = 0;
 
     BoardUtils.looper(_rows, 
@@ -143,8 +143,10 @@ class TicTacToeGame implements TicTacToeInterface {
       }
     );
 
-    if (filledCells == _rows * _cols) _isTie = true;
+    if (_boardIsFilled(filledCells)) _isTie = true;
   }
+
+  bool _boardIsFilled(int filledCells) => filledCells == _rows * _cols;
 
   void _checkIfWinner(){
     _checkHorizontalWin();

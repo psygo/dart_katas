@@ -86,12 +86,14 @@ class BoardUtils {
     List<List<T>> originalList,
   ){
     final List<List<T>> transposedList = [];
+    final int rows = originalList.length;
+    final int cols = originalList.first.length;
 
-    looper(originalList.first.length, 
+    looper(cols, 
       (int colIndex){
         final List<T> transposedRow = [];
 
-        looper(originalList.length, 
+        looper(rows, 
           (int rowIndex){
             transposedRow.add(originalList[rowIndex][colIndex]);
           }
@@ -124,10 +126,11 @@ class BoardUtils {
   static List<T> extractReverseDiagonal<T>(
     List<List<T>> originalList,
   ){
+    final int rows = originalList.length;
     final int cols = originalList.first.length;
     final List<T> reverseDiag = [];
 
-    looper(originalList.length, 
+    looper(rows, 
       (int rowIndex){
         reverseDiag.add(originalList[rowIndex][cols - 1 - rowIndex]);
       }
