@@ -1,5 +1,15 @@
 name: dart_katas
 
+description: >-
+  These are coding exercises meant to sharpen your programming abilities, 
+  analogous to martial arts'. 
+  All of the katas were done using TDD, meaning they are not only tested by were
+  tailored for (driven by) them.
+
+version: 0.6.1
+
+repository: https://github.com/psygo/dart_katas
+
 dependencies:
   test: ^1.12.0
   meta: ^1.1.8
