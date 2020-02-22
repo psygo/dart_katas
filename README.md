@@ -24,6 +24,9 @@ All of the katas were done using TDD, meaning they are not only tested by were t
 1. [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe)
     - The overall program is a bit (*cough*) overengineered. But it is good for practice, and, in the end, it even works for other board sizes than the typical 3x3 (there's already a test in place proving that it works for 4x4 boards).
         - Using asymmetrical boards will need some adaptation and refactoring, which I'm not interested in at the moment. The optional `boardSize` parameter for the game would have to be modified.
+1. [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
+    - This is only at its beginning stages right now.
+    - So far, only the Observer pattern is featured. To achieve it I could have implemented the vanilla interfaces in the GoF book (I still intend on doing it). However, I was interested in knowing how to do it in a way that's more in tune with Dart. So, naturally, I chose to try doing it `Stream`s. It isn't very trivial, native support isn't very straightforward at all and I needed Rémi Rousselet's help in order to make it work. You can find more about it in [this answer](https://stackoverflow.com/a/60341534/4756173).
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 
