@@ -24,6 +24,9 @@ All of the katas were done using TDD, meaning they are not only tested by were t
 1. [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe)
     - The overall program is a bit (*cough*) overengineered. But it is good for practice, and, in the end, it even works for other board sizes than the typical 3x3 (there's already a test in place proving that it works for 4x4 boards).
         - Using asymmetrical boards will need some adaptation and refactoring, which I'm not interested in at the moment. The optional `boardSize` parameter for the game would have to be modified.
+    - I completely dismissed the fact that this game is played by two people. What I mean is that I didn't create a player class to interact with the game itself. All of the plays are inserted directly into the game class. But fixing this to make things friendlier shouldn't be that hard. 
+        - It would be best if changes to the board were notified to the players' instances, with the game board being an observable.
+        - The player class could be some sort of façade between the game class and the end-user.
 1. [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
     - This is only at its beginning stages right now.
     1. Observer
