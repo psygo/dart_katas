@@ -26,7 +26,8 @@ All of the katas were done using TDD, meaning they are not only tested by were t
         - Using asymmetrical boards will need some adaptation and refactoring, which I'm not interested in at the moment. The optional `boardSize` parameter for the game would have to be modified.
 1. [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
     - This is only at its beginning stages right now.
-    - So far, only the Observer pattern is featured. To achieve it I could have implemented the vanilla interfaces in the GoF book (I still intend on doing it). However, I was interested in knowing how to do it in a way that's more in tune with Dart. So, naturally, I chose to try doing it `Stream`s. It isn't very trivial, native support isn't very straightforward at all and I needed Rémi Rousselet's help in order to make it work. You can find more about it in [this answer](https://stackoverflow.com/a/60341534/4756173).
+    1. Observer
+        - So far, only the Observer pattern is featured. To achieve it I could have implemented the vanilla interfaces in the GoF book (I still intend on doing it). However, I was interested in knowing how to do it in a way that's more in tune with Dart. So, naturally, I chose to try doing it `Stream`s. It isn't very trivial, native support isn't very straightforward at all and I needed Rémi Rousselet's help in order to make it work. You can find out more about it in [this answer](https://stackoverflow.com/a/60341534/4756173).
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 
