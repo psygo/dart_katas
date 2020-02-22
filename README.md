@@ -27,6 +27,7 @@ All of the katas were done using TDD, meaning they are not only tested by were t
     - I completely dismissed the fact that this game is played by two people. What I mean is that I didn't create a player class to interact with the game itself. All of the plays are inserted directly into the game class. But fixing this to make things friendlier shouldn't be that hard. 
         - It would be best if changes to the board were notified to the players' instances, with the game board being an observable.
         - The player class could be some sort of façade between the game class and the end-user.
+    - The board property itself could be separated into another class and done a State pattern.
 1. [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
     - This is only at its beginning stages right now.
     1. Observer
