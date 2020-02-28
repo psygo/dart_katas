@@ -1,7 +1,7 @@
 language: dart
 
 dart:
-- stable
+  - stable
 
 dart_task:
-- dartfmt
+  - dartfmt
