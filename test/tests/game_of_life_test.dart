@@ -4,15 +4,12 @@ import 'package:test/test.dart';
 import '../../lib/game_of_life/game_of_life.dart';
 import '../mocks/game_of_life_mocks.dart';
 
-
-void main(){
-
-  group('Game of Life', (){
-
+void main() {
+  group('Game of Life', () {
     GameOfLife _setUpAndPlayGame({
       @required List<List<String>> initialGrid,
       int maxGenerations,
-    }){
+    }) {
       maxGenerations = maxGenerations ?? GameOfLife.defaultMaxGenerations;
       final GameOfLife _game = GameOfLife(initialGrid: initialGrid);
       _game.play(maxGenerations: maxGenerations);
@@ -20,26 +17,25 @@ void main(){
       return _game;
     }
 
-    test('Empty grid initialization', (){
+    test('Empty grid initialization', () {
       final GameOfLife _game = GameOfLife(initialGrid: emptyGrid);
 
       expect(_game.lastGrid, emptyGrid);
     });
-    
-    test('Simple shapes and results', (){
-      initialGridsAndResults.forEach(
-        (List<List<String>> initialGrid, List<List<String>> expectedGrid){
-          final GameOfLife _game = _setUpAndPlayGame(
-            initialGrid: initialGrid,
-            maxGenerations: initialGridsAndMaxGenerations[initialGrid],
-          );
 
-          expect(_game.lastGrid, expectedGrid);
-        }
-      );
+    test('Simple shapes and results', () {
+      initialGridsAndResults.forEach(
+          (List<List<String>> initialGrid, List<List<String>> expectedGrid) {
+        final GameOfLife _game = _setUpAndPlayGame(
+          initialGrid: initialGrid,
+          maxGenerations: initialGridsAndMaxGenerations[initialGrid],
+        );
+
+        expect(_game.lastGrid, expectedGrid);
+      });
     });
 
-    test('Glider', (){
+    test('Glider', () {
       const int enoughGenerationsToValidate = 4;
       final GameOfLife _game = _setUpAndPlayGame(
         initialGrid: glider0,
@@ -56,5 +52,4 @@ void main(){
       expect(_game.allGrids, gliderAllGrids);
     });
   });
-
 }

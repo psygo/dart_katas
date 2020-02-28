@@ -1,6 +1,5 @@
 import '../../lib/tic_tac_toe/tic_tac_toe.dart';
 
-
 final Map<List<List<int>>, List<dynamic>> movesByWinningStatusAndBoard = {
   firstMovePlays: [noWinnerMsg, firstMoveBoard],
   secondMovePlays: [noWinnerMsg, secondMoveBoard],

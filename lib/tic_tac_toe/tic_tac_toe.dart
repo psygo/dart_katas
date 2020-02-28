@@ -4,7 +4,6 @@ import 'board_utils.dart';
 import 'cell.dart';
 import 'exceptions.dart';
 
-
 abstract class TicTacToeInterface {
   static const String defaultX = 'X';
   static const String defaultO = 'O';
@@ -21,9 +20,7 @@ abstract class TicTacToeInterface {
   bool get gameFinished;
 }
 
-
 class TicTacToeGame implements TicTacToeInterface {
-
   final String _symbolX;
   final String _symbolO;
   final String _symbolEmpty;
@@ -40,21 +37,19 @@ class TicTacToeGame implements TicTacToeInterface {
     String symbolEmpty,
     String startingSymbol,
     int boardSize,
-  }):
-    _symbolX = symbolX ?? TicTacToeInterface.defaultX,
-    _symbolO = symbolO ?? TicTacToeInterface.defaultO,
-    _symbolEmpty = symbolEmpty ?? TicTacToeInterface.defaultEmpty,
-    _boardSize = boardSize ?? TicTacToeInterface.defaultBoardSize,
-    _startingSymbol = startingSymbol ?? TicTacToeInterface.defaultX
-  {
+  })  : _symbolX = symbolX ?? TicTacToeInterface.defaultX,
+        _symbolO = symbolO ?? TicTacToeInterface.defaultO,
+        _symbolEmpty = symbolEmpty ?? TicTacToeInterface.defaultEmpty,
+        _boardSize = boardSize ?? TicTacToeInterface.defaultBoardSize,
+        _startingSymbol = startingSymbol ?? TicTacToeInterface.defaultX {
     _currentSymbol = _stringToStatus(_startingSymbol);
     BoardUtils.initializeBoard(_boardSize, _board);
   }
 
-  Status _stringToStatus(String string) 
-    => string == _symbolX ? Status.x : Status.o;
-  String _statusToString(Status status)
-    => status == Status.x ? _symbolX : symbolO;
+  Status _stringToStatus(String string) =>
+      string == _symbolX ? Status.x : Status.o;
+  String _statusToString(Status status) =>
+      status == Status.x ? _symbolX : symbolO;
 
   String get symbolX => _symbolX;
   String get symbolO => _symbolO;
@@ -63,32 +58,35 @@ class TicTacToeGame implements TicTacToeInterface {
   int get _rows => _board.length;
   int get _cols => _board.first.length;
 
-  @override 
+  @override
   bool get gameFinished => _winner != Status.empty || _isTie;
   bool get _gameNotFinished => !gameFinished;
 
   @override
   String get winner {
-    if (_isTie) return TicTacToeInterface.defaultTieMsg;
-    else switch (_winner){
-      case Status.empty:
-        return TicTacToeInterface.defaultNoWinnerMsg;
-        break;
-      case Status.x:
-        return _symbolX + TicTacToeInterface.defaultWinsMsg;
-        break;
-      case Status.o:
-        return _symbolO + TicTacToeInterface.defaultWinsMsg;
-        break;
-      default:
-        throw WinnerException('There should be either a winner or no winner.');
-    }
+    if (_isTie)
+      return TicTacToeInterface.defaultTieMsg;
+    else
+      switch (_winner) {
+        case Status.empty:
+          return TicTacToeInterface.defaultNoWinnerMsg;
+          break;
+        case Status.x:
+          return _symbolX + TicTacToeInterface.defaultWinsMsg;
+          break;
+        case Status.o:
+          return _symbolO + TicTacToeInterface.defaultWinsMsg;
+          break;
+        default:
+          throw WinnerException(
+              'There should be either a winner or no winner.');
+      }
   }
 
   @override
   String get board {
-    String stringBoard = BoardUtils
-      .cellBoardToStringBoard(_board, _symbolX, _symbolO, _symbolEmpty);
+    String stringBoard = BoardUtils.cellBoardToStringBoard(
+        _board, _symbolX, _symbolO, _symbolEmpty);
 
     return stringBoard;
   }
@@ -96,8 +94,8 @@ class TicTacToeGame implements TicTacToeInterface {
   @override
   void playSymbol({
     @required List<int> position,
-  }){
-    if (_gameNotFinished){
+  }) {
+    if (_gameNotFinished) {
       final int rowIndex = position[0];
       final int colIndex = position[1];
 
@@ -115,89 +113,80 @@ class TicTacToeGame implements TicTacToeInterface {
   void _updateStatusOfCell(
     int rowIndex,
     int colIndex,
-  ){
+  ) {
     final Cell cell = _board[rowIndex][colIndex];
-    if (cell.isEmpty){
+    if (cell.isEmpty) {
       cell.status = _currentSymbol;
     } else {
       final String statusAsString = _statusToString(cell.status);
-      throw 
-        SpaceAlreadyFilledException('Space already filled by $statusAsString.');
+      throw SpaceAlreadyFilledException(
+          'Space already filled by $statusAsString.');
     }
   }
 
-  Status _switchStatus(Status currentSymbol) 
-    => currentSymbol == Status.o ? Status.x : Status.o;
+  Status _switchStatus(Status currentSymbol) =>
+      currentSymbol == Status.o ? Status.x : Status.o;
 
-  void _checkIfTie(){
+  void _checkIfTie() {
     int filledCells = 0;
 
-    BoardUtils.looper(_rows, 
-      (int rowIndex){
-        BoardUtils.looper(_cols, 
-          (int colIndex){
-            final Cell cell = _board[rowIndex][colIndex];
-            if (cell.isNotEmpty) filledCells++;
-          }
-        );
-      }
-    );
+    BoardUtils.looper(_rows, (int rowIndex) {
+      BoardUtils.looper(_cols, (int colIndex) {
+        final Cell cell = _board[rowIndex][colIndex];
+        if (cell.isNotEmpty) filledCells++;
+      });
+    });
 
     if (_boardIsFilled(filledCells)) _isTie = true;
   }
 
   bool _boardIsFilled(int filledCells) => filledCells == _rows * _cols;
 
-  void _checkIfWinner(){
+  void _checkIfWinner() {
     _checkHorizontalWin();
     _checkVerticalWin();
     _checkDiagonalWin();
   }
 
-  void _checkHorizontalWin(){
-    BoardUtils.looper(_board.first.length, 
-      (int rowIndex){
-        final Set<Cell> rowSet = _reduceListToSet(_board[rowIndex]);
-        _updateIfWinner(rowSet);
-      }
-    );
+  void _checkHorizontalWin() {
+    BoardUtils.looper(_board.first.length, (int rowIndex) {
+      final Set<Cell> rowSet = _reduceListToSet(_board[rowIndex]);
+      _updateIfWinner(rowSet);
+    });
   }
 
-  void _checkVerticalWin(){
+  void _checkVerticalWin() {
     List<List<Cell>> transposedBoard = BoardUtils.transposeList(_board);
-    BoardUtils.looper(_board.length, 
-      (int colIndex){
-        final Set<Cell> colSet = _reduceListToSet(transposedBoard[colIndex]);
-        _updateIfWinner(colSet);
-      }
-    );
+    BoardUtils.looper(_board.length, (int colIndex) {
+      final Set<Cell> colSet = _reduceListToSet(transposedBoard[colIndex]);
+      _updateIfWinner(colSet);
+    });
   }
 
-  void _checkDiagonalWin(){
+  void _checkDiagonalWin() {
     _checkNormalDiagonalWin();
     _checkReverseDiagonalWin();
   }
 
-  void _checkNormalDiagonalWin(){
+  void _checkNormalDiagonalWin() {
     final List<Cell> normalDiagonal = BoardUtils.extractNormalDiagonal(_board);
     final Set<Cell> normalDiagonalSet = _reduceListToSet(normalDiagonal);
     _updateIfWinner(normalDiagonalSet);
   }
 
-  void _checkReverseDiagonalWin(){
-    final List<Cell> reverseDiagonal 
-      = BoardUtils.extractReverseDiagonal(_board);
+  void _checkReverseDiagonalWin() {
+    final List<Cell> reverseDiagonal =
+        BoardUtils.extractReverseDiagonal(_board);
     final Set<Cell> reverseDiagonalSet = _reduceListToSet(reverseDiagonal);
     _updateIfWinner(reverseDiagonalSet);
   }
 
   Set<T> _reduceListToSet<T>(List<T> list) => Set<T>.from(list);
 
-  bool _setIsNormalizedAndNotEmpty(Set<Cell> cellSet) 
-    => cellSet.length == 1 && cellSet.first.status != Status.empty;
+  bool _setIsNormalizedAndNotEmpty(Set<Cell> cellSet) =>
+      cellSet.length == 1 && cellSet.first.status != Status.empty;
 
-  void _updateIfWinner(Set<Cell> cellSet){
+  void _updateIfWinner(Set<Cell> cellSet) {
     if (_setIsNormalizedAndNotEmpty(cellSet)) _winner = cellSet.first.status;
   }
-
 }

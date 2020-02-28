@@ -4,15 +4,12 @@ enum Status {
   o,
 }
 
-
 class Cell {
-
   Status _status;
 
   Cell(
     Status status,
-  ):
-    _status = status;
+  ) : _status = status;
 
   factory Cell.empty() => Cell(Status.empty);
 
@@ -20,17 +17,14 @@ class Cell {
   bool get isEmpty => _status == Status.empty;
   bool get isNotEmpty => !isEmpty;
 
-  void set status(
-    Status newStatus
-  ){
+  void set status(Status newStatus) {
     _status = newStatus;
   }
 
   @override
-  bool operator ==(otherObject)  
-    => otherObject is Cell && otherObject.status == _status;
+  bool operator ==(otherObject) =>
+      otherObject is Cell && otherObject.status == _status;
 
   @override
   int get hashCode => _status.hashCode;
-
 }
