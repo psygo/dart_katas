@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 import '../../lib/eratos_sieve/eratos_sieve.dart';
-import '../mocks/eratos_sieve_mocks.dart';
+import '../fixture_data/eratos_sieve_fixture_data.dart';
 
 void main() {
   group('Main Sieve Tests', () {

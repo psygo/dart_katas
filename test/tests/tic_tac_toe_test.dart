@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 
 import '../../lib/tic_tac_toe/exceptions.dart';
 import '../../lib/tic_tac_toe/tic_tac_toe.dart';
-import '../mocks/tic_tac_toe_mocks.dart';
+import '../fixture_data/tic_tac_toe_fixture_data.dart';
 
 void main() {
   TicTacToeGame _game;

@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 import '../../lib/game_of_life/game_of_life.dart';
-import '../mocks/game_of_life_mocks.dart';
+import '../fixture_data/game_of_life_fixture_data.dart';
 
 void main() {
   group('Game of Life', () {
