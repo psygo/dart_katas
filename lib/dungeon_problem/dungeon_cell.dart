@@ -54,8 +54,8 @@ class DungeonCell {
             'There should be a character for this dungeon cell state.');
     }
   }
-
   bool get isNotBlocked => _status != Status.blocked;
+  bool get isStart => _status == Status.start;
 
   @override
   bool operator ==(otherObject) =>

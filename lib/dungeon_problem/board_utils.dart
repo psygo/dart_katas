@@ -1,6 +1,6 @@
 import 'dungeon_cell.dart';
 
-class BoardUtils {
+abstract class BoardUtils {
   static void looper(
     int totalLoops,
     void Function(int loopIndex) function,
@@ -48,5 +48,31 @@ class BoardUtils {
     });
 
     return stringDungeon;
+  }
+
+  static List<List<bool>> createVisitedMatrix<T>(List<List<T>> grid) {
+    final int totalRows = BoardUtils.numberOfRows(grid),
+        totalCols = BoardUtils.numberOfCols(grid);
+
+    return List<List<bool>>.generate(totalRows, (int rowIndex) {
+      return List<bool>.generate(totalCols, (int colIndex) => false);
+    });
+  }
+
+  static List<int> startPosition(List<List<DungeonCell>> cellDungeon){
+    final int totalRows = numberOfRows(cellDungeon),
+        totalCols = numberOfCols(cellDungeon);
+
+    List<int> startPosition;
+    looper(totalRows, (int rowIndex) {
+      looper(totalCols, (int colIndex) {
+        final DungeonCell dungeonCell = cellDungeon[rowIndex][colIndex];
+        if (dungeonCell.isStart) {
+          startPosition = [rowIndex, colIndex];
+        }
+      });
+    });
+
+    return startPosition;
   }
 }

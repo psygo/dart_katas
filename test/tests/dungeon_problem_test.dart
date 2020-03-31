@@ -18,7 +18,7 @@ void main() {
     });
   });
 
-  group('Testing the Parser', () {
+  group('Testing the Board Utils', () {
     test('The parser can transform a string grid to a dungeon cell grid', () {
       final List<List<DungeonCell>> parsedStringDungeon =
           BoardUtils.stringDungeonToCellDungeon(startAndEndOnlyStringDungeon);
@@ -33,6 +33,23 @@ void main() {
 
       expect(unparsedStringDungeon, startAndEndOnlyStringDungeon);
     });
+
+    test('Tests the creation of a visited cells matrix', (){
+      final List<List<bool>> visitedMatrix = BoardUtils.createVisitedMatrix(startAndEndOnlyCellDungeon);
+
+      visitedMatrix.forEach((List<bool> unvisitedRow) {
+        unvisitedRow.forEach((bool unvisitedCell){
+          expect(unvisitedCell, isFalse);
+        });
+      });
+    });
+
+    test('Testing the finding of the start position', () {
+      final List<int> startPosition = 
+        BoardUtils.startPosition(startAndEndOnlyCellDungeon);
+
+      expect(startPosition, [0, 0]);
+    });
   });
 
   group('BFS', () {
@@ -41,7 +58,7 @@ void main() {
           DungeonGame(grid: startAndEndOnlyStringDungeon);
 
       final List<List<int>> extractedNeighbors =
-          dungeonGame.findNeighborsFromPosition(0, 1);
+          dungeonGame.neighborsFromPosition(0, 1);
 
       const List<List<int>> correctNeighbors = [
         [1, 1],
@@ -56,7 +73,7 @@ void main() {
           DungeonGame(grid: startEnd3x3StringDungeon);
 
       final Queue<List<int>> availableNeighborsFromPosition =
-          dungeonGame.findAvailableNeighborsFromPosition(1, 1);
+          dungeonGame.availableNeighborsFromPosition(1, 1);
 
       final Queue<List<int>> correctQueue = Queue<List<int>>();
       correctQueue.addAll([
@@ -74,7 +91,7 @@ void main() {
           DungeonGame(grid: startEndBlocked3x3StringDungeon);
 
       final Queue<List<int>> availableNeighborsFromPosition =
-          dungeonGame.findAvailableNeighborsFromPosition(1, 1);
+          dungeonGame.availableNeighborsFromPosition(1, 1);
 
       final Queue<List<int>> correctQueue = Queue<List<int>>();
       correctQueue.addAll([
