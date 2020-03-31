@@ -34,73 +34,74 @@ void main() {
       expect(unparsedStringDungeon, startAndEndOnlyStringDungeon);
     });
 
-    test('Tests the creation of a visited cells matrix', (){
-      final List<List<bool>> visitedMatrix = BoardUtils.createVisitedMatrix(startAndEndOnlyCellDungeon);
+    test('Tests the creation of a visited cells matrix', () {
+      final List<List<bool>> visitedMatrix =
+          BoardUtils.createVisitedMatrix(startAndEndOnlyCellDungeon);
 
       visitedMatrix.forEach((List<bool> unvisitedRow) {
-        unvisitedRow.forEach((bool unvisitedCell){
+        unvisitedRow.forEach((bool unvisitedCell) {
           expect(unvisitedCell, isFalse);
         });
       });
     });
 
     test('Testing the finding of the start position', () {
-      final List<int> startPosition = 
-        BoardUtils.startPosition(startAndEndOnlyCellDungeon);
+      final List<int> startPosition =
+          BoardUtils.startPosition(startAndEndOnlyCellDungeon);
 
       expect(startPosition, [0, 0]);
     });
   });
 
-  group('BFS', () {
-    test('Finding the neighbors of a cell', () {
-      final DungeonGame dungeonGame =
-          DungeonGame(grid: startAndEndOnlyStringDungeon);
+  group('BFS Solver', () {
+    // test('Finding the neighbors of a cell', () {
+    //   final DungeonGame dungeonGame =
+    //       DungeonGame(grid: startAndEndOnlyStringDungeon);
 
-      final List<List<int>> extractedNeighbors =
-          dungeonGame.neighborsFromPosition(0, 1);
+    //   final List<List<int>> extractedNeighbors =
+    //       dungeonGame.neighborsFromPosition(0, 1);
 
-      const List<List<int>> correctNeighbors = [
-        [1, 1],
-        [0, 0],
-      ];
+    //   const List<List<int>> correctNeighbors = [
+    //     [1, 1],
+    //     [0, 0],
+    //   ];
 
-      expect(extractedNeighbors, correctNeighbors);
-    });
+    //   expect(extractedNeighbors, correctNeighbors);
+    // });
 
-    test('Adding neighbors to the search queue', () {
-      final DungeonGame dungeonGame =
-          DungeonGame(grid: startEnd3x3StringDungeon);
+    // test('Adding neighbors to the search queue', () {
+    //   final DungeonGame dungeonGame =
+    //       DungeonGame(grid: startEnd3x3StringDungeon);
 
-      final Queue<List<int>> availableNeighborsFromPosition =
-          dungeonGame.availableNeighborsFromPosition(1, 1);
+    //   final Queue<List<int>> availableNeighborsFromPosition =
+    //       dungeonGame.availableNeighborsFromPosition(1, 1);
 
-      final Queue<List<int>> correctQueue = Queue<List<int>>();
-      correctQueue.addAll([
-        [0, 1],
-        [2, 1],
-        [1, 0],
-        [1, 2],
-      ]);
+    //   final Queue<List<int>> correctQueue = Queue<List<int>>();
+    //   correctQueue.addAll([
+    //     [0, 1],
+    //     [2, 1],
+    //     [1, 0],
+    //     [1, 2],
+    //   ]);
 
-      expect(availableNeighborsFromPosition, correctQueue);
-    });
+    //   expect(availableNeighborsFromPosition, correctQueue);
+    // });
 
-    test('If the cell is blocked, the neighbor isn\'t added to the queue', () {
-      final DungeonGame dungeonGame =
-          DungeonGame(grid: startEndBlocked3x3StringDungeon);
+    // test('If the cell is blocked, the neighbor isn\'t added to the queue', () {
+    //   final DungeonGame dungeonGame =
+    //       DungeonGame(grid: startEndBlocked3x3StringDungeon);
 
-      final Queue<List<int>> availableNeighborsFromPosition =
-          dungeonGame.availableNeighborsFromPosition(1, 1);
+    //   final Queue<List<int>> availableNeighborsFromPosition =
+    //       dungeonGame.availableNeighborsFromPosition(1, 1);
 
-      final Queue<List<int>> correctQueue = Queue<List<int>>();
-      correctQueue.addAll([
-        [0, 1],
-        [1, 0],
-        [1, 2],
-      ]);
+    //   final Queue<List<int>> correctQueue = Queue<List<int>>();
+    //   correctQueue.addAll([
+    //     [0, 1],
+    //     [1, 0],
+    //     [1, 2],
+    //   ]);
 
-      expect(availableNeighborsFromPosition, correctQueue);
-    });
+    //   expect(availableNeighborsFromPosition, correctQueue);
+    // });
   });
 }

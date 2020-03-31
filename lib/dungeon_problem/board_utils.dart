@@ -59,15 +59,15 @@ abstract class BoardUtils {
     });
   }
 
-  static List<int> startPosition(List<List<DungeonCell>> cellDungeon){
-    final int totalRows = numberOfRows(cellDungeon),
-        totalCols = numberOfCols(cellDungeon);
+  static List<int> startPosition<T extends Cell>(List<List<T>> grid) {
+    final int totalRows = numberOfRows(grid),
+        totalCols = numberOfCols(grid);
 
     List<int> startPosition;
     looper(totalRows, (int rowIndex) {
       looper(totalCols, (int colIndex) {
-        final DungeonCell dungeonCell = cellDungeon[rowIndex][colIndex];
-        if (dungeonCell.isStart) {
+        final T cell = grid[rowIndex][colIndex];
+        if (cell.isStart) {
           startPosition = [rowIndex, colIndex];
         }
       });

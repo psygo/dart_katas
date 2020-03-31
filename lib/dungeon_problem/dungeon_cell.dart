@@ -7,7 +7,15 @@ enum Status {
   end,
 }
 
-class DungeonCell {
+abstract class Cell {
+  Status get status;
+  String get statusAsString;
+  bool get isNotBlocked;
+  bool get isStart;
+  bool get isEnd;
+}
+
+class DungeonCell implements Cell {
   static const String emptyChar = '.';
   static const String blockedChar = '#';
   static const String startChar = 'S';
@@ -38,7 +46,10 @@ class DungeonCell {
     }
   }
 
+  @override
   Status get status => _status;
+
+  @override
   String get statusAsString {
     switch (_status) {
       case Status.empty:
@@ -54,8 +65,15 @@ class DungeonCell {
             'There should be a character for this dungeon cell state.');
     }
   }
+
+  @override
   bool get isNotBlocked => _status != Status.blocked;
+
+  @override
   bool get isStart => _status == Status.start;
+
+  @override
+  bool get isEnd => _status == Status.end;
 
   @override
   bool operator ==(otherObject) =>
