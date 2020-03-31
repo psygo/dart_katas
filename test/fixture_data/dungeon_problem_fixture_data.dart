@@ -1,4 +1,4 @@
-import 'package:dart_katas/bfs/dungeon_cell.dart';
+import 'package:dart_katas/dungeon_problem/dungeon_cell.dart';
 
 const List<List<String>> startAndEndOnlyStringDungeon = [
   ['S', '.'],

@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
 
-import 'package:dart_katas/bfs/board_utils.dart';
-import 'package:dart_katas/bfs/dungeon_cell.dart';
-import 'package:dart_katas/bfs/dungeon_problem.dart';
+import 'package:dart_katas/dungeon_problem/board_utils.dart';
+import 'package:dart_katas/dungeon_problem/dungeon_cell.dart';
+import 'package:dart_katas/dungeon_problem/dungeon_problem.dart';
 
 import '../fixture_data/dungeon_problem_fixture_data.dart';
 
@@ -48,5 +48,10 @@ void main() {
 
       expect(extractedNeighbors, correctNeighbors);
     });
+
+    test('Adding neighbors to the search queue', () {});
+
+    test('If the cell is blocked, the neighbor isn\'t added to the queue',
+        () {});
   });
 }
