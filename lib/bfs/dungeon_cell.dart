@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import 'exceptions.dart';
 
 enum Status {

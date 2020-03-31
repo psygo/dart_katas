@@ -10,13 +10,13 @@ class BoardUtils {
     }
   }
 
-  static int _extractNumberOfRows<T>(List<List<T>> grid) => grid.length;
-  static int _extractNumberOfCols<T>(List<List<T>> grid) => grid.first.length;
+  static int numberOfRows<T>(List<List<T>> grid) => grid.length;
+  static int numberOfCols<T>(List<List<T>> grid) => grid.first.length;
 
   static List<List<DungeonCell>> stringDungeonToCellDungeon(
       List<List<String>> stringDungeon) {
-    final int totalRows = _extractNumberOfRows(stringDungeon),
-        totalCols = _extractNumberOfCols(stringDungeon);
+    final int totalRows = numberOfRows(stringDungeon),
+        totalCols = numberOfCols(stringDungeon);
     final List<List<DungeonCell>> cellDungeon = [];
 
     looper(totalRows, (int rowIndex) {
@@ -34,8 +34,8 @@ class BoardUtils {
 
   static List<List<String>> cellDungeonToStringDungeon(
       List<List<DungeonCell>> cellDungeon) {
-    final int totalRows = _extractNumberOfRows(cellDungeon),
-        totalCols = _extractNumberOfCols(cellDungeon);
+    final int totalRows = numberOfRows(cellDungeon),
+        totalCols = numberOfCols(cellDungeon);
     final List<List<String>> stringDungeon = [];
 
     looper(totalRows, (int rowIndex) {

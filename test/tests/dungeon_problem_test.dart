@@ -32,4 +32,21 @@ void main() {
       expect(unparsedStringDungeon, startAndEndOnlyStringDungeon);
     });
   });
+
+  group('BFS', () {
+    test('Finding the neighbors of a cell', () {
+      const DungeonGame dungeonGame =
+          DungeonGame(grid: startAndEndOnlyStringDungeon);
+
+      final List<List<int>> extractedNeighbors =
+          dungeonGame.findNeighborCellsFromPosition(0, 1);
+
+      const List<List<int>> correctNeighbors = [
+        [1, 1],
+        [0, 0],
+      ];
+
+      expect(extractedNeighbors, correctNeighbors);
+    });
+  });
 }
