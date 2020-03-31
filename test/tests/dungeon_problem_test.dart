@@ -29,7 +29,7 @@ void main() {
     test('The parser can transform a dungeon cell grid back to a string one',
         () {
       final List<List<String>> unparsedStringDungeon =
-          BoardUtils.cellDungeonToStringDungeon(startAndEndOnlyCellDungeon);
+          BoardUtils.cellGridToStringDungeon(startAndEndOnlyCellDungeon);
 
       expect(unparsedStringDungeon, startAndEndOnlyStringDungeon);
     });

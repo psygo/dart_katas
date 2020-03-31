@@ -9,5 +9,5 @@ class DungeonGame {
   DungeonGame({@required List<List<String>> grid})
       : _grid = BoardUtils.stringDungeonToCellDungeon(grid);
 
-  List<List<String>> get grid => BoardUtils.cellDungeonToStringDungeon(_grid);
+  List<List<String>> get grid => BoardUtils.cellGridToStringDungeon(_grid);
 }

@@ -32,17 +32,17 @@ abstract class BoardUtils {
     return cellDungeon;
   }
 
-  static List<List<String>> cellDungeonToStringDungeon(
-      List<List<DungeonCell>> cellDungeon) {
-    final int totalRows = numberOfRows(cellDungeon),
-        totalCols = numberOfCols(cellDungeon);
+  static List<List<String>> cellGridToStringDungeon<T extends Cell>(
+      List<List<T>> cellGrid) {
+    final int totalRows = numberOfRows(cellGrid),
+        totalCols = numberOfCols(cellGrid);
     final List<List<String>> stringDungeon = [];
 
     looper(totalRows, (int rowIndex) {
       final List<String> stringRow = [];
       looper(totalCols, (int colIndex) {
-        final DungeonCell dungeonCell = cellDungeon[rowIndex][colIndex];
-        stringRow.add(dungeonCell.statusAsString);
+        final T cell = cellGrid[rowIndex][colIndex];
+        stringRow.add(cell.statusAsString);
       });
       stringDungeon.add(stringRow);
     });
@@ -59,14 +59,14 @@ abstract class BoardUtils {
     });
   }
 
-  static List<int> startPosition<T extends Cell>(List<List<T>> grid) {
-    final int totalRows = numberOfRows(grid),
-        totalCols = numberOfCols(grid);
+  static List<int> startPosition<T extends Cell>(List<List<T>> cellGrid) {
+    final int totalRows = numberOfRows(cellGrid),
+        totalCols = numberOfCols(cellGrid);
 
     List<int> startPosition;
     looper(totalRows, (int rowIndex) {
       looper(totalCols, (int colIndex) {
-        final T cell = grid[rowIndex][colIndex];
+        final T cell = cellGrid[rowIndex][colIndex];
         if (cell.isStart) {
           startPosition = [rowIndex, colIndex];
         }
