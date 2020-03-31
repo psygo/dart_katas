@@ -55,6 +55,8 @@ class DungeonCell {
     }
   }
 
+  bool get isNotBlocked => _status != Status.blocked;
+
   @override
   bool operator ==(otherObject) =>
       otherObject is DungeonCell && otherObject.status == _status;

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:test/test.dart';
 
 import 'package:dart_katas/dungeon_problem/board_utils.dart';
@@ -9,7 +11,7 @@ import '../fixture_data/dungeon_problem_fixture_data.dart';
 void main() {
   group('Initialization tests', () {
     test('The initial grid gets registered as a property', () {
-      const DungeonGame dungeonGame =
+      final DungeonGame dungeonGame =
           DungeonGame(grid: startAndEndOnlyStringDungeon);
 
       expect(dungeonGame.grid, startAndEndOnlyStringDungeon);
@@ -35,11 +37,11 @@ void main() {
 
   group('BFS', () {
     test('Finding the neighbors of a cell', () {
-      const DungeonGame dungeonGame =
+      final DungeonGame dungeonGame =
           DungeonGame(grid: startAndEndOnlyStringDungeon);
 
       final List<List<int>> extractedNeighbors =
-          dungeonGame.findNeighborCellsFromPosition(0, 1);
+          dungeonGame.findNeighborsFromPosition(0, 1);
 
       const List<List<int>> correctNeighbors = [
         [1, 1],
@@ -49,9 +51,39 @@ void main() {
       expect(extractedNeighbors, correctNeighbors);
     });
 
-    test('Adding neighbors to the search queue', () {});
+    test('Adding neighbors to the search queue', () {
+      final DungeonGame dungeonGame =
+          DungeonGame(grid: startEnd3x3StringDungeon);
 
-    test('If the cell is blocked, the neighbor isn\'t added to the queue',
-        () {});
+      final Queue<List<int>> availableNeighborsFromPosition =
+          dungeonGame.findAvailableNeighborsFromPosition(1, 1);
+
+      final Queue<List<int>> correctQueue = Queue<List<int>>();
+      correctQueue.addAll([
+        [0, 1],
+        [2, 1],
+        [1, 0],
+        [1, 2],
+      ]);
+
+      expect(availableNeighborsFromPosition, correctQueue);
+    });
+
+    test('If the cell is blocked, the neighbor isn\'t added to the queue', () {
+      final DungeonGame dungeonGame =
+          DungeonGame(grid: startEndBlocked3x3StringDungeon);
+
+      final Queue<List<int>> availableNeighborsFromPosition =
+          dungeonGame.findAvailableNeighborsFromPosition(1, 1);
+
+      final Queue<List<int>> correctQueue = Queue<List<int>>();
+      correctQueue.addAll([
+        [0, 1],
+        [1, 0],
+        [1, 2],
+      ]);
+
+      expect(availableNeighborsFromPosition, correctQueue);
+    });
   });
 }

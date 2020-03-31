@@ -1,18 +1,39 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:meta/meta.dart';
 
 import 'board_utils.dart';
+import 'dungeon_cell.dart';
 
 class DungeonGame {
-  final List<List<String>> _grid;
+  final List<List<DungeonCell>> _grid;
 
-  const DungeonGame({@required List<List<String>> grid}) : _grid = grid;
+  DungeonGame({@required List<List<String>> grid})
+      : _grid = BoardUtils.stringDungeonToCellDungeon(grid);
 
-  List<List<String>> get grid => _grid;
+  List<List<String>> get grid => BoardUtils.cellDungeonToStringDungeon(_grid);
 
   @visibleForTesting
-  List<List<int>> findNeighborCellsFromPosition(int rowIndex, int colIndex) {
+  Queue<List<int>> findAvailableNeighborsFromPosition(
+      int rowIndex, int colIndex) {
+    final List<List<int>> allNeighbors =
+        findNeighborsFromPosition(rowIndex, colIndex);
+    final Queue<List<int>> neighborsQueue = Queue<List<int>>();
+    allNeighbors.forEach((List<int> neighborPosition) {
+      final int neighborRowIndex = neighborPosition[0],
+          neighborColIndex = neighborPosition[1];
+      final DungeonCell dungeonCell = _grid[neighborRowIndex][neighborColIndex];
+      if (dungeonCell.isNotBlocked) {
+        neighborsQueue.add([neighborRowIndex, neighborColIndex]);
+      }
+    });
+
+    return neighborsQueue;
+  }
+
+  @visibleForTesting
+  List<List<int>> findNeighborsFromPosition(int rowIndex, int colIndex) {
     const List<int> rowVectors = [-1, 1, 0, 0];
     const List<int> colVectors = [0, 0, -1, 1];
     final int maxPossibleSteps = max(rowVectors.length, colVectors.length);
