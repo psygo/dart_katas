@@ -60,7 +60,7 @@ void main() {
 
       final int moveCount = bfsSolver.shortestPath();
 
-      expect(moveCount, 3);
+      expect(moveCount, 4);
     });
     // test('Finding the neighbors of a cell', () {
     //   final DungeonGame dungeonGame =

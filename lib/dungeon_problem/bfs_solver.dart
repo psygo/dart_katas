@@ -14,7 +14,7 @@ class BfsSolver<T extends Cell> {
   int _moveCount = 0;
   int _nodesLeftInLayer = 1;
   int _nodesInNextLayer = 0;
-  
+
   BfsSolver({@required List<List<T>> grid})
       : _grid = grid,
         _visitedMatrix = BoardUtils.createVisitedMatrix(grid);
@@ -23,7 +23,7 @@ class BfsSolver<T extends Cell> {
     final List<int> startPosition = BoardUtils.startPosition(_grid);
     final int startRowIndex = startPosition[0],
         startColIndex = startPosition[1];
-    
+
     _rowQueue.add(startRowIndex);
     _colQueue.add(startColIndex);
     _visitedMatrix[startRowIndex][startColIndex] = true;
@@ -69,6 +69,7 @@ class BfsSolver<T extends Cell> {
         _colQueue.add(possibleNeighborColIndex);
         _visitedMatrix[possibleNeighborRowIndex][possibleNeighborColIndex] =
             true;
+        _nodesInNextLayer++;
       }
     }
   }
