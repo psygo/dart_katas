@@ -14,6 +14,11 @@ const List<List<String>> startEnd3x3StringDungeon = [
   ['.', '.', '.'],
   ['.', '.', 'E'],
 ];
+const List<List<DungeonCell>> startEnd3x3CellgDungeon = [
+  [DungeonCell.startCell, DungeonCell.emptyCell, DungeonCell.emptyCell],
+  [DungeonCell.emptyCell, DungeonCell.emptyCell, DungeonCell.emptyCell],
+  [DungeonCell.emptyCell, DungeonCell.emptyCell, DungeonCell.endCell],
+];
 
 const List<List<String>> startEndBlocked3x3StringDungeon = [
   ['S', '.', '.'],

@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:dart_katas/dungeon_problem/bfs_solver.dart';
 import 'package:test/test.dart';
 
 import 'package:dart_katas/dungeon_problem/board_utils.dart';
@@ -54,6 +55,13 @@ void main() {
   });
 
   group('BFS Solver', () {
+    test('Shortest Path', () {
+      final BfsSolver bfsSolver = BfsSolver(grid: startEnd3x3CellgDungeon);
+
+      final int moveCount = bfsSolver.shortestPath();
+
+      expect(moveCount, 3);
+    });
     // test('Finding the neighbors of a cell', () {
     //   final DungeonGame dungeonGame =
     //       DungeonGame(grid: startAndEndOnlyStringDungeon);

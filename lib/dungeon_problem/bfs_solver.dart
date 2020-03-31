@@ -11,7 +11,10 @@ class BfsSolver<T extends Cell> {
   final Queue<int> _rowQueue = Queue<int>();
   final Queue<int> _colQueue = Queue<int>();
   final List<List<bool>> _visitedMatrix;
-
+  int _moveCount = 0;
+  int _nodesLeftInLayer = 1;
+  int _nodesInNextLayer = 0;
+  
   BfsSolver({@required List<List<T>> grid})
       : _grid = grid,
         _visitedMatrix = BoardUtils.createVisitedMatrix(grid);
@@ -20,10 +23,7 @@ class BfsSolver<T extends Cell> {
     final List<int> startPosition = BoardUtils.startPosition(_grid);
     final int startRowIndex = startPosition[0],
         startColIndex = startPosition[1];
-    int moveCount = 0;
-    int nodesLeftInLayer = 1;
-    int nodesInNextLayer = 0;
-
+    
     _rowQueue.add(startRowIndex);
     _colQueue.add(startColIndex);
     _visitedMatrix[startRowIndex][startColIndex] = true;
@@ -31,26 +31,27 @@ class BfsSolver<T extends Cell> {
     while (_queuesAreNotEmpty()) {
       final int rowIndex = _rowQueue.removeFirst(),
           colIndex = _colQueue.removeFirst();
-      final T dungeonCell = _grid[rowIndex][colIndex];
+      final T cell = _grid[rowIndex][colIndex];
 
-      if (dungeonCell.isEnd) {
+      if (cell.isEnd) {
         break;
       }
 
       exploreNeighborsFromPosition(rowIndex, colIndex);
 
-      nodesLeftInLayer--;
-      if (nodesLeftInLayer == 0) {
-        nodesLeftInLayer = nodesInNextLayer;
-        nodesInNextLayer = 0;
-        moveCount++;
+      _nodesLeftInLayer--;
+      if (_noNodesLeftInLayer()) {
+        _nodesLeftInLayer = _nodesInNextLayer;
+        _nodesInNextLayer = 0;
+        _moveCount++;
       }
     }
 
-    return moveCount;
+    return _moveCount;
   }
 
   bool _queuesAreNotEmpty() => _rowQueue.length > 0 || _colQueue.length > 0;
+  bool _noNodesLeftInLayer() => _nodesLeftInLayer == 0;
 
   @visibleForTesting
   void exploreNeighborsFromPosition(int rowIndex, int colIndex) {
