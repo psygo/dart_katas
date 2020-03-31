@@ -1,5 +1,4 @@
 import 'dungeon_cell.dart';
-import 'exceptions.dart';
 
 class BoardUtils {
   static void looper(
@@ -34,31 +33,16 @@ class BoardUtils {
   }
 
   static List<List<String>> cellDungeonToStringDungeon(
-      List<List<DungeonCell>> cellDungeon){
+      List<List<DungeonCell>> cellDungeon) {
     final int totalRows = _extractNumberOfRows(cellDungeon),
         totalCols = _extractNumberOfCols(cellDungeon);
     final List<List<String>> stringDungeon = [];
 
-    looper(totalRows, (int rowIndex){
+    looper(totalRows, (int rowIndex) {
       final List<String> stringRow = [];
-      looper(totalCols, (int colIndex){
+      looper(totalCols, (int colIndex) {
         final DungeonCell dungeonCell = cellDungeon[rowIndex][colIndex];
-        switch (dungeonCell.status) {
-          case Status.empty:
-            stringRow.add('.');
-            break;
-          case Status.blocked:
-            stringRow.add('#');
-            break;
-          case Status.start:
-            stringRow.add('S');
-            break;
-          case Status.end:
-            stringRow.add('E');
-            break;
-          default:
-            throw InvalidDungeonCellState('Invalid state for a dungeon cell.');
-        }
+        stringRow.add(dungeonCell.statusAsString);
       });
       stringDungeon.add(stringRow);
     });

@@ -10,29 +10,30 @@ enum Status {
 }
 
 class DungeonCell {
+  static const String emptyChar = '.';
+  static const String blockedChar = '#';
+  static const String startChar = 'S';
+  static const String endChar = 'E';
+
+  static const DungeonCell emptyCell = DungeonCell(Status.empty);
+  static const DungeonCell blockedCell = DungeonCell(Status.blocked);
+  static const DungeonCell startCell = DungeonCell(Status.start);
+  static const DungeonCell endCell = DungeonCell(Status.end);
+
   final Status _status;
 
-  static const emptyCell = DungeonCell(status: Status.empty);
-  static const blockedCell = DungeonCell(status: Status.blocked);
-  static const startCell = DungeonCell(status: Status.start);
-  static const endCell = DungeonCell(status: Status.end);
-
-  const DungeonCell({@required status}) : _status = status;
+  const DungeonCell(status) : _status = status;
 
   factory DungeonCell.fromStringCell(String stringCell) {
     switch (stringCell) {
-      case '.':
+      case emptyChar:
         return emptyCell;
-        break;
-      case '#':
+      case blockedChar:
         return blockedCell;
-        break;
-      case 'S':
+      case startChar:
         return startCell;
-        break;
-      case 'E':
+      case endChar:
         return endCell;
-        break;
       default:
         throw InvalidDungeonCellState(
             'An invalid character is being used in the dungeon grid.');
@@ -40,6 +41,21 @@ class DungeonCell {
   }
 
   Status get status => _status;
+  String get statusAsString {
+    switch (_status) {
+      case Status.empty:
+        return emptyChar;
+      case Status.blocked:
+        return blockedChar;
+      case Status.start:
+        return startChar;
+      case Status.end:
+        return endChar;
+      default:
+        throw InvalidDungeonCellState(
+            'There should be a character for this dungeon cell state.');
+    }
+  }
 
   @override
   bool operator ==(otherObject) =>

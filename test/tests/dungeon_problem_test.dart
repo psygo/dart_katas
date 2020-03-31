@@ -24,8 +24,9 @@ void main() {
       expect(parsedStringDungeon, startAndEndOnlyCellDungeon);
     });
 
-    test('The parser can transform a dungeon cell grid back to a string one', (){
-      final List<List<String>> unparsedStringDungeon = 
+    test('The parser can transform a dungeon cell grid back to a string one',
+        () {
+      final List<List<String>> unparsedStringDungeon =
           BoardUtils.cellDungeonToStringDungeon(startAndEndOnlyCellDungeon);
 
       expect(unparsedStringDungeon, startAndEndOnlyStringDungeon);
