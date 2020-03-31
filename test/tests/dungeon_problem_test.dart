@@ -56,11 +56,13 @@ void main() {
 
   group('BFS Solver', () {
     test('Shortest Path', () {
-      final BfsSolver bfsSolver = BfsSolver(grid: startEnd3x3CellgDungeon);
+      cellDungeonByShortestPath.forEach((List<List<DungeonCell>> cellDungeon, int shortestPathAnswer) {
+        final BfsSolver bfsSolver = BfsSolver(grid: cellDungeon);
 
-      final int moveCount = bfsSolver.shortestPath();
+        final int moveCount = bfsSolver.shortestPath();
 
-      expect(moveCount, 4);
+        expect(moveCount, shortestPathAnswer);
+      });
     });
     // test('Finding the neighbors of a cell', () {
     //   final DungeonGame dungeonGame =
