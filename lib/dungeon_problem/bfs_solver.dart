@@ -26,18 +26,23 @@ class BfsSolver<T extends Cell> {
   @visibleForTesting
   List<List<bool>> get visitedMatrix => _visitedMatrix;
 
+  void _enqueue(int rowIndex, int colIndex){
+    _rowQueue.add(rowIndex);
+    _colQueue.add(colIndex);
+  }
+  List<int> _dequeue() => [_rowQueue.removeFirst(), _colQueue.removeFirst()];
+
   int shortestPath() {
     final List<int> startPosition = BoardUtils.startPosition(_grid);
     final int startRowIndex = startPosition[0],
         startColIndex = startPosition[1];
 
-    _rowQueue.add(startRowIndex);
-    _colQueue.add(startColIndex);
+    _enqueue(startRowIndex, startColIndex);
     _visitedMatrix[startRowIndex][startColIndex] = true;
 
     while (_queuesAreNotEmpty()) {
-      final int rowIndex = _rowQueue.removeFirst(),
-          colIndex = _colQueue.removeFirst();
+      final List<int> dequeuedIndices = _dequeue();
+      final int rowIndex = dequeuedIndices[0], colIndex = dequeuedIndices[1];
       final T cell = _grid[rowIndex][colIndex];
 
       if (cell.isEnd) {
@@ -72,8 +77,7 @@ class BfsSolver<T extends Cell> {
 
       if (_notOutOfBoundsNotVisitedAndNotBlocked(
           possibleNeighborRowIndex, possibleNeighborColIndex)) {
-        _rowQueue.add(possibleNeighborRowIndex);
-        _colQueue.add(possibleNeighborColIndex);
+        _enqueue(possibleNeighborRowIndex, possibleNeighborColIndex);
         _visitedMatrix[possibleNeighborRowIndex][possibleNeighborColIndex] =
             true;
         _nodesInNextLayer++;
