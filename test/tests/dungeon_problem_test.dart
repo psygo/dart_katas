@@ -86,5 +86,45 @@ void main() {
         expect(moveCount, shortestPathAnswer);
       });
     });
+
+    test('Extracting the Shortest Paths', (){
+      final BfsSolver bfsSolver = 
+          BfsSolver(grid: benchmarkCellDungeon);
+
+      final int moveCount = bfsSolver.shortestPath();
+
+      final List<List<List<int>>> correctPaths = [
+        [[], [0, 0], [0, 1], [], [1, 4], [0, 4], [0, 5]], 
+        [[0, 0], [], [0, 2], [1, 2], [1, 3], [], [2, 6]], 
+        [[1, 0], [], [1, 2], [2, 2], [2, 3], [2, 4], [2, 5]], 
+        [[2, 0], [3, 0], [], [], [2, 4], [3, 4], [3, 5]], 
+        [[], [3, 1], [], [4, 4], [3, 4], [], []]
+      ];
+
+      expect(bfsSolver.paths, correctPaths);
+    });
+
+    test('Extracting the Shortest Path', () {
+      final BfsSolver bfsSolver = 
+          BfsSolver(grid: benchmarkCellDungeon);
+
+      final int moveCount = bfsSolver.shortestPath();
+
+      final correctShortestPath = [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 2],
+        [2, 2],
+        [2, 3],
+        [2, 4],
+        [3, 4],
+        [4, 4],
+        [4, 3],
+      ];
+
+      expect(bfsSolver.completeShortestPath, correctShortestPath);
+    });
   });
 }
+

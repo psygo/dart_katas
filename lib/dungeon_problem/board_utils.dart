@@ -75,4 +75,13 @@ abstract class BoardUtils {
 
     return startPosition;
   }
+
+  static List<List<List<int>>> createPathGrid<T>(List<List<T>> grid) {
+    final int totalRows = BoardUtils.numberOfRows(grid),
+        totalCols = BoardUtils.numberOfCols(grid);
+
+    return List<List<List<int>>>.generate(totalRows, (int rowIndex) {
+      return List<List<int>>.generate(totalCols, (int colIndex) => <int>[]);
+    });
+  }
 }

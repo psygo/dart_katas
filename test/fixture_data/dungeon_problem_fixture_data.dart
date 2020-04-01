@@ -7,6 +7,7 @@ const DungeonCell endC = DungeonCell.endCell;
 
 const Map<List<List<DungeonCell>>, int> cellDungeonByShortestPath = {
   startAndEndOnlyCellDungeon: 2,
+  startAndEndBlockedOnlyCellDungeon: 2,
   startEnd3x3CellDungeon: 4,
   startEndBlocked3x3CellDungeon: 4,
   benchmarkCellDungeon: 9,
@@ -19,6 +20,15 @@ const List<List<String>> startAndEndOnlyStringDungeon = [
 const List<List<DungeonCell>> startAndEndOnlyCellDungeon = [
   [startC, emptyC],
   [emptyC, endC],
+];
+
+const List<List<String>> startAndEndBlockedOnlyStringDungeon = [
+  ['S', '.'],
+  ['#', 'E'],
+];
+const List<List<DungeonCell>> startAndEndBlockedOnlyCellDungeon = [
+  [startC, emptyC],
+  [blockedC, endC],
 ];
 
 const List<List<String>> startEnd3x3StringDungeon = [

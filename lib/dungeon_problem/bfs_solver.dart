@@ -14,10 +14,12 @@ class BfsSolver<T extends Cell> {
   int _moveCount = 0;
   int _nodesLeftInLayer = 1;
   int _nodesInNextLayer = 0;
+  List<List<List<int>>> _paths;
 
   BfsSolver({@required List<List<T>> grid})
       : _grid = grid,
-        _visitedMatrix = BoardUtils.createVisitedMatrix(grid);
+        _visitedMatrix = BoardUtils.createVisitedMatrix(grid),
+        _paths = BoardUtils.createPathGrid(grid);
 
   @visibleForTesting
   Queue<int> get rowQueue => _rowQueue;
@@ -25,11 +27,16 @@ class BfsSolver<T extends Cell> {
   Queue<int> get colQueue => _colQueue;
   @visibleForTesting
   List<List<bool>> get visitedMatrix => _visitedMatrix;
+  @visibleForTesting
+  List<List<List<int>>> get paths => _paths;
 
-  void _enqueue(int rowIndex, int colIndex){
+  List<List<int>> get completeShortestPath => [];
+
+  void _enqueue(int rowIndex, int colIndex) {
     _rowQueue.add(rowIndex);
     _colQueue.add(colIndex);
   }
+
   List<int> _dequeue() => [_rowQueue.removeFirst(), _colQueue.removeFirst()];
 
   int shortestPath() {
@@ -77,6 +84,9 @@ class BfsSolver<T extends Cell> {
 
       if (_notOutOfBoundsNotVisitedAndNotBlocked(
           possibleNeighborRowIndex, possibleNeighborColIndex)) {
+        _updatePaths(possibleNeighborRowIndex, possibleNeighborColIndex,
+            rowIndex, colIndex);
+
         _enqueue(possibleNeighborRowIndex, possibleNeighborColIndex);
         _visitedMatrix[possibleNeighborRowIndex][possibleNeighborColIndex] =
             true;
@@ -84,6 +94,15 @@ class BfsSolver<T extends Cell> {
       }
     }
   }
+
+  _updatePaths(
+    int currentCellRowIndex,
+    int currentCellColIndex,
+    int upperCellRowIndex,
+    int upperCellColIndex,
+  ) =>
+      _paths[currentCellRowIndex]
+          [currentCellColIndex] = [upperCellRowIndex, upperCellColIndex];
 
   bool _notOutOfBoundsNotVisitedAndNotBlocked(int rowIndex, int colIndex) =>
       _notOutOfBoundsPosition(rowIndex, colIndex) &&
