@@ -28,6 +28,10 @@ All of the katas were done using TDD, meaning they are not only tested by were t
         - It would be best if changes to the board were notified to the players' instances, with the game board being an observable.
         - The player class could be some sort of façade between the game class and the end-user.
     - The board property itself could be separated into another class and done a State pattern.
+1. [Dungeon Problem](https://www.youtube.com/watch?v=KiCBXu4P-2Y)
+    - Based on William Fiset's formulation and solution. It's a Breadth-First Search (BFS) algorithm for finding the shortest path to the exit of a dungeon.
+    - I added a way of extracting the complete shortest path also, not only the number of steps.
+    - My implementation assumes there are a start, an end and it's possible to reach the end. It's not a huge leap to make it worth with dungeons without a reachable end, but I didn't want to unnecessarily complicate this more.
 1. [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
     - This is only at its beginning stages right now.
     1. Observer
