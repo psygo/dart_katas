@@ -47,16 +47,23 @@ void main() {
     });
 
     test('Testing the finding of the start position', () {
-      final List<int> startPosition =
-          BoardUtils.startPosition(startAndEndOnlyCellDungeon);
+      final List<int> startPosition = BoardUtils.findStartOrEndPosition(
+          startAndEndOnlyCellDungeon, Status.start);
 
       expect(startPosition, [0, 0]);
+    });
+
+    test('Testing the finding of the end position', () {
+      final List<int> startPosition = BoardUtils.findStartOrEndPosition(
+          startAndEndOnlyCellDungeon, Status.end);
+
+      expect(startPosition, [1, 1]);
     });
   });
 
   group('BFS Solver', () {
     test('Testing the internal explore neighbors from position', () {
-      final BfsSolver bfsSolver = 
+      final BfsSolver bfsSolver =
           BfsSolver(grid: startEndBlocked3x3CellDungeon);
 
       bfsSolver.exploreNeighborsFromPosition(1, 1);
@@ -66,8 +73,8 @@ void main() {
       final Queue<int> correctColQueue = Queue();
       correctColQueue.addAll([1, 0, 2]);
       List<List<bool>> correctVisitedMatrix = [
-        [false, true, false], 
-        [true, false, true], 
+        [false, true, false],
+        [true, false, true],
         [false, false, false],
       ];
 
@@ -87,44 +94,20 @@ void main() {
       });
     });
 
-    test('Extracting the Shortest Paths', (){
-      final BfsSolver bfsSolver = 
-          BfsSolver(grid: benchmarkCellDungeon);
+    test('Extracting the Shortest Paths', () {
+      final BfsSolver bfsSolver = BfsSolver(grid: benchmarkCellDungeon);
 
-      final int moveCount = bfsSolver.shortestPath();
+      bfsSolver.shortestPath();
 
-      final List<List<List<int>>> correctPaths = [
-        [[], [0, 0], [0, 1], [], [1, 4], [0, 4], [0, 5]], 
-        [[0, 0], [], [0, 2], [1, 2], [1, 3], [], [2, 6]], 
-        [[1, 0], [], [1, 2], [2, 2], [2, 3], [2, 4], [2, 5]], 
-        [[2, 0], [3, 0], [], [], [2, 4], [3, 4], [3, 5]], 
-        [[], [3, 1], [], [4, 4], [3, 4], [], []]
-      ];
-
-      expect(bfsSolver.paths, correctPaths);
+      expect(bfsSolver.paths, benchmarkDungeonPaths);
     });
 
     test('Extracting the Shortest Path', () {
-      final BfsSolver bfsSolver = 
-          BfsSolver(grid: benchmarkCellDungeon);
+      final BfsSolver bfsSolver = BfsSolver(grid: benchmarkCellDungeon);
 
-      final int moveCount = bfsSolver.shortestPath();
+      bfsSolver.shortestPath();
 
-      final correctShortestPath = [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [1, 2],
-        [2, 2],
-        [2, 3],
-        [2, 4],
-        [3, 4],
-        [4, 4],
-        [4, 3],
-      ];
-
-      expect(bfsSolver.completeShortestPath, correctShortestPath);
+      expect(bfsSolver.completeShortestPath, benchmarkCompleteShortestPath);
     });
   });
 }
-

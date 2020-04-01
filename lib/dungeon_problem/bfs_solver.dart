@@ -11,6 +11,8 @@ class BfsSolver<T extends Cell> {
   final Queue<int> _rowQueue = Queue<int>();
   final Queue<int> _colQueue = Queue<int>();
   final List<List<bool>> _visitedMatrix;
+  final List<int> _startPosition;
+  final List<int> _endPosittion;
   int _moveCount = 0;
   int _nodesLeftInLayer = 1;
   int _nodesInNextLayer = 0;
@@ -19,6 +21,8 @@ class BfsSolver<T extends Cell> {
   BfsSolver({@required List<List<T>> grid})
       : _grid = grid,
         _visitedMatrix = BoardUtils.createVisitedMatrix(grid),
+        _startPosition = BoardUtils.findStartOrEndPosition(grid, Status.start),
+        _endPosittion = BoardUtils.findStartOrEndPosition(grid, Status.end),
         _paths = BoardUtils.createPathGrid(grid);
 
   @visibleForTesting
@@ -30,7 +34,20 @@ class BfsSolver<T extends Cell> {
   @visibleForTesting
   List<List<List<int>>> get paths => _paths;
 
-  List<List<int>> get completeShortestPath => [];
+  List<List<int>> get completeShortestPath {
+    final List<List<int>> completeShortestPath = [];
+
+    List<int> currentPosition = _endPosittion;
+    while (currentPosition.isNotEmpty) {
+      completeShortestPath.add(currentPosition);
+      final int currentPositionRowIndex = currentPosition[0],
+          currentPositionColIndex = currentPosition[1];
+      currentPosition =
+          _paths[currentPositionRowIndex][currentPositionColIndex];
+    }
+
+    return completeShortestPath.reversed.toList();
+  }
 
   void _enqueue(int rowIndex, int colIndex) {
     _rowQueue.add(rowIndex);
@@ -40,9 +57,8 @@ class BfsSolver<T extends Cell> {
   List<int> _dequeue() => [_rowQueue.removeFirst(), _colQueue.removeFirst()];
 
   int shortestPath() {
-    final List<int> startPosition = BoardUtils.startPosition(_grid);
-    final int startRowIndex = startPosition[0],
-        startColIndex = startPosition[1];
+    final int startRowIndex = _startPosition[0],
+        startColIndex = _startPosition[1];
 
     _enqueue(startRowIndex, startColIndex);
     _visitedMatrix[startRowIndex][startColIndex] = true;

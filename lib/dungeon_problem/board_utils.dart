@@ -59,22 +59,29 @@ abstract class BoardUtils {
     });
   }
 
-  static List<int> startPosition<T extends Cell>(List<List<T>> cellGrid) {
+  static List<int> findStartOrEndPosition<T extends Cell>(
+    List<List<T>> cellGrid,
+    Status startOrEnd,
+  ) {
     final int totalRows = numberOfRows(cellGrid),
         totalCols = numberOfCols(cellGrid);
 
-    List<int> startPosition;
+    List<int> position;
     looper(totalRows, (int rowIndex) {
       looper(totalCols, (int colIndex) {
         final T cell = cellGrid[rowIndex][colIndex];
-        if (cell.isStart) {
-          startPosition = [rowIndex, colIndex];
+        if (isStartOrEnd(startOrEnd, cell)) {
+          position = [rowIndex, colIndex];
         }
       });
     });
 
-    return startPosition;
+    return position;
   }
+
+  static bool isStartOrEnd<T extends Cell>(Status startOrEnd, T cell) =>
+      (startOrEnd == Status.start && cell.isStart) ||
+      (startOrEnd == Status.end && cell.isEnd);
 
   static List<List<List<int>>> createPathGrid<T>(List<List<T>> grid) {
     final int totalRows = BoardUtils.numberOfRows(grid),
