@@ -5,4 +5,4 @@ dart: stable
 dart_task:
   - dartanalyzer
   - dartfmt
-  - test: --platform vm
+  - test
