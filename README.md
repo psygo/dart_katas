@@ -2,7 +2,7 @@
 
 These are coding exercises meant to sharpen your programming abilities, analogous to martial arts'.
 
-All of the katas were done using TDD, meaning they are not only tested by were tailored for (*driven by*) them.
+All of the katas were done using TDD, meaning they are not only tested but were tailored for (*driven by*) the tests.
 
 ## Featured Katas
 
