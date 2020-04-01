@@ -19,6 +19,13 @@ class BfsSolver<T extends Cell> {
       : _grid = grid,
         _visitedMatrix = BoardUtils.createVisitedMatrix(grid);
 
+  @visibleForTesting
+  Queue<int> get rowQueue => _rowQueue;
+  @visibleForTesting
+  Queue<int> get colQueue => _colQueue;
+  @visibleForTesting
+  List<List<bool>> get visitedMatrix => _visitedMatrix;
+
   int shortestPath() {
     final List<int> startPosition = BoardUtils.startPosition(_grid);
     final int startRowIndex = startPosition[0],

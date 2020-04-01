@@ -55,8 +55,30 @@ void main() {
   });
 
   group('BFS Solver', () {
+    test('Testing the internal explore neighbors from position', () {
+      final BfsSolver bfsSolver = 
+          BfsSolver(grid: startEndBlocked3x3CellDungeon);
+
+      bfsSolver.exploreNeighborsFromPosition(1, 1);
+
+      final Queue<int> correctRowQueue = Queue();
+      correctRowQueue.addAll([0, 1, 1]);
+      final Queue<int> correctColQueue = Queue();
+      correctColQueue.addAll([1, 0, 2]);
+      List<List<bool>> correctVisitedMatrix = [
+        [false, true, false], 
+        [true, false, true], 
+        [false, false, false],
+      ];
+
+      expect(bfsSolver.rowQueue, correctRowQueue);
+      expect(bfsSolver.colQueue, correctColQueue);
+      expect(bfsSolver.visitedMatrix, correctVisitedMatrix);
+    });
+
     test('Shortest Path', () {
-      cellDungeonByShortestPath.forEach((List<List<DungeonCell>> cellDungeon, int shortestPathAnswer) {
+      cellDungeonByShortestPath.forEach(
+          (List<List<DungeonCell>> cellDungeon, int shortestPathAnswer) {
         final BfsSolver bfsSolver = BfsSolver(grid: cellDungeon);
 
         final int moveCount = bfsSolver.shortestPath();
@@ -64,54 +86,5 @@ void main() {
         expect(moveCount, shortestPathAnswer);
       });
     });
-    // test('Finding the neighbors of a cell', () {
-    //   final DungeonGame dungeonGame =
-    //       DungeonGame(grid: startAndEndOnlyStringDungeon);
-
-    //   final List<List<int>> extractedNeighbors =
-    //       dungeonGame.neighborsFromPosition(0, 1);
-
-    //   const List<List<int>> correctNeighbors = [
-    //     [1, 1],
-    //     [0, 0],
-    //   ];
-
-    //   expect(extractedNeighbors, correctNeighbors);
-    // });
-
-    // test('Adding neighbors to the search queue', () {
-    //   final DungeonGame dungeonGame =
-    //       DungeonGame(grid: startEnd3x3StringDungeon);
-
-    //   final Queue<List<int>> availableNeighborsFromPosition =
-    //       dungeonGame.availableNeighborsFromPosition(1, 1);
-
-    //   final Queue<List<int>> correctQueue = Queue<List<int>>();
-    //   correctQueue.addAll([
-    //     [0, 1],
-    //     [2, 1],
-    //     [1, 0],
-    //     [1, 2],
-    //   ]);
-
-    //   expect(availableNeighborsFromPosition, correctQueue);
-    // });
-
-    // test('If the cell is blocked, the neighbor isn\'t added to the queue', () {
-    //   final DungeonGame dungeonGame =
-    //       DungeonGame(grid: startEndBlocked3x3StringDungeon);
-
-    //   final Queue<List<int>> availableNeighborsFromPosition =
-    //       dungeonGame.availableNeighborsFromPosition(1, 1);
-
-    //   final Queue<List<int>> correctQueue = Queue<List<int>>();
-    //   correctQueue.addAll([
-    //     [0, 1],
-    //     [1, 0],
-    //     [1, 2],
-    //   ]);
-
-    //   expect(availableNeighborsFromPosition, correctQueue);
-    // });
   });
 }

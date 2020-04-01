@@ -5,7 +5,7 @@ const DungeonCell blockedC = DungeonCell.blockedCell;
 const DungeonCell startC = DungeonCell.startCell;
 const DungeonCell endC = DungeonCell.endCell;
 
-final Map<List<List<DungeonCell>>, int> cellDungeonByShortestPath = {
+const Map<List<List<DungeonCell>>, int> cellDungeonByShortestPath = {
   startAndEndOnlyCellDungeon: 2,
   startEnd3x3CellDungeon: 4,
   startEndBlocked3x3CellDungeon: 4,
