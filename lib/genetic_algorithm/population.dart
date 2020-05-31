@@ -4,20 +4,24 @@ import 'individual.dart';
 
 @immutable
 abstract class Population {
-  Iterable<Individual> get individuals;
+  static const int defaultPopulationSize = 10;
 
   factory Population.getRandomPopulation({
-    size = 10,
+    size = defaultPopulationSize,
     individualLength,
     randomGeneratorCeiling,
   }) =>
       RandomPopulation(
-        size: size,
+        size: size ?? defaultPopulationSize,
         individualLength: individualLength,
         randomGeneratorCeiling: randomGeneratorCeiling,
       );
 
-  Population();
+  const factory Population.fromIndividuals(List<Individual> individuals) = FromIndividualsPopulation;
+
+  const Population();
+
+  Iterable<Individual> get individuals;
 
   @override
   bool operator ==(Object otherObject) =>
@@ -25,6 +29,15 @@ abstract class Population {
 
   @override
   String toString() => '$runtimeType: ${individuals.toString()}';
+}
+
+@immutable
+class FromIndividualsPopulation extends Population {
+  final List<Individual> _individuals;
+
+  const FromIndividualsPopulation(List<Individual> individuals): _individuals = individuals;
+
+  List<Individual> get individuals => _individuals;
 }
 
 @immutable

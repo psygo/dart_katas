@@ -4,14 +4,20 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class Individual {
+  static const int defaultLength = 5;
+  static const int defaultRandomGeneratorCeiling = 1000;
+
   factory Individual.getRandomIndividual({
-    length = 1,
-    randomGeneratorCeiling = 1000,
+    length = defaultLength,
+    randomGeneratorCeiling = defaultRandomGeneratorCeiling,
   }) =>
       RandomIndividual(
-        length: length,
-        randomGeneratorCeiling: randomGeneratorCeiling,
+        length: length ?? defaultLength,
+        randomGeneratorCeiling:
+            randomGeneratorCeiling ?? defaultRandomGeneratorCeiling,
       );
+
+  const factory Individual.fromValues(List<int> values) = FromValuesIndividual;
 
   const Individual();
 
@@ -23,6 +29,15 @@ abstract class Individual {
 
   @override
   String toString() => '$runtimeType: ${values.toString()}';
+}
+
+@immutable
+class FromValuesIndividual extends Individual {
+  final List<int> _values;
+
+  const FromValuesIndividual(List<int> values): _values = values;
+
+  List<int> get values => _values;
 }
 
 @immutable
