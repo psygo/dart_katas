@@ -1,5 +1,7 @@
-import 'package:dart_katas/genetic_algorithm/genetic_algorithm.dart';
 import 'package:test/test.dart';
+
+import 'package:dart_katas/genetic_algorithm/individual.dart';
+import 'package:dart_katas/genetic_algorithm/population.dart';
 
 void main() {
   group('`Individual`', () {
