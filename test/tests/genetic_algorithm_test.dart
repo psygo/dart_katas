@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:test/test.dart';
 
 import 'package:dart_katas/genetic_algorithm/evolution_simulator.dart';
@@ -56,16 +58,11 @@ void main() {
           EvolutionSimulator.getGeneticSimulator(size: 20);
       final Stream<Population> populationStream =
           evolutionSimulator.populationStream;
-      Population initialPopulation;
-
-      print(evolutionSimulator.currentPopulation);
-
-      populationStream.listen((Population newPopulation) {
-        print(newPopulation);
-        initialPopulation = newPopulation;
-      });
+      final Population initialPopulation = await populationStream.first;
+      final Population currentPopulation = evolutionSimulator.currentPopulation;
 
       expect(initialPopulation.individuals.length, 20);
+      expect(currentPopulation.individuals.length, 20);
     });
 
     test(

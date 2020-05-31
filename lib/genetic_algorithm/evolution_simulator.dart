@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 import 'population.dart';
 
 abstract class EvolutionSimulator {
@@ -18,8 +20,8 @@ abstract class EvolutionSimulator {
 }
 
 class GeneticEvolutionSimulator implements EvolutionSimulator {
-  final StreamController<Population> _populationStreamController =
-      StreamController<Population>.broadcast();
+  final BehaviorSubject<Population> _populationStreamController =
+      BehaviorSubject<Population>();
   Population _currentPopulation;
 
   GeneticEvolutionSimulator({
