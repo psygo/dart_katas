@@ -8,8 +8,8 @@ abstract class Individual {
   static const int defaultRandomGeneratorCeiling = 1000;
 
   factory Individual.getRandomIndividual({
-    length = defaultLength,
-    randomGeneratorCeiling = defaultRandomGeneratorCeiling,
+    int length = defaultLength,
+    int randomGeneratorCeiling = defaultRandomGeneratorCeiling,
   }) =>
       RandomIndividual(
         length: length ?? defaultLength,
@@ -47,8 +47,8 @@ class RandomIndividual extends Individual {
   final List<int> _values;
 
   RandomIndividual({
-    length,
-    randomGeneratorCeiling,
+    int length,
+    int randomGeneratorCeiling,
   }) : _values = _createRandomList(length, randomGeneratorCeiling);
 
   static List<int> _createRandomList(

@@ -7,9 +7,9 @@ abstract class Population {
   static const int defaultPopulationSize = 10;
 
   factory Population.getRandomPopulation({
-    size = defaultPopulationSize,
-    individualLength,
-    randomGeneratorCeiling,
+    int size = defaultPopulationSize,
+    int individualLength,
+    int randomGeneratorCeiling,
   }) =>
       RandomPopulation(
         size: size ?? defaultPopulationSize,
@@ -45,9 +45,9 @@ class RandomPopulation extends Population {
   final List<Individual> _individuals;
 
   RandomPopulation({
-    size,
-    individualLength,
-    randomGeneratorCeiling,
+    int size,
+    int individualLength,
+    int randomGeneratorCeiling,
   }) : _individuals = _createRandomIndividualsList(
           size,
           individualLength,

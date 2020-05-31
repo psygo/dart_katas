@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 
+import 'package:dart_katas/genetic_algorithm/evolution_simulator.dart';
 import 'package:dart_katas/genetic_algorithm/individual.dart';
 import 'package:dart_katas/genetic_algorithm/population.dart';
 
@@ -47,5 +48,29 @@ void main() {
       expect(population1, equals(population1));
       expect(population1 == population2, isFalse);
     });
+  });
+
+  group('Evolution Simulator', () {
+    test('Creates an evolution simulator with a population stream', () async {
+      final EvolutionSimulator evolutionSimulator =
+          EvolutionSimulator.getGeneticSimulator(size: 20);
+      final Stream<Population> populationStream =
+          evolutionSimulator.populationStream;
+      Population initialPopulation;
+
+      print(evolutionSimulator.currentPopulation);
+
+      populationStream.listen((Population newPopulation) {
+        print(newPopulation);
+        initialPopulation = newPopulation;
+      });
+
+      expect(initialPopulation.individuals.length, 20);
+    });
+
+    test(
+        'Adding population to the stream updates the current population as '
+        'well',
+        () {});
   });
 }
