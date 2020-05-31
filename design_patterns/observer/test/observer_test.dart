@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../../lib/design_patterns/observer/observer.dart';
+import 'package:observer/observer.dart';
 
 void main() {
   group('Test Counter with an Observable property', () {

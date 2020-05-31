@@ -1,6 +1,6 @@
-name: bowling_game
+name: observer
 description: >-
-  Bowling Game Kata, based on [Uncle Bob's presentation](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata).
+  Observer Kata.
 version: 0.0.1
 author: Philippe Fanaro <philippefanaro@gmail.com>
 repository: https://github.com/psygo/dart_katas

@@ -1,6 +1,6 @@
-name: bowling_game
+name: design_patterns
 description: >-
-  Bowling Game Kata, based on [Uncle Bob's presentation](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata).
+  Katas for the (in)famous programming design patterns.
 version: 0.0.1
 author: Philippe Fanaro <philippefanaro@gmail.com>
 repository: https://github.com/psygo/dart_katas
@@ -13,3 +13,7 @@ environment:
 
 dev_dependencies:
   test: ^1.14.6
+
+dependencies:
+  observer:
+    path: observer/

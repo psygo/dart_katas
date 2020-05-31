@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
 
 import 'package:bowling_game/bowling_game.dart';
-// import '../../lib/bowling_game/bowling_game.dart';
-// import '../fixture_data/bowling_game_fixture_data.dart';
+
+import 'bowling_game_fixture_data.dart';
 
 void main() {
   BowlingGame _game;
