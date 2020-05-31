@@ -27,6 +27,20 @@ void main() {
       expect(randomIndividual1, equals(randomIndividual1));
       expect(randomIndividual1 == randomIndividual2, isFalse);
     });
+
+    test('Calculating the fitness of an individual', () {
+      double fitnessExampleFunction(List<int> values) {
+        final double sum = values.reduce((value, element) => value + element).toDouble();
+        
+        return (200 - sum).abs();
+      }
+
+      final double fitness1 = individual1.calculateFitness(fitnessExampleFunction);
+      final double fitness3 = individual3.calculateFitness(fitnessExampleFunction);
+
+      expect(fitness1, 197);
+      expect(fitness3, 196);
+    });
   });
 
   group('Population', () {

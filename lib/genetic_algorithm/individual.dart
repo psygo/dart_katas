@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 
+typedef FitnessFunction = double Function(List<int>);
+
 @immutable
 abstract class Individual {
   static const int defaultLength = 5;
@@ -22,6 +24,9 @@ abstract class Individual {
   const Individual();
 
   Iterable<int> get values;
+
+  double calculateFitness(FitnessFunction fitnessFunction) =>
+      fitnessFunction(values);
 
   @override
   bool operator ==(Object otherObject) =>
