@@ -17,11 +17,15 @@ abstract class Population {
         randomGeneratorCeiling: randomGeneratorCeiling,
       );
 
-  const factory Population.fromIndividuals(List<Individual> individuals) = FromIndividualsPopulation;
+  const factory Population.fromIndividuals(List<Individual> individuals) =
+      FromIndividualsPopulation;
 
   const Population();
 
   Iterable<Individual> get individuals;
+
+  double calculateGrade(double Function(List<Individual>) gradeFunction) =>
+      gradeFunction(individuals);
 
   @override
   bool operator ==(Object otherObject) =>
@@ -35,7 +39,8 @@ abstract class Population {
 class FromIndividualsPopulation extends Population {
   final List<Individual> _individuals;
 
-  const FromIndividualsPopulation(List<Individual> individuals): _individuals = individuals;
+  const FromIndividualsPopulation(List<Individual> individuals)
+      : _individuals = individuals;
 
   List<Individual> get individuals => _individuals;
 }

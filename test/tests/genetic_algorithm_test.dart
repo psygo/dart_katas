@@ -16,6 +16,13 @@ void main() {
   final Individual randomIndividual2 =
       Individual.getRandomIndividual(length: 10);
 
+  double fitnessExampleFunction(List<int> values) {
+    final double sum =
+        values.reduce((int value, int element) => value + element).toDouble();
+
+    return (200 - sum).abs();
+  }
+
   group('`Individual`', () {
     test('Testing equality between individuals', () {
       expect(individual1, equals(individual2));
@@ -29,14 +36,10 @@ void main() {
     });
 
     test('Calculating the fitness of an individual', () {
-      double fitnessExampleFunction(List<int> values) {
-        final double sum = values.reduce((value, element) => value + element).toDouble();
-        
-        return (200 - sum).abs();
-      }
-
-      final double fitness1 = individual1.calculateFitness(fitnessExampleFunction);
-      final double fitness3 = individual3.calculateFitness(fitnessExampleFunction);
+      final double fitness1 =
+          individual1.calculateFitness(fitnessExampleFunction);
+      final double fitness3 =
+          individual3.calculateFitness(fitnessExampleFunction);
 
       expect(fitness1, 197);
       expect(fitness3, 196);
@@ -44,14 +47,14 @@ void main() {
   });
 
   group('Population', () {
-    test('Testing equality between populations', () {
-      const Population population1 = Population.fromIndividuals(
-          <Individual>[individual1, individual2, individual3]);
-      const Population population2 = Population.fromIndividuals(
-          <Individual>[individual1, individual2, individual3]);
-      const Population population3 = Population.fromIndividuals(
-          <Individual>[individual1, individual2, individual2]);
+    const Population population1 = Population.fromIndividuals(
+        <Individual>[individual1, individual2, individual3]);
+    const Population population2 = Population.fromIndividuals(
+        <Individual>[individual1, individual2, individual3]);
+    const Population population3 = Population.fromIndividuals(
+        <Individual>[individual1, individual2, individual2]);
 
+    test('Testing equality between populations', () {
       expect(population1, equals(population2));
       expect(population1 == population3, isFalse);
     });
@@ -63,6 +66,22 @@ void main() {
 
       expect(population1, equals(population1));
       expect(population1 == population2, isFalse);
+    });
+
+    test('Calculating the grade of a population', () {
+      double gradeExampleFunction(List<Individual> individuals) {
+        double sum = 0;
+        individuals.forEach((Individual individual) {
+          sum += individual.calculateFitness(fitnessExampleFunction);
+        });
+
+        return sum / (individuals.length);
+      }
+
+      final double grade = population1.calculateGrade(gradeExampleFunction);
+      final double roundedGrade = double.parse(grade.toStringAsFixed(2));
+
+      expect(roundedGrade, 196.67);
     });
   });
 
@@ -82,6 +101,7 @@ void main() {
     test(
         'Adding population to the stream updates the current population as '
         'well',
-        () {});
+        () {},
+        skip: true);
   });
 }

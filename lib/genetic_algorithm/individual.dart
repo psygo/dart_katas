@@ -40,7 +40,7 @@ abstract class Individual {
 class FromValuesIndividual extends Individual {
   final List<int> _values;
 
-  const FromValuesIndividual(List<int> values): _values = values;
+  const FromValuesIndividual(List<int> values) : _values = values;
 
   List<int> get values => _values;
 }
