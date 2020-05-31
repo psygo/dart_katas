@@ -16,10 +16,17 @@ abstract class Individual {
   const Individual();
 
   Iterable<int> get values;
+
+  @override
+  bool operator ==(Object otherObject) =>
+      otherObject is Individual && otherObject.values == values;
+
+  @override
+  String toString() => '$runtimeType: ${values.toString()}';
 }
 
 @immutable
-class RandomIndividual implements Individual {
+class RandomIndividual extends Individual {
   static final Random randomNumberGenerator = Random();
 
   final List<int> _values;
@@ -36,10 +43,4 @@ class RandomIndividual implements Individual {
       List.generate(length, (int _) => randomNumberGenerator.nextInt(ceiling));
 
   List<int> get values => _values;
-}
-
-mixin IndividualEquality on Individual {
-  @override
-  bool operator ==(Object otherObject) =>
-      otherObject is Individual && otherObject.values == values;
 }

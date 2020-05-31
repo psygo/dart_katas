@@ -9,6 +9,8 @@ void main() {
       final Individual individual1 = Individual.getRandomIndividual(length: 10);
       final Individual individual2 = Individual.getRandomIndividual(length: 10);
 
+      print(individual1.toString());
+
       expect(individual1, equals(individual1));
       expect(individual1 == individual2, isFalse);
     });
@@ -17,7 +19,8 @@ void main() {
   group('Population', () {
     test('Checks that 2 random populations don\'t have the same individuals', () {
       final Population population1 = Population.getRandomPopulation();
-      final Population population2 = Population.getRandomPopulation();
+
+      print(population1.individuals);
 
       expect(population1, equals(population1));
     });

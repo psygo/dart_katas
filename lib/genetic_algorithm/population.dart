@@ -7,7 +7,7 @@ abstract class Population {
   Iterable<Individual> get individuals;
 
   factory Population.getRandomPopulation({
-    size = 100,
+    size = 10,
     individualLength,
     randomGeneratorCeiling,
   }) =>
@@ -18,10 +18,17 @@ abstract class Population {
       );
 
   Population();
+
+  @override
+  bool operator ==(Object otherObject) =>
+      otherObject is Population && otherObject.individuals == individuals;
+
+  @override
+  String toString() => '$runtimeType: ${individuals.toString()}';
 }
 
 @immutable
-class RandomPopulation implements Population {
+class RandomPopulation extends Population {
   final List<Individual> _individuals;
 
   RandomPopulation({
@@ -46,10 +53,4 @@ class RandomPopulation implements Population {
               randomGeneratorCeiling: randomGeneratorCeiling));
 
   List<Individual> get individuals => _individuals;
-}
-
-mixin PopulationEquality on Population {
-  @override
-  bool operator ==(Object otherObject) =>
-      otherObject is Population && otherObject.individuals == individuals;
 }
