@@ -8,7 +8,7 @@ env:
     - FLUTTER=./flutter/bin/flutter
     - FLUTTER_GITHUB=https://github.com/flutter/flutter.git
     - CODECOV=https://codecov.io/bash
-    - PROJECT=dart_katas
+    - PROJECT=katas
 
 install:
   - git clone $FLUTTER_GITHUB -b stable --depth 1
