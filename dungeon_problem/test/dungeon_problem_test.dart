@@ -1,13 +1,10 @@
 import 'dart:collection';
 
-import 'package:dart_katas/dungeon_problem/bfs_solver.dart';
 import 'package:test/test.dart';
 
-import 'package:dart_katas/dungeon_problem/board_utils.dart';
-import 'package:dart_katas/dungeon_problem/dungeon_cell.dart';
-import 'package:dart_katas/dungeon_problem/dungeon_problem.dart';
+import 'package:dungeon_problem/dungeon_problem.dart';
 
-import '../fixture_data/dungeon_problem_fixture_data.dart';
+import 'dungeon_problem_fixture_data.dart';
 
 void main() {
   group('Initialization tests', () {

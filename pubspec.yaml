@@ -26,3 +26,5 @@ dependencies:
     path: bowling_game/
   design_patterns:
     path: design_patterns/
+  dungeon_problem:
+    path: dungeon_problem/

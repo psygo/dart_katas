@@ -1,4 +1,4 @@
-import 'package:dart_katas/dungeon_problem/dungeon_cell.dart';
+import 'package:dungeon_problem/src/dungeon_cell.dart';
 
 const DungeonCell emptyC = DungeonCell.emptyCell;
 const DungeonCell blockedC = DungeonCell.blockedCell;
