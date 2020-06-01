@@ -14,9 +14,6 @@ install:
   - git clone $FLUTTER_GITHUB -b stable --depth 1
   - $FLUTTER doctor
   - $FLUTTER pub get
-  - ls
-  - cd ..
-  - ls
 
 jobs:
   include:

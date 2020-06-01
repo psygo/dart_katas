@@ -1,0 +1,33 @@
+name: katas
+description: >-
+  The katas directory.
+version: 0.6.1
+author: Philippe Fanaro <philippefanaro@gmail.com>
+repository: https://github.com/psygo/dart_katas
+homepage: https://github.com/psygo/dart_katas
+issue_tracker: https://github.com/psygo/dart_katas/issues
+documentation: https://github.com/psygo/dart_katas
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dev_dependencies:
+  test: ^1.14.6
+
+dependencies:
+  bowling_game:
+    path: bowling_game/
+  design_patterns:
+    path: design_patterns/
+  dungeon_problem:
+    path: dungeon_problem/
+  eratos_sieve:
+    path: eratos_sieve/
+  game_of_life:
+    path: game_of_life/
+  genetic_algorithm:
+    path: genetic_algorithm/
+  prime_factors:
+    path: prime_factors/
+  tic_tac_toe:
+    path: tic_tac_toe/
