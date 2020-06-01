@@ -7,7 +7,6 @@ env:
     - DARTANALYZER=$DARTSDK/dartanalyzer
     - FLUTTER=./flutter/bin/flutter
     - FLUTTER_GITHUB=https://github.com/flutter/flutter.git
-    - CODECOV=https://codecov.io/bash
     - PROJECT=katas
 
 install:
@@ -28,5 +27,3 @@ jobs:
     - stage: Test
       script:
         - pub run test $PROJECT
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
