@@ -29,4 +29,4 @@ jobs:
       script:
         - pub run test $PROJECT
       after_success:
-        - bash <(curl -s $CODECOV)
+        - bash <(curl -s https://codecov.io/bash)

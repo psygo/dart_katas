@@ -1,5 +1,7 @@
 # Dart Katas
 
+[![Build Status](https://travis-ci.com/psygo/dart_katas.svg?branch=master)](https://travis-ci.com/psygo/dart_katas)
+
 These are coding exercises meant to sharpen your programming abilities, analogous to martial arts'.
 
 All of the katas were done using TDD, meaning they are not only tested but were tailored for (*driven by*) the tests.
