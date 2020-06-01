@@ -20,7 +20,6 @@ dev_dependencies:
 dependencies:
   meta: ^1.1.8
   pedantic: ^1.9.0
-  rxdart: ^0.24.1
 
   bowling_game:
     path: bowling_game/
@@ -30,3 +29,9 @@ dependencies:
     path: dungeon_problem/
   eratos_sieve:
     path: eratos_sieve/
+  game_of_life:
+    path: game_of_life/
+  genetic_algorithm:
+    path: genetic_algorithm/
+  prime_factors:
+    path: prime_factors/
