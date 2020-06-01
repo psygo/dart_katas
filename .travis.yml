@@ -11,7 +11,7 @@ jobs:
   include:
     - stage: Formatting
       script:
-        - $DARTFMT -n .
+        - $DARTFMT -n . --set-exit-if-changed
 
     - stage: Static Analysis
       script:
