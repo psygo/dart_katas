@@ -8,6 +8,7 @@ env:
     - FLUTTER=./flutter/bin/flutter
     - FLUTTER_GITHUB=https://github.com/flutter/flutter.git
     - CODECOV=https://codecov.io/bash
+    - PROJECT=dart_katas
 
 install:
   - git clone $FLUTTER_GITHUB -b stable --depth 1
@@ -18,14 +19,14 @@ jobs:
   include:
     - stage: Formatting
       script:
-        - $DARTFMT -n . --set-exit-if-changed
+        - $DARTFMT -n $PROJECT --set-exit-if-changed
 
     - stage: Static Analysis
       script:
-        - $DARTANALYZER .
+        - $DARTANALYZER $PROJECT
 
     - stage: Test
       script:
-        - pub run test .
+        - pub run test $PROJECT
       after_success:
         - bash <(curl -s $CODECOV)
