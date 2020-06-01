@@ -1,8 +1,25 @@
 language: dart
 
-dart: stable
+env:
+  global:
+    - DARTSDK=./flutter/bin/cache/dart-sdk/bin
+    - DARTFMT=$DARTSDK/dartfmt
+    - DARTANALYZER=$DARTSDK/dartanalyzer
+    - CODECOV=https://codecov.io/bash
+    - PACKAGES=packages
 
-dart_task:
-  - dartanalyzer
-  - dartfmt
-  - test
+jobs:
+  include:
+    - stage: Formatting
+      script:
+        - $DARTFMT -n .
+
+    - stage: Static Analysis
+      script:
+        - $DARTANALYZER .
+
+    - stage: Test
+      script:
+        - pub run test .
+      after_success:
+        - bash <(curl -s $CODECOV)
