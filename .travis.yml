@@ -7,6 +7,11 @@ env:
     - DARTANALYZER=$DARTSDK/dartanalyzer
     - CODECOV=https://codecov.io/bash
 
+install:
+  - git clone $FLUTTER_GITHUB -b stable --depth 1
+  - $FLUTTER doctor
+  - $FLUTTER pub get
+
 jobs:
   include:
     - stage: Formatting
