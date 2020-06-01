@@ -6,7 +6,6 @@ env:
     - DARTFMT=$DARTSDK/dartfmt
     - DARTANALYZER=$DARTSDK/dartanalyzer
     - CODECOV=https://codecov.io/bash
-    - PACKAGES=packages
 
 jobs:
   include:
