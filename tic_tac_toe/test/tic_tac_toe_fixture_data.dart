@@ -1,4 +1,4 @@
-import '../../lib/tic_tac_toe/tic_tac_toe.dart';
+import 'package:tic_tac_toe/tic_tac_toe.dart';
 
 final Map<List<List<int>>, List<dynamic>> movesByWinningStatusAndBoard = {
   firstMovePlays: [noWinnerMsg, firstMoveBoard],

@@ -35,3 +35,5 @@ dependencies:
     path: genetic_algorithm/
   prime_factors:
     path: prime_factors/
+  tic_tac_toe:
+    path: tic_tac_toe/
