@@ -2,4 +2,4 @@
 /// {@category Algorithm, DataStructures.}
 library insertion_sort;
 
-export 'src/insertion_sort.dart';
+export 'src/insertion_sort.dart' show InsertionSorter;
