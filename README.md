@@ -50,4 +50,5 @@ For more info about them, go to the `docs` or `docs/presentations` folder.
 There are two options:
 
 - `pub run test <path_to_file>`
+    - `pub run test .` at the root of the repo will run all tests.
 - `dart <path_to_file>`
