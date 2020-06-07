@@ -1,9 +1,15 @@
 import 'package:test/test.dart';
 
+import 'package:insertion_sort/insertion_sort.dart';
+
 void main() {
-  group('', () {
-    test('', () {
-      
+  group('Basic Tests', () {
+    test('Can sort word', () {
+      const InsertionSorter insertionSorter = InsertionSorter();
+
+      final String sorted = insertionSorter.sort('insertionsort');
+
+      expect(sorted, 'eiinnoorrsstt');
     });
   });
 }
