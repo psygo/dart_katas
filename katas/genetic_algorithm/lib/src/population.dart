@@ -1,3 +1,4 @@
+import 'package:genetic_algorithm/src/params.dart';
 import 'package:meta/meta.dart';
 
 import 'individual.dart';
@@ -66,9 +67,9 @@ class RandomPopulation extends Population {
   ) =>
       List.generate(
           size,
-          (int _) => Individual.getRandomIndividual(
+          (int _) => Individual(IndividualParams(
               length: individualLength,
-              randomGeneratorCeiling: randomGeneratorCeiling));
+              randomGeneratorCeiling: randomGeneratorCeiling)));
 
   List<Individual> get individuals => _individuals;
 }
