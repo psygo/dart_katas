@@ -33,7 +33,9 @@ class GeneticEvolutionSimulator implements EvolutionSimulator {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
     _populationStreamController.add(Population(PopulationParams(
-      individualParams: IndividualParams(length: individualLength, randomGeneratorCeiling: randomGeneratorCeiling),
+      individualParams: IndividualParams(
+          length: individualLength,
+          randomGeneratorCeiling: randomGeneratorCeiling),
       size: size,
     )));
   }

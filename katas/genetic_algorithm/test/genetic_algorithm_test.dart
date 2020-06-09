@@ -47,12 +47,12 @@ void main() {
   });
 
   group('Population', () {
-    final Population population1 = Population(PopulationParams(individuals: 
-        <Individual>[individual1, individual2, individual3]));
-    final Population population2 = Population(PopulationParams(individuals: 
-        <Individual>[individual1, individual2, individual3]));
-    final Population population3 = Population(PopulationParams(individuals: 
-        <Individual>[individual1, individual2, individual2]));
+    final Population population1 = Population(PopulationParams(
+        individuals: <Individual>[individual1, individual2, individual3]));
+    final Population population2 = Population(PopulationParams(
+        individuals: <Individual>[individual1, individual2, individual3]));
+    final Population population3 = Population(PopulationParams(
+        individuals: <Individual>[individual1, individual2, individual2]));
 
     double gradeExampleFunction(List<Individual> individuals) {
       double sum = 0;
@@ -86,22 +86,22 @@ void main() {
   });
 
   group('Evolution Simulator', () {
-  //   test('Creates an evolution simulator with a population stream', () async {
-  //     final EvolutionSimulator evolutionSimulator =
-  //         EvolutionSimulator.getGeneticSimulator(size: 20);
-  //     final Stream<Population> populationStream =
-  //         evolutionSimulator.populationStream;
-  //     final Population initialPopulation = await populationStream.first;
-  //     final Population currentPopulation = evolutionSimulator.currentPopulation;
+    //   test('Creates an evolution simulator with a population stream', () async {
+    //     final EvolutionSimulator evolutionSimulator =
+    //         EvolutionSimulator.getGeneticSimulator(size: 20);
+    //     final Stream<Population> populationStream =
+    //         evolutionSimulator.populationStream;
+    //     final Population initialPopulation = await populationStream.first;
+    //     final Population currentPopulation = evolutionSimulator.currentPopulation;
 
-  //     expect(initialPopulation.individuals.length, 20);
-  //     expect(currentPopulation.individuals.length, 20);
-  //   });
+    //     expect(initialPopulation.individuals.length, 20);
+    //     expect(currentPopulation.individuals.length, 20);
+    //   });
 
-  //   test(
-  //       'Adding population to the stream updates the current population as '
-  //       'well',
-  //       () {},
-  //       skip: true);
+    //   test(
+    //       'Adding population to the stream updates the current population as '
+    //       'well',
+    //       () {},
+    //       skip: true);
   });
 }
