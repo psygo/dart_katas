@@ -13,7 +13,7 @@ class Individual {
 
   final List<int> _values;
 
-  Individual(IndividualParams individualParams)
+  Individual([IndividualParams individualParams = const IndividualParams()])
       : _values = individualParams.values ??
             _createRandomList(individualParams.length,
                 individualParams.randomGeneratorCeiling);

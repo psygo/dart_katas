@@ -1,75 +1,44 @@
+import 'package:collection/collection.dart';
 import 'package:genetic_algorithm/src/params.dart';
 import 'package:meta/meta.dart';
 
 import 'individual.dart';
 
-@immutable
-abstract class Population {
-  static const int defaultPopulationSize = 10;
-
-  factory Population.getRandomPopulation({
-    int size = defaultPopulationSize,
-    int individualLength,
-    int randomGeneratorCeiling,
-  }) =>
-      RandomPopulation(
-        size: size ?? defaultPopulationSize,
-        individualLength: individualLength,
-        randomGeneratorCeiling: randomGeneratorCeiling,
-      );
-
-  const factory Population.fromIndividuals(List<Individual> individuals) =
-      FromIndividualsPopulation;
-
-  const Population();
-
-  Iterable<Individual> get individuals;
-
-  double calculateGrade(double Function(List<Individual>) gradeFunction) =>
-      gradeFunction(individuals);
-
-  @override
-  bool operator ==(Object otherObject) =>
-      otherObject is Population && otherObject.individuals == individuals;
-
-  @override
-  String toString() => '$runtimeType: ${individuals.toString()}';
-}
+typedef GradeFunction = double Function(List<Individual>);
 
 @immutable
-class FromIndividualsPopulation extends Population {
+class Population {
   final List<Individual> _individuals;
 
-  const FromIndividualsPopulation(List<Individual> individuals)
-      : _individuals = individuals;
-
-  List<Individual> get individuals => _individuals;
-}
-
-@immutable
-class RandomPopulation extends Population {
-  final List<Individual> _individuals;
-
-  RandomPopulation({
-    int size,
-    int individualLength,
-    int randomGeneratorCeiling,
-  }) : _individuals = _createRandomIndividualsList(
-          size,
-          individualLength,
-          randomGeneratorCeiling,
-        );
+  Population([PopulationParams populationParams = const PopulationParams()])
+      : _individuals = populationParams.individuals ??
+            _createRandomIndividualsList(
+              populationParams.size,
+              populationParams.individualParams.length,
+              populationParams.individualParams.randomGeneratorCeiling,
+            );
 
   static List<Individual> _createRandomIndividualsList(
     int size,
     int individualLength,
     int randomGeneratorCeiling,
   ) =>
-      List.generate(
+      List<Individual>.generate(
           size,
           (int _) => Individual(IndividualParams(
               length: individualLength,
               randomGeneratorCeiling: randomGeneratorCeiling)));
 
   List<Individual> get individuals => _individuals;
+
+  double calculateGrade(GradeFunction gradeFunction) =>
+      gradeFunction(individuals);
+
+  @override
+  bool operator ==(Object otherObject) =>
+      otherObject is Population &&
+      ListEquality().equals(otherObject.individuals, _individuals);
+
+  @override
+  String toString() => '$runtimeType: ${individuals.toString()}';
 }

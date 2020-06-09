@@ -46,46 +46,46 @@ void main() {
     });
   });
 
-  // group('Population', () {
-  //   const Population population1 = Population.fromIndividuals(
-  //       <Individual>[individual1, individual2, individual3]);
-  //   const Population population2 = Population.fromIndividuals(
-  //       <Individual>[individual1, individual2, individual3]);
-  //   const Population population3 = Population.fromIndividuals(
-  //       <Individual>[individual1, individual2, individual2]);
+  group('Population', () {
+    final Population population1 = Population(PopulationParams(individuals: 
+        <Individual>[individual1, individual2, individual3]));
+    final Population population2 = Population(PopulationParams(individuals: 
+        <Individual>[individual1, individual2, individual3]));
+    final Population population3 = Population(PopulationParams(individuals: 
+        <Individual>[individual1, individual2, individual2]));
 
-  //   test('Testing equality between populations', () {
-  //     expect(population1, equals(population2));
-  //     expect(population1 == population3, isFalse);
-  //   });
+    double gradeExampleFunction(List<Individual> individuals) {
+      double sum = 0;
+      individuals.forEach((Individual individual) {
+        sum += individual.calculateFitness(fitnessExampleFunction);
+      });
 
-  //   test('Checks that 2 random populations don\'t have the same individuals',
-  //       () {
-  //     final Population population1 = Population.getRandomPopulation();
-  //     final Population population2 = Population.getRandomPopulation();
+      return sum / (individuals.length);
+    }
 
-  //     expect(population1, equals(population1));
-  //     expect(population1 == population2, isFalse);
-  //   });
+    test('Testing equality between populations', () {
+      expect(population1, equals(population2));
+      expect(population1 == population3, isFalse);
+    });
 
-  //   test('Calculating the grade of a population', () {
-  //     double gradeExampleFunction(List<Individual> individuals) {
-  //       double sum = 0;
-  //       individuals.forEach((Individual individual) {
-  //         sum += individual.calculateFitness(fitnessExampleFunction);
-  //       });
+    test('Checks that 2 random populations don\'t have the same individuals',
+        () {
+      final Population population1 = Population();
+      final Population population2 = Population();
 
-  //       return sum / (individuals.length);
-  //     }
+      expect(population1, equals(population1));
+      expect(population1 == population2, isFalse);
+    });
 
-  //     final double grade = population1.calculateGrade(gradeExampleFunction);
-  //     final double roundedGrade = double.parse(grade.toStringAsFixed(2));
+    test('Calculating the grade of a population', () {
+      final double grade = population1.calculateGrade(gradeExampleFunction);
+      final double roundedGrade = double.parse(grade.toStringAsFixed(2));
 
-  //     expect(roundedGrade, 196.67);
-  //   });
-  // });
+      expect(roundedGrade, 196.67);
+    });
+  });
 
-  // group('Evolution Simulator', () {
+  group('Evolution Simulator', () {
   //   test('Creates an evolution simulator with a population stream', () async {
   //     final EvolutionSimulator evolutionSimulator =
   //         EvolutionSimulator.getGeneticSimulator(size: 20);
@@ -103,5 +103,5 @@ void main() {
   //       'well',
   //       () {},
   //       skip: true);
-  // });
+  });
 }

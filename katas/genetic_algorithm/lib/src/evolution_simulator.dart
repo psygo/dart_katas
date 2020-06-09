@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
+import 'params.dart';
 import 'population.dart';
 
 abstract class EvolutionSimulator {
@@ -31,11 +32,10 @@ class GeneticEvolutionSimulator implements EvolutionSimulator {
   }) {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
-    _populationStreamController.add(Population.getRandomPopulation(
+    _populationStreamController.add(Population(PopulationParams(
+      individualParams: IndividualParams(length: individualLength, randomGeneratorCeiling: randomGeneratorCeiling),
       size: size,
-      individualLength: individualLength,
-      randomGeneratorCeiling: randomGeneratorCeiling,
-    ));
+    )));
   }
 
   @override
