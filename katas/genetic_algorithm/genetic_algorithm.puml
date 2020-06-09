@@ -1,14 +1,6 @@
 @startuml genetic_algorithm
 set namespaceSeparator ::
 
-abstract class "genetic_algorithm::src::evolution_simulator.dart::EvolutionSimulator" {
-  +dynamic populationStream
-  +Population currentPopulation
-  +void evolve()
-}
-
-"genetic_algorithm::src::evolution_simulator.dart::EvolutionSimulator" o-- "genetic_algorithm::src::population.dart::Population"
-
 class "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" {
   -BehaviorSubject<Population> _populationStreamController
   -Population _currentPopulation
@@ -19,56 +11,44 @@ class "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulat
 
 "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" o-- "rxdart::src::subjects::behavior_subject.dart::BehaviorSubject<Population>"
 "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" o-- "genetic_algorithm::src::population.dart::Population"
-"genetic_algorithm::src::evolution_simulator.dart::EvolutionSimulator" <|-- "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator"
 
-abstract class "genetic_algorithm::src::individual.dart::Individual" {
-  {static} +int defaultLength
-  {static} +int defaultRandomGeneratorCeiling
-  +Iterable<int> values
+class "genetic_algorithm::src::individual.dart::Individual" {
+  {static} +Random randomNumberGenerator
+  -List<int> _values
+  +List<int> values
+  {static} -List _createRandomList()
   +double calculateFitness()
   +bool ==()
   +String toString()
 }
 
-class "genetic_algorithm::src::individual.dart::FromValuesIndividual" {
-  -List<int> _values
+"genetic_algorithm::src::individual.dart::Individual" o-- "dart::math::Random"
+
+class "genetic_algorithm::src::params.dart::IndividualParams" {
+  {static} +int defaultLength
+  {static} +int defaultRandomGeneratorCeiling
   +List<int> values
+  +int length
+  +int randomGeneratorCeiling
 }
 
-"genetic_algorithm::src::individual.dart::Individual" <|-- "genetic_algorithm::src::individual.dart::FromValuesIndividual"
-
-class "genetic_algorithm::src::individual.dart::RandomIndividual" {
-  {static} +Random randomNumberGenerator
-  -List<int> _values
-  +List<int> values
-  {static} -List _createRandomList()
-}
-
-"genetic_algorithm::src::individual.dart::RandomIndividual" o-- "dart::math::Random"
-"genetic_algorithm::src::individual.dart::Individual" <|-- "genetic_algorithm::src::individual.dart::RandomIndividual"
-
-abstract class "genetic_algorithm::src::population.dart::Population" {
+class "genetic_algorithm::src::params.dart::PopulationParams" {
   {static} +int defaultPopulationSize
-  +Iterable<Individual> individuals
+  +List<Individual> individuals
+  +IndividualParams individualParams
+  +int size
+}
+
+"genetic_algorithm::src::params.dart::PopulationParams" o-- "genetic_algorithm::src::params.dart::IndividualParams"
+
+class "genetic_algorithm::src::population.dart::Population" {
+  -List<Individual> _individuals
+  +List<Individual> individuals
+  {static} -List _createRandomIndividualsList()
   +double calculateGrade()
   +bool ==()
   +String toString()
 }
-
-class "genetic_algorithm::src::population.dart::FromIndividualsPopulation" {
-  -List<Individual> _individuals
-  +List<Individual> individuals
-}
-
-"genetic_algorithm::src::population.dart::Population" <|-- "genetic_algorithm::src::population.dart::FromIndividualsPopulation"
-
-class "genetic_algorithm::src::population.dart::RandomPopulation" {
-  -List<Individual> _individuals
-  +List<Individual> individuals
-  {static} -List _createRandomIndividualsList()
-}
-
-"genetic_algorithm::src::population.dart::Population" <|-- "genetic_algorithm::src::population.dart::RandomPopulation"
 
 
 @enduml
