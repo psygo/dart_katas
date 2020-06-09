@@ -15,7 +15,7 @@ void main() {
 
   final Individual randomIndividual1 = Individual(IndividualParams(length: 10));
   final Individual randomIndividual2 = Individual(IndividualParams(length: 10));
-  
+
   double fitnessExampleFunction(List<int> values) {
     final double sum =
         values.reduce((int value, int element) => value + element).toDouble();

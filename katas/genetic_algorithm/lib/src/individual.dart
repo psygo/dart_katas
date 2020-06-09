@@ -33,7 +33,8 @@ class Individual {
 
   @override
   bool operator ==(Object otherObject) =>
-      otherObject is Individual && ListEquality().equals(otherObject.values, _values);
+      otherObject is Individual &&
+      ListEquality().equals(otherObject.values, _values);
 
   @override
   String toString() => '$runtimeType: ${values.toString()}';
