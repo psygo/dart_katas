@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 import 'individual.dart';
 
-typedef GradeFunction = double Function(List<Individual>);
+typedef GradeFunction = double Function(List<Individual> individuals);
 
 @immutable
 class Population {

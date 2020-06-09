@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'params.dart';
 
-typedef FitnessFunction = double Function(List<int>);
+typedef FitnessFunction = double Function(List<int> values);
 
 @immutable
 class Individual {
