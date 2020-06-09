@@ -86,23 +86,31 @@ void main() {
   });
 
   group('Evolution Simulator', () {
+    GeneticEvolutionSimulator geneticEvolutionSimulator;
+    Stream<Population> populationStream;
+
+    setUp(() {
+      geneticEvolutionSimulator = GeneticEvolutionSimulator(
+          populationParams: PopulationParams(size: 20));
+      populationStream = geneticEvolutionSimulator.populationStream;
+    });
+
     test('Creates an evolution simulator with a population stream', () async {
-      final GeneticEvolutionSimulator evolutionSimulator =
-          GeneticEvolutionSimulator(
-              populationParams: PopulationParams(size: 20));
-      final Stream<Population> populationStream =
-          evolutionSimulator.populationStream;
       final Population initialPopulation = await populationStream.first;
-      final Population currentPopulation = evolutionSimulator.currentPopulation;
+      final Population currentPopulation =
+          geneticEvolutionSimulator.currentPopulation;
 
       expect(initialPopulation.individuals.length, 20);
       expect(currentPopulation.individuals.length, 20);
     });
 
-    test(
-        'Adding population to the stream updates the current population as '
-        'well', () {
-      fail('not yet implemented');
+    test('Evolving updates the current population', () async {
+      await geneticEvolutionSimulator.evolve();
+
+      final Population populationEvolved = await populationStream.elementAt(1);
+
+      expect(populationEvolved, isA<Population>());
+      expect(populationEvolved.individuals.length, 20);
     });
   });
 }
