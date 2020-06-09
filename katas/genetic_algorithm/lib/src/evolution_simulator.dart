@@ -5,47 +5,23 @@ import 'package:rxdart/rxdart.dart';
 import 'params.dart';
 import 'population.dart';
 
-abstract class EvolutionSimulator {
-  factory EvolutionSimulator.getGeneticSimulator({
-    int size,
-    int individualLength,
-    int randomGeneratorCeiling,
-  }) = GeneticEvolutionSimulator;
-
-  const EvolutionSimulator();
-
-  Stream<Population> get populationStream;
-  Population get currentPopulation;
-
-  void evolve({int cycles = 1});
-}
-
-class GeneticEvolutionSimulator implements EvolutionSimulator {
+class GeneticEvolutionSimulator {
   final BehaviorSubject<Population> _populationStreamController =
       BehaviorSubject<Population>();
   Population _currentPopulation;
 
   GeneticEvolutionSimulator({
-    int size,
-    int individualLength,
-    int randomGeneratorCeiling,
+    PopulationParams populationParams = const PopulationParams(),
   }) {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
-    _populationStreamController.add(Population(PopulationParams(
-      individualParams: IndividualParams(
-          length: individualLength,
-          randomGeneratorCeiling: randomGeneratorCeiling),
-      size: size,
-    )));
+
+    _populationStreamController.add(Population(populationParams));
   }
 
-  @override
   Stream<Population> get populationStream => _populationStreamController.stream;
 
-  @override
   Population get currentPopulation => _currentPopulation;
 
-  @override
   void evolve({int cycles = 1}) {}
 }

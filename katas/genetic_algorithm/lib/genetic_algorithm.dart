@@ -3,7 +3,7 @@
 /// {@category DataScience, Algorithm}
 library genetic_algorithm;
 
-export 'src/evolution_simulator.dart' show EvolutionSimulator;
+export 'src/evolution_simulator.dart' show GeneticEvolutionSimulator;
 export 'src/individual.dart' show FitnessFunction, Individual;
 export 'src/params.dart' show IndividualParams, PopulationParams;
 export 'src/population.dart' show GradeFunction, Population;
