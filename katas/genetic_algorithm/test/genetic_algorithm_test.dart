@@ -4,8 +4,6 @@ import 'package:test/test.dart';
 
 import 'package:genetic_algorithm/genetic_algorithm.dart';
 
-import 'utils.dart';
-
 void main() {
   final Individual individual1 =
       Individual(IndividualParams(values: <double>[1, 2]));
@@ -22,7 +20,14 @@ void main() {
   final Population population2 = Population(PopulationParams(
       individuals: <Individual>[individual1, individual2, individual3]));
   final Population population3 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual2])); 
+      individuals: <Individual>[individual1, individual2, individual2]));
+
+  double fitnessExampleFunction(List<double> values) {
+    final double sum =
+        values.reduce((double value, double element) => value + element);
+
+    return (200 - sum).abs();
+  }
 
   double gradeExampleFunction(List<Individual> individuals) {
     double sum = 0;

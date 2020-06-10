@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sortedmap/sortedmap.dart';
 
-import 'evolution_utils.dart';
 import 'individual.dart';
 import 'params.dart';
 import 'population.dart';
@@ -37,19 +35,6 @@ class GeneticEvolutionSimulator {
   Population get currentPopulation => _currentPopulation;
 
   void evolve({int cycles = 1}) {
-    final List<double> individualsGrades = EvolutionUtils.gradeIndividuals(
-        individuals: _currentPopulation.individuals,
-        fitnessFunction: _fitnessFunction);
-
-    final SortedMap<Individual, double> sortedIndividualsByGrades =
-        EvolutionUtils.sortIndividualsByGrades(
-            individuals: _currentPopulation.individuals,
-            grades: individualsGrades);
-
-    final List<Individual> parents = EvolutionUtils.obtainParents(
-        originalIndividuals: sortedIndividualsByGrades.keys,
-        percentage: _retainPercentage);
-
     _populationStreamController.add(_currentPopulation);
   }
 }

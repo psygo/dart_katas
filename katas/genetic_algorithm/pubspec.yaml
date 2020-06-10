@@ -15,7 +15,6 @@ dependencies:
   collection: ^1.14.12
   meta: ^1.1.8
   rxdart: ^0.24.1
-  sortedmap: ^0.4.2+1
 
 dev_dependencies:
   test: ^1.14.6
