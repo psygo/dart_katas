@@ -1,45 +1,12 @@
-import 'dart:async';
-
 import 'package:collection/collection.dart';
-import 'package:genetic_algorithm/src/params.dart';
 import 'package:test/test.dart';
 
 import 'package:genetic_algorithm/genetic_algorithm.dart';
 
+import 'fixtures.dart';
+
 void main() {
-  double fitnessExampleFunction(List<double> values) {
-    final double sum =
-        values.reduce((double value, double element) => value + element);
-
-    return (200 - sum).abs();
-  }
-
-  double gradeExampleFunction(List<Individual> individuals) {
-    double sum = 0;
-    individuals.forEach((Individual individual) {
-      sum += individual.fitness;
-    });
-
-    return sum / (individuals.length);
-  }
-
-  final Individual individual1 = Individual(IndividualParams(
-      values: <double>[1, 2], fitnessFunction: fitnessExampleFunction));
-  final Individual individual2 = Individual(IndividualParams(
-      values: <double>[1, 2], fitnessFunction: fitnessExampleFunction));
-  final Individual individual3 = Individual(IndividualParams(
-      values: <double>[1, 3], fitnessFunction: fitnessExampleFunction));
-
-  final Individual randomIndividual1 = Individual(
-      IndividualParams(length: 10, fitnessFunction: fitnessExampleFunction));
-  final Individual randomIndividual2 = Individual(
-      IndividualParams(length: 10, fitnessFunction: fitnessExampleFunction));
-
-  final Population population1 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual3],
-      gradeFunction: gradeExampleFunction));
-
-  group('`Individual`', () {
+  group('| `Individual` |', () {
     test('Checks that 2 random individuals don\'t have the same parameters',
         () {
       expect(
@@ -59,21 +26,12 @@ void main() {
       expect(fitness1, 197);
       expect(fitness3, 196);
     });
-
-    test('Comparing 2 individuals', () {
-      final List<Individual> individuals = <Individual>[
-        individual1,
-        individual2,
-        individual3,
-      ];
-
-      individuals.sort();
-
-      expect(individuals, <Individual>[individual3, individual1, individual2]);
-    });
   });
 
-  group('Population', () {
+  group('| `Population` |', () {
+    final Population population1 = getPop(individuals1);
+    final Population population2 = getPop(individuals2);
+
     test('Checks that 2 random populations don\'t have the same individuals',
         () {
       final Population population1 = Population();
@@ -89,43 +47,73 @@ void main() {
 
       expect(roundedGrade, 196.67);
     });
-  });
 
-  group('Evolution Simulator', () {
-    GeneticEvolutionSimulator geneticEvolutionSimulator;
-    Stream<Population> populationStream;
+    test('Sort population', () {
+      population1.sort();
 
-    final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
-        GeneticEvolutionSimulatorParams(
-      populationParams: PopulationParams(
-        gradeFunction: gradeExampleFunction,
-        individuals: population1.individuals,
-        individualParams: IndividualParams(
-          fitnessFunction: fitnessExampleFunction,
-        ),
-      ),
-    );
-
-    setUp(() {
-      geneticEvolutionSimulator = GeneticEvolutionSimulator(
-          geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
-      populationStream = geneticEvolutionSimulator.populationStream;
+      expect(population1.individuals,
+          <Individual>[individual3, individual1, individual2]);
     });
 
-    test('Creates an evolution simulator with a population stream', () async {
-      final Population initialPopulation = await populationStream.first;
-      final Population currentPopulation =
-          geneticEvolutionSimulator.currentPopulation;
+    test('Natural selection', () {
+      population2.sort();
+      population2.naturalSelection(retainPercentage: 0.4);
 
-      expect(initialPopulation.individuals.length, 3);
-      expect(currentPopulation.individuals.length, 3);
+      expect(population2.individuals.length, 4);
     });
 
-    test('Evolving updates the current population', () {
-      expectLater(populationStream,
-          emitsInOrder(<Population>[population1, population1]));
+    test('Promoting diversity', () {
+      final Population population = Population(PopulationParams(
+          gradeFunction: gradeExampleFunction,
+          size: 1000,
+          individualParams:
+              IndividualParams(fitnessFunction: fitnessExampleFunction)));
 
-      geneticEvolutionSimulator.evolve();
+      population.sort();
+      population.naturalSelection(retainPercentage: 0.5);
+      population.promoteDiversity(randomSelect: 0.05);
+
+      /// It should be between 500 and 500 + .05 * 500 ~ 525
+      expect(population.individuals.length > 500, isTrue);
+      expect(population.individuals.length < 540, isTrue);
     });
   });
+
+  // group('| Evolution Simulator |', () {
+  //   GeneticEvolutionSimulator geneticEvolutionSimulator;
+  //   Stream<Population> populationStream;
+
+  //   final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
+  //       GeneticEvolutionSimulatorParams(
+  //     populationParams: PopulationParams(
+  //       gradeFunction: gradeExampleFunction,
+  //       individuals: population1.individuals,
+  //       individualParams: IndividualParams(
+  //         fitnessFunction: fitnessExampleFunction,
+  //       ),
+  //     ),
+  //   );
+
+  //   setUp(() {
+  //     geneticEvolutionSimulator = GeneticEvolutionSimulator(
+  //         geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
+  //     populationStream = geneticEvolutionSimulator.populationStream;
+  //   });
+
+  //   test('Creates an evolution simulator with a population stream', () async {
+  //     final Population initialPopulation = await populationStream.first;
+  //     final Population currentPopulation =
+  //         geneticEvolutionSimulator.currentPopulation;
+
+  //     expect(initialPopulation.individuals.length, 3);
+  //     expect(currentPopulation.individuals.length, 3);
+  //   });
+
+  //   test('Evolving updates the current population', () {
+  //     expectLater(populationStream,
+  //         emitsInOrder(<Population>[population1, population1]));
+
+  //     geneticEvolutionSimulator.evolve();
+  //   });
+  // });
 }
