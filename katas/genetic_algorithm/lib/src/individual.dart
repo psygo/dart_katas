@@ -5,24 +5,24 @@ import 'package:meta/meta.dart';
 
 import 'params.dart';
 
-typedef FitnessFunction = double Function(List<int> values);
+typedef FitnessFunction = double Function(List<double> values);
 
 @immutable
 class Individual {
   static final Random randomNumberGenerator = Random();
 
-  final List<int> _values;
+  final List<double> _values;
 
   Individual([IndividualParams individualParams = const IndividualParams()])
       : _values = individualParams.values ??
             _createRandomList(individualParams.length,
                 individualParams.randomGeneratorCeiling);
 
-  static List<int> _createRandomList(int length, int ceiling) =>
-      List<int>.generate(
-          length, (int _) => randomNumberGenerator.nextInt(ceiling));
+  static List<double> _createRandomList(int length, int ceiling) =>
+      List<double>.generate(
+          length, (int _) => randomNumberGenerator.nextInt(ceiling).toDouble());
 
-  List<int> get values => _values;
+  List<double> get values => _values;
 
   /// The lower the fitness the better.
   double calculateFitness(FitnessFunction fitnessFunction) =>

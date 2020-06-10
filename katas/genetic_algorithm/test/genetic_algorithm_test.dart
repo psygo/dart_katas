@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:genetic_algorithm/src/params.dart';
+import 'package:sortedmap/sortedmap.dart';
 import 'package:test/test.dart';
 
 import 'package:genetic_algorithm/genetic_algorithm.dart';
 
 void main() {
   final Individual individual1 =
-      Individual(IndividualParams(values: <int>[1, 2]));
+      Individual(IndividualParams(values: <double>[1, 2]));
   final Individual individual2 =
-      Individual(IndividualParams(values: <int>[1, 2]));
+      Individual(IndividualParams(values: <double>[1, 2]));
   final Individual individual3 =
-      Individual(IndividualParams(values: <int>[1, 3]));
+      Individual(IndividualParams(values: <double>[1, 3]));
 
   final Individual randomIndividual1 = Individual(IndividualParams(length: 10));
   final Individual randomIndividual2 = Individual(IndividualParams(length: 10));
@@ -23,11 +23,20 @@ void main() {
   final Population population3 = Population(PopulationParams(
       individuals: <Individual>[individual1, individual2, individual2]));
 
-  double fitnessExampleFunction(List<int> values) {
+  double fitnessExampleFunction(List<double> values) {
     final double sum =
-        values.reduce((int value, int element) => value + element).toDouble();
+        values.reduce((double value, double element) => value + element);
 
     return (200 - sum).abs();
+  }
+
+  double gradeExampleFunction(List<Individual> individuals) {
+    double sum = 0;
+    individuals.forEach((Individual individual) {
+      sum += individual.calculateFitness(fitnessExampleFunction);
+    });
+
+    return sum / (individuals.length);
   }
 
   group('`Individual`', () {
@@ -54,15 +63,6 @@ void main() {
   });
 
   group('Population', () {
-    double gradeExampleFunction(List<Individual> individuals) {
-      double sum = 0;
-      individuals.forEach((Individual individual) {
-        sum += individual.calculateFitness(fitnessExampleFunction);
-      });
-
-      return sum / (individuals.length);
-    }
-
     test('Testing equality between populations', () {
       expect(population1, equals(population2));
       expect(population1 == population3, isFalse);
@@ -91,6 +91,8 @@ void main() {
 
     setUp(() {
       geneticEvolutionSimulator = GeneticEvolutionSimulator(
+          fitnessFunction: fitnessExampleFunction,
+          gradeFunction: gradeExampleFunction,
           populationParams:
               PopulationParams(individuals: population1.individuals));
       populationStream = geneticEvolutionSimulator.populationStream;
@@ -110,6 +112,58 @@ void main() {
           emitsInAnyOrder(<Population>[population1, population1]));
 
       geneticEvolutionSimulator.evolve();
+    });
+  });
+
+  group('Evolution Utils', () {
+    final Population testPopulation =
+        Population(PopulationParams(individuals: <Individual>[
+      Individual(IndividualParams(values: <double>[1, 2])),
+      Individual(IndividualParams(values: <double>[1, 2])),
+      Individual(IndividualParams(values: <double>[1, 3])),
+      Individual(IndividualParams(values: <double>[100, 100])),
+      Individual(IndividualParams(values: <double>[47, 53])),
+      Individual(IndividualParams(values: <double>[80, 200])),
+      Individual(IndividualParams(values: <double>[40, 30])),
+      Individual(IndividualParams(values: <double>[4, 6])),
+      Individual(IndividualParams(values: <double>[10, 10])),
+      Individual(IndividualParams(values: <double>[30, 35])),
+    ]));
+
+    final List<double> correctGrades = <double>[
+      197,
+      197,
+      196,
+      0,
+      100,
+      80,
+      130,
+      190,
+      180,
+      135,
+    ];
+
+    test('Grading individuals', () {
+      final List<double> grades = EvolutionUtils.gradeIndividuals(
+          individuals: testPopulation.individuals,
+          fitnessFunction: fitnessExampleFunction);
+
+      expect(grades, correctGrades);
+    });
+
+    test('Ordering by grades', () {
+      final SortedMap<double, Individual> sortedIndividualsByGrades =
+          EvolutionUtils.sortIndividualsByGrades(
+              individuals: testPopulation.individuals, grades: correctGrades);
+
+      print(sortedIndividualsByGrades);
+    });
+
+    test('Retaining part of a list', () {
+      final List<double> retained =
+          EvolutionUtils.retain(originalList: correctGrades, percentage: 0.5);
+
+      expect(retained.length, 5);
     });
   });
 }

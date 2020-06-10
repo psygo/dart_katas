@@ -7,7 +7,7 @@ class IndividualParams {
   static const int defaultLength = 5;
   static const int defaultRandomGeneratorCeiling = 1000;
 
-  final List<int> values;
+  final List<double> values;
   final int length;
   final int randomGeneratorCeiling;
 
