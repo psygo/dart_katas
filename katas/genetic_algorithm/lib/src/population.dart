@@ -28,6 +28,7 @@ class Population {
 
   List<Individual> get individuals => _individuals;
 
+  /// The lower the grade the better.
   double calculateGrade(GradeFunction gradeFunction) =>
       gradeFunction(individuals);
 
