@@ -23,7 +23,7 @@ class GeneticEvolutionSimulator {
 
   Population get currentPopulation => _currentPopulation;
 
-  Future<void> evolve({int cycles = 1}) async {
-    _populationStreamController.add(Population());
+  void evolve({int cycles = 1}) {
+    _populationStreamController.add(_currentPopulation);
   }
 }

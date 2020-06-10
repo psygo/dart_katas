@@ -19,10 +19,7 @@ class Population {
             );
 
   static List<Individual> _createRandomIndividualsList(
-    int size,
-    int individualLength,
-    int randomGeneratorCeiling,
-  ) =>
+          int size, int individualLength, int randomGeneratorCeiling) =>
       List<Individual>.generate(
           size,
           (int _) => Individual(IndividualParams(
@@ -33,6 +30,9 @@ class Population {
 
   double calculateGrade(GradeFunction gradeFunction) =>
       gradeFunction(individuals);
+
+  @override
+  int get hashCode => _individuals.hashCode;
 
   @override
   bool operator ==(Object otherObject) =>

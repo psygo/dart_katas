@@ -16,6 +16,13 @@ void main() {
   final Individual randomIndividual1 = Individual(IndividualParams(length: 10));
   final Individual randomIndividual2 = Individual(IndividualParams(length: 10));
 
+  final Population population1 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual3]));
+  final Population population2 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual3]));
+  final Population population3 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual2]));
+
   double fitnessExampleFunction(List<int> values) {
     final double sum =
         values.reduce((int value, int element) => value + element).toDouble();
@@ -47,13 +54,6 @@ void main() {
   });
 
   group('Population', () {
-    final Population population1 = Population(PopulationParams(
-        individuals: <Individual>[individual1, individual2, individual3]));
-    final Population population2 = Population(PopulationParams(
-        individuals: <Individual>[individual1, individual2, individual3]));
-    final Population population3 = Population(PopulationParams(
-        individuals: <Individual>[individual1, individual2, individual2]));
-
     double gradeExampleFunction(List<Individual> individuals) {
       double sum = 0;
       individuals.forEach((Individual individual) {
@@ -91,7 +91,8 @@ void main() {
 
     setUp(() {
       geneticEvolutionSimulator = GeneticEvolutionSimulator(
-          populationParams: PopulationParams(size: 20));
+          populationParams:
+              PopulationParams(individuals: population1.individuals));
       populationStream = geneticEvolutionSimulator.populationStream;
     });
 
@@ -100,17 +101,15 @@ void main() {
       final Population currentPopulation =
           geneticEvolutionSimulator.currentPopulation;
 
-      expect(initialPopulation.individuals.length, 20);
-      expect(currentPopulation.individuals.length, 20);
+      expect(initialPopulation.individuals.length, 3);
+      expect(currentPopulation.individuals.length, 3);
     });
 
-    test('Evolving updates the current population', () async {
-      await geneticEvolutionSimulator.evolve();
+    test('Evolving updates the current population', () {
+      expectLater(populationStream,
+          emitsInAnyOrder(<Population>[population1, population1]));
 
-      final Population populationEvolved = await populationStream.elementAt(1);
-
-      expect(populationEvolved, isA<Population>());
-      expect(populationEvolved.individuals.length, 20);
+      geneticEvolutionSimulator.evolve();
     });
   });
 }

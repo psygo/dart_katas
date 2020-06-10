@@ -18,10 +18,7 @@ class Individual {
             _createRandomList(individualParams.length,
                 individualParams.randomGeneratorCeiling);
 
-  static List<int> _createRandomList(
-    int length,
-    int ceiling,
-  ) =>
+  static List<int> _createRandomList(int length, int ceiling) =>
       List<int>.generate(
           length, (int _) => randomNumberGenerator.nextInt(ceiling));
 
@@ -30,6 +27,9 @@ class Individual {
   /// The lower the fitness the better.
   double calculateFitness(FitnessFunction fitnessFunction) =>
       fitnessFunction(values);
+
+  @override
+  int get hashCode => _values.hashCode;
 
   @override
   bool operator ==(Object otherObject) =>
