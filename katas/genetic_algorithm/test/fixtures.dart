@@ -59,3 +59,9 @@ final List<Individual> individuals2 = <Individual>[
 
 Population getPop(List<Individual> individuals) => Population(PopulationParams(
     individuals: individuals, gradeFunction: gradeExampleFunction));
+
+Population getRandomPop(int size) => Population(PopulationParams(
+    gradeFunction: gradeExampleFunction,
+    size: size,
+    individualParams:
+        IndividualParams(fitnessFunction: fitnessExampleFunction)));

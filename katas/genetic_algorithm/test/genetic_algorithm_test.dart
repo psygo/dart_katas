@@ -32,6 +32,14 @@ void main() {
     final Population population1 = getPop(individuals1);
     final Population population2 = getPop(individuals2);
 
+    test('Testing equality between populations', () {
+      final Population pop1 = Population(PopulationParams(individuals: <Individual>[individual1]));
+      final Population pop2 = Population(PopulationParams(individuals: <Individual>[individual1]));
+
+      expect(identical(pop1, pop2), isFalse);
+      expect(pop1, equals(pop2));
+    });
+
     test('Checks that 2 random populations don\'t have the same individuals',
         () {
       final Population population1 = Population();
@@ -63,11 +71,7 @@ void main() {
     });
 
     test('Promoting diversity', () {
-      final Population population = Population(PopulationParams(
-          gradeFunction: gradeExampleFunction,
-          size: 1000,
-          individualParams:
-              IndividualParams(fitnessFunction: fitnessExampleFunction)));
+      final Population population = getRandomPop(1000);
 
       population.sort();
       population.naturalSelection(retainPercentage: 0.5);
@@ -76,6 +80,15 @@ void main() {
       /// It should be between 500 and 500 + .05 * 500 ~ 525
       expect(population.individuals.length > 500, isTrue);
       expect(population.individuals.length < 540, isTrue);
+    });
+
+    test('Mutating some individuals', () {
+      final Population originalPop = getPop(individuals2);
+      final Population population = getPop(individuals2);
+
+      population.mutate(mutationPercentage: 0.1);
+
+      expect(population == originalPop, isFalse);
     });
   });
 

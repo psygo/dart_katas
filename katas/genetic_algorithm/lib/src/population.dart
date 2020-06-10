@@ -9,8 +9,11 @@ import 'individual.dart';
 typedef GradeFunction = double Function(List<Individual> individuals);
 
 class Population {
-  List<Individual> _individuals;
+  static final Random randomGenerator = Random();
+
   final GradeFunction _gradeFunction;
+
+  List<Individual> _individuals;
   List<Individual> _deadIndividuals;
 
   Population([PopulationParams populationParams = const PopulationParams()])
@@ -23,9 +26,7 @@ class Population {
 
   static List<Individual> _createRandomIndividualsList(
           int size, IndividualParams individualParams) =>
-      List<Individual>.generate(
-          size,
-          (int _) => Individual(individualParams));
+      List<Individual>.generate(size, (int _) => Individual(individualParams));
 
   List<Individual> get individuals => _individuals;
 
@@ -36,17 +37,33 @@ class Population {
 
   void naturalSelection({@required double retainPercentage}) {
     final int finalLength = (_individuals.length * retainPercentage).toInt();
-    
+
     _deadIndividuals = _individuals.sublist(finalLength);
     _individuals = _individuals.sublist(0, finalLength);
   }
 
-  void promoteDiversity({@required double randomSelect}) {
-    final Random randomGenerator = Random();
+  void promoteDiversity({@required double randomSelect}) =>
+      _deadIndividuals.forEach((Individual deadIndividual) {
+        if (randomSelect > randomGenerator.nextDouble()) {
+          _individuals.add(deadIndividual);
+        }
+      });
 
-    _deadIndividuals.forEach((Individual deadIndividual) {
-      if (randomSelect * 100 > randomGenerator.nextInt(100)) {
-        _individuals.add(deadIndividual);
+  void mutate({@required double mutationPercentage}) {
+    _individuals.forEach((Individual individual) {
+      if (mutationPercentage > randomGenerator.nextDouble()) {
+        final int positionToMutate =
+            randomGenerator.nextInt(individual.values.length);
+
+        final List<double> values = individual.values;
+        final int max = values.reduce(max).toInt();
+        
+        values[positionToMutate] = randomGenerator.nextDouble() * randomGenerator.nextInt(values.reduce(max).toInt());
+
+
+        final Individual mutatedIndividual = Individual(IndividualParams(
+            values: values,
+            fitnessFunction: individual.fitnessFunction));
       }
     });
   }
