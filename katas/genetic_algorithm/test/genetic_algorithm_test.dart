@@ -1,27 +1,11 @@
 import 'dart:async';
 
+import 'package:genetic_algorithm/src/params.dart';
 import 'package:test/test.dart';
 
 import 'package:genetic_algorithm/genetic_algorithm.dart';
 
 void main() {
-  final Individual individual1 =
-      Individual(IndividualParams(values: <double>[1, 2]));
-  final Individual individual2 =
-      Individual(IndividualParams(values: <double>[1, 2]));
-  final Individual individual3 =
-      Individual(IndividualParams(values: <double>[1, 3]));
-
-  final Individual randomIndividual1 = Individual(IndividualParams(length: 10));
-  final Individual randomIndividual2 = Individual(IndividualParams(length: 10));
-
-  final Population population1 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual3]));
-  final Population population2 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual3]));
-  final Population population3 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual2]));
-
   double fitnessExampleFunction(List<double> values) {
     final double sum =
         values.reduce((double value, double element) => value + element);
@@ -32,18 +16,35 @@ void main() {
   double gradeExampleFunction(List<Individual> individuals) {
     double sum = 0;
     individuals.forEach((Individual individual) {
-      sum += individual.calculateFitness(fitnessExampleFunction);
+      sum += individual.fitness;
     });
 
     return sum / (individuals.length);
   }
 
-  group('`Individual`', () {
-    test('Testing equality between individuals', () {
-      expect(individual1, equals(individual2));
-      expect(individual1 == individual3, isFalse);
-    });
+  final Individual individual1 = Individual(IndividualParams(
+      values: <double>[1, 2], fitnessFunction: fitnessExampleFunction));
+  final Individual individual2 = Individual(IndividualParams(
+      values: <double>[1, 2], fitnessFunction: fitnessExampleFunction));
+  final Individual individual3 = Individual(IndividualParams(
+      values: <double>[1, 3], fitnessFunction: fitnessExampleFunction));
 
+  final Individual randomIndividual1 = Individual(
+      IndividualParams(length: 10, fitnessFunction: fitnessExampleFunction));
+  final Individual randomIndividual2 = Individual(
+      IndividualParams(length: 10, fitnessFunction: fitnessExampleFunction));
+
+  final Population population1 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual3],
+      gradeFunction: gradeExampleFunction));
+  final Population population2 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual3],
+      gradeFunction: gradeExampleFunction));
+  final Population population3 = Population(PopulationParams(
+      individuals: <Individual>[individual1, individual2, individual2],
+      gradeFunction: gradeExampleFunction));
+
+  group('`Individual`', () {
     test('Checks that 2 random individuals don\'t have the same parameters',
         () {
       expect(randomIndividual1, equals(randomIndividual1));
@@ -51,10 +52,8 @@ void main() {
     });
 
     test('Calculating the fitness of an individual', () {
-      final double fitness1 =
-          individual1.calculateFitness(fitnessExampleFunction);
-      final double fitness3 =
-          individual3.calculateFitness(fitnessExampleFunction);
+      final double fitness1 = individual1.fitness;
+      final double fitness3 = individual3.fitness;
 
       expect(fitness1, 197);
       expect(fitness3, 196);
@@ -62,11 +61,6 @@ void main() {
   });
 
   group('Population', () {
-    test('Testing equality between populations', () {
-      expect(population1, equals(population2));
-      expect(population1 == population3, isFalse);
-    });
-
     test('Checks that 2 random populations don\'t have the same individuals',
         () {
       final Population population1 = Population();
@@ -77,7 +71,7 @@ void main() {
     });
 
     test('Calculating the grade of a population', () {
-      final double grade = population1.calculateGrade(gradeExampleFunction);
+      final double grade = population1.grade;
       final double roundedGrade = double.parse(grade.toStringAsFixed(2));
 
       expect(roundedGrade, 196.67);
@@ -88,12 +82,20 @@ void main() {
     GeneticEvolutionSimulator geneticEvolutionSimulator;
     Stream<Population> populationStream;
 
+    final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
+        GeneticEvolutionSimulatorParams(
+      populationParams: PopulationParams(
+        gradeFunction: gradeExampleFunction,
+        individuals: population1.individuals,
+        individualParams: IndividualParams(
+          fitnessFunction: fitnessExampleFunction,
+        ),
+      ),
+    );
+
     setUp(() {
       geneticEvolutionSimulator = GeneticEvolutionSimulator(
-          fitnessFunction: fitnessExampleFunction,
-          gradeFunction: gradeExampleFunction,
-          populationParams:
-              PopulationParams(individuals: population1.individuals));
+          geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
       populationStream = geneticEvolutionSimulator.populationStream;
     });
 
@@ -108,7 +110,7 @@ void main() {
 
     test('Evolving updates the current population', () {
       expectLater(populationStream,
-          emitsInAnyOrder(<Population>[population1, population1]));
+          emitsInOrder(<Population>[population1, population1]));
 
       geneticEvolutionSimulator.evolve();
     });

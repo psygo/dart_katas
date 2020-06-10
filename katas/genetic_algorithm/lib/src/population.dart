@@ -9,6 +9,7 @@ typedef GradeFunction = double Function(List<Individual> individuals);
 @immutable
 class Population {
   final List<Individual> _individuals;
+  final GradeFunction _gradeFunction;
 
   Population([PopulationParams populationParams = const PopulationParams()])
       : _individuals = populationParams.individuals ??
@@ -16,7 +17,8 @@ class Population {
               populationParams.size,
               populationParams.individualParams.length,
               populationParams.individualParams.randomGeneratorCeiling,
-            );
+            ),
+        _gradeFunction = populationParams.gradeFunction;
 
   static List<Individual> _createRandomIndividualsList(
           int size, int individualLength, int randomGeneratorCeiling) =>
@@ -29,10 +31,9 @@ class Population {
   List<Individual> get individuals => _individuals;
 
   /// The lower the grade the better.
-  double calculateGrade(GradeFunction gradeFunction) =>
-      gradeFunction(individuals);
+  double get grade => _gradeFunction(_individuals);
 
-  @override
+    @override
   int get hashCode => _individuals.hashCode;
 
   @override

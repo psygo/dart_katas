@@ -1,33 +1,31 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'individual.dart';
 import 'params.dart';
 import 'population.dart';
 
 class GeneticEvolutionSimulator {
   final BehaviorSubject<Population> _populationStreamController =
       BehaviorSubject<Population>();
-  final FitnessFunction _fitnessFunction;
-  final GradeFunction _gradeFunction;
   final double _retainPercentage;
+  final double _randomSelect;
+  final double _mutationPercentage;
 
   Population _currentPopulation;
 
   GeneticEvolutionSimulator({
-    @required FitnessFunction fitnessFunction,
-    @required GradeFunction gradeFunction,
-    @required double retainPercentage,
-    PopulationParams populationParams = const PopulationParams(),
-  })  : _fitnessFunction = fitnessFunction,
-        _gradeFunction = gradeFunction,
-        _retainPercentage = retainPercentage {
+    GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
+        const GeneticEvolutionSimulatorParams(),
+  })  : _retainPercentage = geneticEvolutionSimulatorParams.retainPercentage,
+        _randomSelect = geneticEvolutionSimulatorParams.randomSelect,
+        _mutationPercentage =
+            geneticEvolutionSimulatorParams.mutationPercentage {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
 
-    _populationStreamController.add(Population(populationParams));
+    _populationStreamController
+        .add(Population(geneticEvolutionSimulatorParams.populationParams));
   }
 
   Stream<Population> get populationStream => _populationStreamController.stream;

@@ -12,11 +12,12 @@ class Individual {
   static final Random randomNumberGenerator = Random();
 
   final List<double> _values;
+  final FitnessFunction _fitnessFunction;
 
   Individual([IndividualParams individualParams = const IndividualParams()])
       : _values = individualParams.values ??
             _createRandomList(individualParams.length,
-                individualParams.randomGeneratorCeiling);
+                individualParams.randomGeneratorCeiling), _fitnessFunction = individualParams.fitnessFunction;
 
   static List<double> _createRandomList(int length, int ceiling) =>
       List<double>.generate(
@@ -25,16 +26,7 @@ class Individual {
   List<double> get values => _values;
 
   /// The lower the fitness the better.
-  double calculateFitness(FitnessFunction fitnessFunction) =>
-      fitnessFunction(values);
-
-  @override
-  int get hashCode => _values.hashCode;
-
-  @override
-  bool operator ==(Object otherObject) =>
-      otherObject is Individual &&
-      ListEquality().equals(otherObject.values, _values);
+  double get fitness => _fitnessFunction(_values);
 
   @override
   String toString() => '$runtimeType: ${values.toString()}';
