@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:genetic_algorithm/src/params.dart';
 import 'package:test/test.dart';
 
@@ -37,18 +38,18 @@ void main() {
   final Population population1 = Population(PopulationParams(
       individuals: <Individual>[individual1, individual2, individual3],
       gradeFunction: gradeExampleFunction));
-  final Population population2 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual3],
-      gradeFunction: gradeExampleFunction));
-  final Population population3 = Population(PopulationParams(
-      individuals: <Individual>[individual1, individual2, individual2],
-      gradeFunction: gradeExampleFunction));
 
   group('`Individual`', () {
     test('Checks that 2 random individuals don\'t have the same parameters',
         () {
-      expect(randomIndividual1, equals(randomIndividual1));
-      expect(randomIndividual1 == randomIndividual2, isFalse);
+      expect(
+          ListEquality()
+              .equals(randomIndividual1.values, randomIndividual1.values),
+          isTrue);
+      expect(
+          ListEquality()
+              .equals(randomIndividual1.values, randomIndividual2.values),
+          isFalse);
     });
 
     test('Calculating the fitness of an individual', () {
@@ -57,6 +58,18 @@ void main() {
 
       expect(fitness1, 197);
       expect(fitness3, 196);
+    });
+
+    test('Comparing 2 individuals', () {
+      final List<Individual> individuals = <Individual>[
+        individual1,
+        individual2,
+        individual3,
+      ];
+
+      individuals.sort();
+
+      expect(individuals, <Individual>[individual3, individual1, individual2]);
     });
   });
 
