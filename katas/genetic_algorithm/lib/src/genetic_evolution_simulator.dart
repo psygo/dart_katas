@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sortedmap/sortedmap.dart';
 
+import 'evolution_utils.dart';
 import 'individual.dart';
 import 'params.dart';
 import 'population.dart';
@@ -11,16 +12,20 @@ import 'population.dart';
 class GeneticEvolutionSimulator {
   final BehaviorSubject<Population> _populationStreamController =
       BehaviorSubject<Population>();
+  final FitnessFunction _fitnessFunction;
+  final GradeFunction _gradeFunction;
+  final double _retainPercentage;
+
   Population _currentPopulation;
-  FitnessFunction _fitnessFunction;
-  GradeFunction _gradeFunction;
 
   GeneticEvolutionSimulator({
     @required FitnessFunction fitnessFunction,
     @required GradeFunction gradeFunction,
+    @required double retainPercentage,
     PopulationParams populationParams = const PopulationParams(),
   })  : _fitnessFunction = fitnessFunction,
-        _gradeFunction = gradeFunction {
+        _gradeFunction = gradeFunction,
+        _retainPercentage = retainPercentage {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
 
@@ -36,44 +41,15 @@ class GeneticEvolutionSimulator {
         individuals: _currentPopulation.individuals,
         fitnessFunction: _fitnessFunction);
 
+    final SortedMap<Individual, double> sortedIndividualsByGrades =
+        EvolutionUtils.sortIndividualsByGrades(
+            individuals: _currentPopulation.individuals,
+            grades: individualsGrades);
+
+    final List<Individual> parents = EvolutionUtils.obtainParents(
+        originalIndividuals: sortedIndividualsByGrades.keys,
+        percentage: _retainPercentage);
+
     _populationStreamController.add(_currentPopulation);
-  }
-}
-
-class EvolutionUtils {
-  static List<double> gradeIndividuals({
-    @required List<Individual> individuals,
-    @required FitnessFunction fitnessFunction,
-  }) {
-    List<double> individualsGrades = <double>[];
-
-    individuals.forEach((Individual individual) {
-      individualsGrades.add(individual.calculateFitness(fitnessFunction));
-    });
-
-    return individualsGrades;
-  }
-
-  static SortedMap<double, Individual> sortIndividualsByGrades({
-    @required List<Individual> individuals,
-    @required List<double> grades,
-  }) {
-    final Map<double, Individual> individualsByGrades =
-        Map<double, Individual>.fromIterables(grades, individuals);
-
-    final SortedMap<double, Individual> sortedIndividualsByGrades =
-        SortedMap<double, Individual>(Ordering.byKey());
-    sortedIndividualsByGrades.addAll(individualsByGrades);
-
-    return sortedIndividualsByGrades;
-  }
-
-  static List<double> retain({
-    @required List<double> originalList,
-    @required double percentage,
-  }) {
-    final int finalLength = (originalList.length * percentage).toInt();
-
-    return originalList.sublist(0, finalLength);
   }
 }
