@@ -14,6 +14,7 @@ class Population {
 
   List<Individual> _individuals;
   List<Individual> _deadIndividuals;
+  int _originalSize;
 
   Population([PopulationParams populationParams = const PopulationParams()])
       : _individuals = populationParams.individuals ??
@@ -21,7 +22,8 @@ class Population {
               populationParams.size,
               populationParams.individualParams,
             ),
-        _gradeFunction = populationParams.gradeFunction;
+        _gradeFunction = populationParams.gradeFunction,
+        _originalSize = populationParams.size;
 
   static List<Individual> _createRandomIndividualsList(
           int size, IndividualParams individualParams) =>
@@ -65,9 +67,7 @@ class Population {
         individual.values[positionToMutate] =
             _calculateMutatedValue(individual);
 
-        final Individual mutatedIndividual = Individual(IndividualParams(
-            values: individual.values,
-            fitnessFunction: individual.fitnessFunction));
+        final Individual mutatedIndividual = _newIndividualFromValues(individual.values);
 
         _individuals[individualIndex] = mutatedIndividual;
       }
@@ -82,6 +82,44 @@ class Population {
     final List<double> values = individual.values;
     final int max = values.max.toInt();
     return randomGenerator.nextDouble() * randomGenerator.nextInt(max);
+  }
+
+  Individual _newIndividualFromValues(List<double> values) => Individual(IndividualParams(
+            values: values,
+            fitnessFunction: _individuals[0].fitnessFunction));
+
+  void crossover() {
+    List<Individual> children = <Individual>[];
+    while (children.length < _childrenDesiredLength) {
+      final int maleIndex = _generateParentRandomIndex();
+      final int femaleIndex = _generateParentRandomIndex();
+
+      if (_maleIsNotFemale(maleIndex, femaleIndex)) {
+        final Individual male = _individuals[maleIndex];
+        final Individual female = _individuals[femaleIndex];
+        final int halfLength = _calculateHalfLength(male);
+
+        final Individual child = _generateChild(male, female, halfLength);
+        children.add(child);
+      }
+    }
+
+    _individuals.addAll(children);
+  }
+
+  int get _childrenDesiredLength => _originalSize - _individuals.length;
+  int _generateParentRandomIndex() =>
+      randomGenerator.nextInt(_individuals.length);
+  bool _maleIsNotFemale(int maleIndex, int femaleIndex) =>
+      maleIndex != femaleIndex;
+  int _calculateHalfLength(Individual individual) => individual.values.length ~/ 2;
+  List<double> _mergeValues(List<double> listLeft, List<double> listRight, int mergePoint) => <double>[
+          ...listLeft.sublist(0, mergePoint),
+          ...listRight.sublist(mergePoint),
+        ];
+  Individual _generateChild(Individual male, Individual female, int mergePoint) {
+    final List<double> childValues = _mergeValues(male.values, female.values, mergePoint);
+    return _newIndividualFromValues(childValues);
   }
 
   @override

@@ -89,7 +89,13 @@ void main() {
     });
 
     test('Crossover of parents to create children', () {
-      
+      final Population population = getRandomPop(1000);
+
+      population.sort();
+      population.naturalSelection(retainPercentage: 0.5);
+      population.crossover();
+
+      expect(population.individuals.length, 1000);
     });
   });
 
