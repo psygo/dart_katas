@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:genetic_algorithm/genetic_algorithm.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'params.dart';
@@ -32,7 +33,19 @@ class GeneticEvolutionSimulator {
 
   Population get currentPopulation => _currentPopulation;
 
-  void evolve({int cycles = 1}) {
-    _populationStreamController.add(_currentPopulation);
+  Future<void> evolve({int totalCycles = 1}) async {
+    await _populationStreamController.addStream(_evolver(totalCycles));
+  }
+
+  Stream<Population> _evolver(int totalCycles) async* {
+    for (int cycle = 0; cycle < totalCycles; cycle++) {
+      _currentPopulation.sort();
+      _currentPopulation.naturalSelection(retainPercentage: _retainPercentage);
+      _currentPopulation.promoteDiversity(randomSelect: _randomSelect);
+      _currentPopulation.mutate(mutationPercentage: _mutationPercentage);
+      _currentPopulation.crossover();
+
+      yield _currentPopulation;
+    }
   }
 }

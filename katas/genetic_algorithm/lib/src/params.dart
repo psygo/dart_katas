@@ -10,7 +10,7 @@ double infinityGradeFunction(List<Individual> individuals) => double.infinity;
 class IndividualParams {
   static const FitnessFunction defaultFitnessFunction = infinityFitnessFunction;
   static const int defaultLength = 5;
-  static const int defaultRandomGeneratorCeiling = 1000;
+  static const int defaultRandomGeneratorCeiling = 100;
 
   final List<double> values;
   final FitnessFunction fitnessFunction;

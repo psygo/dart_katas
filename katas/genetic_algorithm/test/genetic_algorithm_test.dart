@@ -102,41 +102,39 @@ void main() {
     });
   });
 
-  // group('| Evolution Simulator |', () {
-  //   GeneticEvolutionSimulator geneticEvolutionSimulator;
-  //   Stream<Population> populationStream;
+  group('| Evolution Simulator |', () {
+    GeneticEvolutionSimulator geneticEvolutionSimulator;
 
-  //   final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
-  //       GeneticEvolutionSimulatorParams(
-  //     populationParams: PopulationParams(
-  //       gradeFunction: gradeExampleFunction,
-  //       individuals: population1.individuals,
-  //       individualParams: IndividualParams(
-  //         fitnessFunction: fitnessExampleFunction,
-  //       ),
-  //     ),
-  //   );
+    final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
+        GeneticEvolutionSimulatorParams(
+      retainPercentage: 0.2,
+      randomSelect: 0.05,
+      mutationPercentage: 0.01,
+      populationParams: PopulationParams(
+        gradeFunction: gradeExampleFunction,
+        size: 100,
+        individualParams: IndividualParams(
+          length: 5,
+          fitnessFunction: fitnessExampleFunction,
+        ),
+      ),
+    );
 
-  //   setUp(() {
-  //     geneticEvolutionSimulator = GeneticEvolutionSimulator(
-  //         geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
-  //     populationStream = geneticEvolutionSimulator.populationStream;
-  //   });
+    setUp(() {
+      geneticEvolutionSimulator = GeneticEvolutionSimulator(
+          geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
+    });
 
-  //   test('Creates an evolution simulator with a population stream', () async {
-  //     final Population initialPopulation = await populationStream.first;
-  //     final Population currentPopulation =
-  //         geneticEvolutionSimulator.currentPopulation;
+    test('Evolving the population', () async {
+      final double initialPopulationGrade =
+          geneticEvolutionSimulator.currentPopulation.grade;
 
-  //     expect(initialPopulation.individuals.length, 3);
-  //     expect(currentPopulation.individuals.length, 3);
-  //   });
+      await geneticEvolutionSimulator.evolve(totalCycles: 200);
 
-  //   test('Evolving updates the current population', () {
-  //     expectLater(populationStream,
-  //         emitsInOrder(<Population>[population1, population1]));
-
-  //     geneticEvolutionSimulator.evolve();
-  //   });
-  // });
+      expectLater(
+          initialPopulationGrade >
+              geneticEvolutionSimulator.currentPopulation.grade,
+          isTrue);
+    });
+  });
 }

@@ -65,7 +65,7 @@ class GridParser {
       } else if (isStringCellDead(stringCell)) {
         parsedGrid[heightIndex][widthIndex] = Cell.dead();
       } else {
-        print('Weird inserted character...');
+        throw Exception('Weird inserted character...');
       }
     });
 
