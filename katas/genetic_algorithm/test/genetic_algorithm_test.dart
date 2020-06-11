@@ -47,12 +47,15 @@ void main() {
     test('Sort population', () {
       population1.sort();
 
-      expect(population1.individuals[0].values,
-          equals(getIndividual(<double>[1, 3]).values));
-      expect(population1.individuals[0].values,
-          equals(getIndividual(<double>[1, 2]).values));
-      expect(population1.individuals[0].values,
-          equals(getIndividual(<double>[1, 2]).values));
+      final List<Individual> correctIndividualsList = <Individual>[
+        getIndividual(<double>[1, 3]),
+        getIndividual(<double>[1, 2]),
+        getIndividual(<double>[1, 2]),
+      ];
+
+      for (int individualIndex = 0; individualIndex < population1.individuals.length; individualIndex++) {
+        expect(population1.individuals[individualIndex].values, correctIndividualsList[individualIndex].values);
+      }
     });
 
     test('Natural selection', () {
@@ -85,7 +88,9 @@ void main() {
           isFalse);
     });
 
-    
+    test('Crossover of parents to create children', () {
+      
+    });
   });
 
   // group('| Evolution Simulator |', () {

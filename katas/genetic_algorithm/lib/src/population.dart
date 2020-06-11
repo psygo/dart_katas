@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:collection/collection.dart';
 import 'package:genetic_algorithm/src/params.dart';
 import 'package:meta/meta.dart';
 
@@ -36,38 +35,53 @@ class Population {
   void sort() => _individuals.sort();
 
   void naturalSelection({@required double retainPercentage}) {
-    final int finalLength = (_individuals.length * retainPercentage).toInt();
+    final int finalLength = _retainLength(retainPercentage);
 
     _deadIndividuals = _individuals.sublist(finalLength);
     _individuals = _individuals.sublist(0, finalLength);
   }
 
+  int _retainLength(double retainPercentage) =>
+      (_individuals.length * retainPercentage).toInt();
+
   void promoteDiversity({@required double randomSelect}) =>
       _deadIndividuals.forEach((Individual deadIndividual) {
-        if (randomSelect > randomGenerator.nextDouble()) {
+        if (_randomSelectBiggerThanNextDouble(randomSelect)) {
           _individuals.add(deadIndividual);
         }
       });
 
+  bool _randomSelectBiggerThanNextDouble(double randomSelect) =>
+      randomSelect > randomGenerator.nextDouble();
+
   void mutate({@required double mutationPercentage}) {
-    for (int individualIndex = 0; individualIndex < _individuals.length; individualIndex++){
+    for (int individualIndex = 0;
+        individualIndex < _individuals.length;
+        individualIndex++) {
       final Individual individual = _individuals[individualIndex];
-      if (mutationPercentage > randomGenerator.nextDouble()) {
-        final int positionToMutate =
-            randomGenerator.nextInt(individual.values.length);
+      if (_mutationPercentageBiggerThanNextDouble(mutationPercentage)) {
+        final int positionToMutate = _positionToMutate(individual);
 
-        final List<double> values = individual.values;
-        final int max = values.max.toInt();
-
-        values[positionToMutate] = randomGenerator.nextDouble() *
-            randomGenerator.nextInt(max);
+        individual.values[positionToMutate] =
+            _calculateMutatedValue(individual);
 
         final Individual mutatedIndividual = Individual(IndividualParams(
-            values: values, fitnessFunction: individual.fitnessFunction));
+            values: individual.values,
+            fitnessFunction: individual.fitnessFunction));
 
         _individuals[individualIndex] = mutatedIndividual;
       }
     }
+  }
+
+  bool _mutationPercentageBiggerThanNextDouble(double mutationPercentage) =>
+      mutationPercentage > randomGenerator.nextDouble();
+  int _positionToMutate(Individual individual) =>
+      randomGenerator.nextInt(individual.values.length);
+  double _calculateMutatedValue(Individual individual) {
+    final List<double> values = individual.values;
+    final int max = values.max.toInt();
+    return randomGenerator.nextDouble() * randomGenerator.nextInt(max);
   }
 
   @override
