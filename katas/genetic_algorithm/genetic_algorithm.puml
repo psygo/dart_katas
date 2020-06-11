@@ -1,54 +1,104 @@
 @startuml genetic_algorithm
 set namespaceSeparator ::
 
-class "genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" {
+class "genetic_algorithm::src::genetic_evolution_simulator.dart::GeneticEvolutionSimulator" {
   -BehaviorSubject<Population> _populationStreamController
+  -double _retainPercentage
+  -double _randomSelect
+  -double _mutationPercentage
   -Population _currentPopulation
   +dynamic populationStream
   +Population currentPopulation
-  +void evolve()
+  +Future evolve()
+  -dynamic _evolver()
 }
 
-"genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" o-- "rxdart::src::subjects::behavior_subject.dart::BehaviorSubject<Population>"
-"genetic_algorithm::src::evolution_simulator.dart::GeneticEvolutionSimulator" o-- "genetic_algorithm::src::population.dart::Population"
+"genetic_algorithm::src::genetic_evolution_simulator.dart::GeneticEvolutionSimulator" o-- "rxdart::src::subjects::behavior_subject.dart::BehaviorSubject<Population>"
+"genetic_algorithm::src::genetic_evolution_simulator.dart::GeneticEvolutionSimulator" o-- "genetic_algorithm::src::population.dart::Population"
 
 class "genetic_algorithm::src::individual.dart::Individual" {
   {static} +Random randomNumberGenerator
-  -List<int> _values
-  +List<int> values
+  -List<double> _values
+  -double Function(List<double>) _fitnessFunction
+  +List<double> values
+  +double Function(List<double>) fitnessFunction
+  +double fitness
   {static} -List _createRandomList()
-  +double calculateFitness()
-  +bool ==()
+  +int compareTo()
   +String toString()
 }
 
 "genetic_algorithm::src::individual.dart::Individual" o-- "dart::math::Random"
+"genetic_algorithm::src::individual.dart::Individual" o-- "genetic_algorithm::src::individual.dart::double Function(List<double>)"
+"dart::core::Comparable<T>" <|-- "genetic_algorithm::src::individual.dart::Individual"
 
 class "genetic_algorithm::src::params.dart::IndividualParams" {
+  {static} +double Function(List<double>) defaultFitnessFunction
   {static} +int defaultLength
   {static} +int defaultRandomGeneratorCeiling
-  +List<int> values
+  +List<double> values
+  +double Function(List<double>) fitnessFunction
   +int length
   +int randomGeneratorCeiling
 }
 
+"genetic_algorithm::src::params.dart::IndividualParams" o-- "genetic_algorithm::src::individual.dart::double Function(List<double>)"
+
 class "genetic_algorithm::src::params.dart::PopulationParams" {
+  {static} +double Function(List<Individual>) defaultGradeFunction
   {static} +int defaultPopulationSize
   +List<Individual> individuals
+  +double Function(List<Individual>) gradeFunction
   +IndividualParams individualParams
   +int size
 }
 
+"genetic_algorithm::src::params.dart::PopulationParams" o-- "genetic_algorithm::src::population.dart::double Function(List<Individual>)"
 "genetic_algorithm::src::params.dart::PopulationParams" o-- "genetic_algorithm::src::params.dart::IndividualParams"
 
+class "genetic_algorithm::src::params.dart::GeneticEvolutionSimulatorParams" {
+  {static} +double defaultRetainPercentage
+  {static} +double defaultRandomSelect
+  {static} +double defaultMutationPercentage
+  +double retainPercentage
+  +double randomSelect
+  +double mutationPercentage
+  +PopulationParams populationParams
+}
+
+"genetic_algorithm::src::params.dart::GeneticEvolutionSimulatorParams" o-- "genetic_algorithm::src::params.dart::PopulationParams"
+
 class "genetic_algorithm::src::population.dart::Population" {
+  {static} +Random randomGenerator
+  -double Function(List<Individual>) _gradeFunction
   -List<Individual> _individuals
+  -List<Individual> _deadIndividuals
+  -int _originalSize
   +List<Individual> individuals
+  +double grade
+  -int _childrenDesiredLength
   {static} -List _createRandomIndividualsList()
-  +double calculateGrade()
-  +bool ==()
+  +void sort()
+  +void naturalSelection()
+  -int _retainLength()
+  +void promoteDiversity()
+  -bool _randomSelectBiggerThanNextDouble()
+  +void mutate()
+  -bool _mutationPercentageBiggerThanNextDouble()
+  -int _positionToMutate()
+  -double _calculateMutatedValue()
+  -Individual _newIndividualFromValues()
+  +void crossover()
+  -int _generateParentRandomIndex()
+  -bool _maleIsNotFemale()
+  -int _calculateHalfLength()
+  -List _mergeValues()
+  -Individual _generateChild()
   +String toString()
 }
+
+"genetic_algorithm::src::population.dart::Population" o-- "dart::math::Random"
+"genetic_algorithm::src::population.dart::Population" o-- "genetic_algorithm::src::population.dart::double Function(List<Individual>)"
 
 
 @enduml
