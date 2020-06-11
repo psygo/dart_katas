@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
 import 'package:genetic_algorithm/src/params.dart';
@@ -9,7 +9,7 @@ import 'individual.dart';
 typedef GradeFunction = double Function(List<Individual> individuals);
 
 class Population {
-  static final Random randomGenerator = Random();
+  static final math.Random randomGenerator = math.Random();
 
   final GradeFunction _gradeFunction;
 
@@ -50,32 +50,30 @@ class Population {
       });
 
   void mutate({@required double mutationPercentage}) {
-    _individuals.forEach((Individual individual) {
+    for (int individualIndex = 0; individualIndex < _individuals.length; individualIndex++){
+      final Individual individual = _individuals[individualIndex];
       if (mutationPercentage > randomGenerator.nextDouble()) {
         final int positionToMutate =
             randomGenerator.nextInt(individual.values.length);
 
         final List<double> values = individual.values;
-        final int max = values.reduce(max).toInt();
-        
-        values[positionToMutate] = randomGenerator.nextDouble() * randomGenerator.nextInt(values.reduce(max).toInt());
+        final int max = values.max.toInt();
 
+        values[positionToMutate] = randomGenerator.nextDouble() *
+            randomGenerator.nextInt(max);
 
         final Individual mutatedIndividual = Individual(IndividualParams(
-            values: values,
-            fitnessFunction: individual.fitnessFunction));
+            values: values, fitnessFunction: individual.fitnessFunction));
+
+        _individuals[individualIndex] = mutatedIndividual;
       }
-    });
+    }
   }
 
   @override
-  int get hashCode => _individuals.hashCode;
-
-  @override
-  bool operator ==(Object otherObject) =>
-      otherObject is Population &&
-      ListEquality().equals(otherObject.individuals, _individuals);
-
-  @override
   String toString() => '$runtimeType: ${individuals.toString()}';
+}
+
+extension FancyIterable on Iterable<double> {
+  double get max => reduce(math.max);
 }
