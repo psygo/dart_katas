@@ -10,18 +10,14 @@ void main() {
     test('Checks that 2 random individuals don\'t have the same parameters',
         () {
       expect(
-          ListEquality()
-              .equals(randomIndividual10().values, randomIndividual10().values),
-          isTrue);
-      expect(
-          ListEquality()
-              .equals(randomIndividual10().values, randomIndividual10().values),
+          ListEquality().equals(
+              getRandomIndividual(10).values, getRandomIndividual(10).values),
           isFalse);
     });
 
     test('Calculating the fitness of an individual', () {
-      final double fitness1 = individual1().fitness;
-      final double fitness3 = individual3().fitness;
+      final double fitness1 = getIndividual(<double>[1, 2]).fitness;
+      final double fitness3 = getIndividual(<double>[1, 3]).fitness;
 
       expect(fitness1, 197);
       expect(fitness3, 196);
@@ -31,14 +27,6 @@ void main() {
   group('| `Population` |', () {
     final Population population1 = getPop(individuals1());
     final Population population2 = getPop(individuals2());
-
-    // test('Testing equality between populations', () {
-    //   final Population pop1 = Population(PopulationParams(individuals: <Individual>[individual1]));
-    //   final Population pop2 = Population(PopulationParams(individuals: <Individual>[individual1]));
-
-    //   expect(identical(pop1, pop2), isFalse);
-    //   expect(pop1, equals(pop2));
-    // });
 
     test('Checks that 2 random populations don\'t have the same individuals',
         () {
@@ -59,8 +47,12 @@ void main() {
     test('Sort population', () {
       population1.sort();
 
-      expect(population1.individuals,
-          <Individual>[individual3(), individual1(), individual2()]);
+      expect(population1.individuals[0].values,
+          equals(getIndividual(<double>[1, 3]).values));
+      expect(population1.individuals[0].values,
+          equals(getIndividual(<double>[1, 2]).values));
+      expect(population1.individuals[0].values,
+          equals(getIndividual(<double>[1, 2]).values));
     });
 
     test('Natural selection', () {
@@ -87,11 +79,13 @@ void main() {
 
       population.mutate(mutationPercentage: 0.1);
 
-      print(individuals2());
-      print(population.individuals);
-
-      expect(DeepCollectionEquality().equals(individuals2(), population.individuals), isFalse);
+      expect(
+          DeepCollectionEquality()
+              .equals(individuals2(), population.individuals),
+          isFalse);
     });
+
+    
   });
 
   // group('| Evolution Simulator |', () {
