@@ -11,17 +11,17 @@ void main() {
         () {
       expect(
           ListEquality()
-              .equals(randomIndividual1.values, randomIndividual1.values),
+              .equals(randomIndividual10().values, randomIndividual10().values),
           isTrue);
       expect(
           ListEquality()
-              .equals(randomIndividual1.values, randomIndividual2.values),
+              .equals(randomIndividual10().values, randomIndividual10().values),
           isFalse);
     });
 
     test('Calculating the fitness of an individual', () {
-      final double fitness1 = individual1.fitness;
-      final double fitness3 = individual3.fitness;
+      final double fitness1 = individual1().fitness;
+      final double fitness3 = individual3().fitness;
 
       expect(fitness1, 197);
       expect(fitness3, 196);
@@ -29,7 +29,7 @@ void main() {
   });
 
   group('| `Population` |', () {
-    final Population population1 = getPop(individuals1);
+    final Population population1 = getPop(individuals1());
     final Population population2 = getPop(individuals2());
 
     // test('Testing equality between populations', () {
@@ -60,7 +60,7 @@ void main() {
       population1.sort();
 
       expect(population1.individuals,
-          <Individual>[individual3, individual1, individual2]);
+          <Individual>[individual3(), individual1(), individual2()]);
     });
 
     test('Natural selection', () {

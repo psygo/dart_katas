@@ -21,17 +21,16 @@ Individual getIndividual(List<double> values) => Individual(
 Individual getRandomIndividual(int length) => Individual(
     IndividualParams(length: length, fitnessFunction: fitnessExampleFunction));
 
-final Individual individual1 = getIndividual(<double>[1, 2]);
-final Individual individual2 = getIndividual(<double>[1, 2]);
-final Individual individual3 = getIndividual(<double>[1, 3]);
+Individual individual1() => getIndividual(<double>[1, 2]);
+Individual individual2() => getIndividual(<double>[1, 2]);
+Individual individual3() => getIndividual(<double>[1, 3]);
 
-final Individual randomIndividual1 = getRandomIndividual(10);
-final Individual randomIndividual2 = getRandomIndividual(10);
+Individual randomIndividual10() => getRandomIndividual(10);
 
-final List<Individual> individuals1 = <Individual>[
-  individual1,
-  individual2,
-  individual3
+List<Individual> individuals1() => <Individual>[
+  individual1(),
+  individual2(),
+  individual3(),
 ];
 
 List<Individual> individuals2() => <Individual>[
@@ -48,7 +47,7 @@ List<Individual> individuals2() => <Individual>[
 ];
 
 Population getPop(List<Individual> individuals) => Population(PopulationParams(
-    individuals: List<Individual>.from([])..addAll(individuals),
+    individuals: <Individual>[...individuals],
     gradeFunction: gradeExampleFunction));
 
 Population getRandomPop(int size) => Population(PopulationParams(
