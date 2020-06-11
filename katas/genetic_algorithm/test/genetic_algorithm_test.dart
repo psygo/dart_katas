@@ -53,8 +53,11 @@ void main() {
         getIndividual(<double>[1, 2]),
       ];
 
-      for (int individualIndex = 0; individualIndex < population1.individuals.length; individualIndex++) {
-        expect(population1.individuals[individualIndex].values, correctIndividualsList[individualIndex].values);
+      for (int individualIndex = 0;
+          individualIndex < population1.individuals.length;
+          individualIndex++) {
+        expect(population1.individuals[individualIndex].values,
+            correctIndividualsList[individualIndex].values);
       }
     });
 

@@ -67,7 +67,8 @@ class Population {
         individual.values[positionToMutate] =
             _calculateMutatedValue(individual);
 
-        final Individual mutatedIndividual = _newIndividualFromValues(individual.values);
+        final Individual mutatedIndividual =
+            _newIndividualFromValues(individual.values);
 
         _individuals[individualIndex] = mutatedIndividual;
       }
@@ -84,9 +85,9 @@ class Population {
     return randomGenerator.nextDouble() * randomGenerator.nextInt(max);
   }
 
-  Individual _newIndividualFromValues(List<double> values) => Individual(IndividualParams(
-            values: values,
-            fitnessFunction: _individuals[0].fitnessFunction));
+  Individual _newIndividualFromValues(List<double> values) =>
+      Individual(IndividualParams(
+          values: values, fitnessFunction: _individuals[0].fitnessFunction));
 
   void crossover() {
     List<Individual> children = <Individual>[];
@@ -112,13 +113,18 @@ class Population {
       randomGenerator.nextInt(_individuals.length);
   bool _maleIsNotFemale(int maleIndex, int femaleIndex) =>
       maleIndex != femaleIndex;
-  int _calculateHalfLength(Individual individual) => individual.values.length ~/ 2;
-  List<double> _mergeValues(List<double> listLeft, List<double> listRight, int mergePoint) => <double>[
-          ...listLeft.sublist(0, mergePoint),
-          ...listRight.sublist(mergePoint),
-        ];
-  Individual _generateChild(Individual male, Individual female, int mergePoint) {
-    final List<double> childValues = _mergeValues(male.values, female.values, mergePoint);
+  int _calculateHalfLength(Individual individual) =>
+      individual.values.length ~/ 2;
+  List<double> _mergeValues(
+          List<double> listLeft, List<double> listRight, int mergePoint) =>
+      <double>[
+        ...listLeft.sublist(0, mergePoint),
+        ...listRight.sublist(mergePoint),
+      ];
+  Individual _generateChild(
+      Individual male, Individual female, int mergePoint) {
+    final List<double> childValues =
+        _mergeValues(male.values, female.values, mergePoint);
     return _newIndividualFromValues(childValues);
   }
 

@@ -24,7 +24,7 @@ class Individual with Comparable<Individual> {
           length, (int _) => randomNumberGenerator.nextInt(ceiling).toDouble());
 
   List<double> get values => _values;
-  
+
   FitnessFunction get fitnessFunction => _fitnessFunction;
 
   /// The lower the fitness the better.

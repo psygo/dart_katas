@@ -22,27 +22,26 @@ Individual getRandomIndividual(int length) => Individual(
     IndividualParams(length: length, fitnessFunction: fitnessExampleFunction));
 
 List<Individual> individuals1() => <Individual>[
-  getIndividual(<double>[1, 2]),
-  getIndividual(<double>[1, 2]),
-  getIndividual(<double>[1, 3]),
-];
+      getIndividual(<double>[1, 2]),
+      getIndividual(<double>[1, 2]),
+      getIndividual(<double>[1, 3]),
+    ];
 
 List<Individual> individuals2() => <Individual>[
-  getIndividual(<double>[1, 2]),
-  getIndividual(<double>[1, 2]),
-  getIndividual(<double>[1, 3]),
-  getIndividual(<double>[100, 100]),
-  getIndividual(<double>[200, 80]),
-  getIndividual(<double>[250, 0]),
-  getIndividual(<double>[10, 10]),
-  getIndividual(<double>[30, 35]),
-  getIndividual(<double>[40, 40]),
-  getIndividual(<double>[4, 6]),
-];
+      getIndividual(<double>[1, 2]),
+      getIndividual(<double>[1, 2]),
+      getIndividual(<double>[1, 3]),
+      getIndividual(<double>[100, 100]),
+      getIndividual(<double>[200, 80]),
+      getIndividual(<double>[250, 0]),
+      getIndividual(<double>[10, 10]),
+      getIndividual(<double>[30, 35]),
+      getIndividual(<double>[40, 40]),
+      getIndividual(<double>[4, 6]),
+    ];
 
 Population getPop(List<Individual> individuals) => Population(PopulationParams(
-    individuals: individuals,
-    gradeFunction: gradeExampleFunction));
+    individuals: individuals, gradeFunction: gradeExampleFunction));
 
 Population getRandomPop(int size) => Population(PopulationParams(
     gradeFunction: gradeExampleFunction,
