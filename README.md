@@ -41,6 +41,8 @@ All of the katas were done using TDD, meaning they are not only tested but were 
 1. [Genetic Algorithm](https://lethain.com/genetic-algorithms-cool-name-damn-simple/)
     - Is done with OOP, in a more maintainable way than the original article.
     - The object that manages the evolution (`GeneticEvolutionSimulator`) outputs to a stream, making further reactive client-side programming much easier.
+    - The core objects &mdash; `Individual` and `Population` &mdash; are immutable.
+    - The hierarchical parameters are organized into objects.
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 
