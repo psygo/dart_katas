@@ -45,7 +45,7 @@ void main() {
     });
 
     test('Sort population', () {
-      population1.sort();
+      final Population sortedPopulation = population1.sort();
 
       final List<Individual> correctIndividualsList = <Individual>[
         getIndividual(<double>[1, 3]),
@@ -54,9 +54,9 @@ void main() {
       ];
 
       for (int individualIndex = 0;
-          individualIndex < population1.individuals.length;
+          individualIndex < sortedPopulation.individuals.length;
           individualIndex++) {
-        expect(population1.individuals[individualIndex].values,
+        expect(sortedPopulation.individuals[individualIndex].values,
             correctIndividualsList[individualIndex].values);
       }
     });
@@ -119,7 +119,6 @@ void main() {
 
     GeneticEvolver geneticEvolver;
     Stream<Population> populationStream;
-    Population firstPopulation;
 
     setUp(() {
       geneticEvolver = GeneticEvolver(
@@ -127,28 +126,9 @@ void main() {
           populationParams: populationParams,
           individualParams: individualParams);
       populationStream = geneticEvolver.populationStream;
-      firstPopulation = geneticEvolver.currentPopulation;
     });
 
     test('Evolving the population', () async {
-      // final Population firstPopulation = geneticEvolver.currentPopulation;
-
-      populationStream.listen((Population population) {
-        print(population.grade);
-      });
-
-      await geneticEvolver.evolve(totalCycles: 200);
-
-      // await geneticEvolver.stop();
-
-      // final Population lastPopulation = await populationStream.last;
-
-      print('');
-      print(firstPopulation.grade);
-      // print(lastPopulation.grade);
-
-      expectLater(await populationStream.length, 201);
-      // expectLater(firstPopulation.grade, greaterThan(lastPopulation.grade));
     });
   });
 }

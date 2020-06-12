@@ -19,8 +19,7 @@ class Population {
   Population({
     PopulationParams populationParams = const PopulationParams(),
     IndividualParams individualParams = const IndividualParams(),
-  })
-      : _individuals = populationParams.individuals ??
+  })  : _individuals = populationParams.individuals ??
             _createRandomIndividualsList(
               populationParams.size,
               individualParams,
@@ -37,7 +36,16 @@ class Population {
   /// The lower the grade the better.
   double get grade => _gradeFunction(_individuals);
 
-  void sort() => _individuals.sort();
+  Population sort() {
+    final List<Individual> individuals = List<Individual>.from(_individuals);
+    individuals.sort();
+    
+    return Population(
+        populationParams: PopulationParams(
+      gradeFunction: _gradeFunction,
+      individuals: individuals,
+    ));
+  }
 
   void naturalSelection({@required double retainPercentage}) {
     final int finalLength = _retainLength(retainPercentage);

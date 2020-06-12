@@ -7,12 +7,12 @@ import 'params.dart';
 import 'population.dart';
 
 class GeneticEvolver {
-  final BehaviorSubject<Population> _populationStreamController =
-      BehaviorSubject<Population>();
+  final BehaviorSubject<Population> _populationStreamController;
   final double _retainPercentage;
   final double _randomSelect;
   final double _mutationPercentage;
 
+  List<Population> _populations = <Population>[];
   Population _currentPopulation;
 
   GeneticEvolver({
@@ -21,15 +21,22 @@ class GeneticEvolver {
     IndividualParams individualParams = const IndividualParams(),
   })  : _retainPercentage = geneticEvolverParams.retainPercentage,
         _randomSelect = geneticEvolverParams.randomSelect,
-        _mutationPercentage = geneticEvolverParams.mutationPercentage {
-    populationStream.listen(
-        (Population newPopulation) => _currentPopulation = newPopulation);
-
-    _populationStreamController.add(Population(
-        populationParams: populationParams,
-        individualParams: individualParams));
+        _mutationPercentage = geneticEvolverParams.mutationPercentage,
+        _populationStreamController = BehaviorSubject<Population>.seeded(
+          Population(
+            populationParams: populationParams,
+            individualParams: individualParams,
+          ),
+        ) {
+    // populationStream.listen((Population newPopulation) {
+    //   _currentPopulation = newPopulation;
+    //   _populations.add(newPopulation);
+    // });
   }
-  
+
+  List<Population> get populations => _populations;
+  Population get currentPopulation => _currentPopulation;
+
   Stream<Population> get populationStream => _populationStreamController.stream;
 
   /// Do use `await` or `.then` with this function, because it uses `addStream`
