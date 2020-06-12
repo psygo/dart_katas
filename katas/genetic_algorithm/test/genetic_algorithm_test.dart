@@ -128,7 +128,8 @@ void main() {
           geneticEvolverParams: geneticEvolverParams,
           populationParams: populationParams,
           individualParams: individualParams);
-      final Stream<Population> populationStream = geneticEvolver.populationStream;
+      final Stream<Population> populationStream =
+          geneticEvolver.populationStream;
 
       final Population firstPopulation = await populationStream.first;
 

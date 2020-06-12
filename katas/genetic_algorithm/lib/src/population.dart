@@ -41,7 +41,7 @@ class Population {
         gradeFunction: _gradeFunction,
         individuals: individuals,
       ));
-      
+
   List<Individual> _copyIndividuals() => List<Individual>.from(_individuals);
 
   Population sort() {
