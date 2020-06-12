@@ -13,7 +13,6 @@ class Population {
   final GradeFunction _gradeFunction;
 
   List<Individual> _individuals;
-  List<Individual> _deadIndividuals;
   int _originalSize;
 
   Population({
@@ -36,33 +35,39 @@ class Population {
   /// The lower the grade the better.
   double get grade => _gradeFunction(_individuals);
 
+  Population _newPopulationFromThisPopulation(List<Individual> individuals) =>
+      Population(
+          populationParams: PopulationParams(
+        gradeFunction: _gradeFunction,
+        individuals: individuals,
+      ));
+  List<Individual> _copyIndividuals() => List<Individual>.from(_individuals);
+
   Population sort() {
-    final List<Individual> individuals = List<Individual>.from(_individuals);
-    individuals.sort();
-    
-    return Population(
-        populationParams: PopulationParams(
-      gradeFunction: _gradeFunction,
-      individuals: individuals,
-    ));
+    final List<Individual> copiedIndividuals = _copyIndividuals();
+    copiedIndividuals.sort();
+
+    return _newPopulationFromThisPopulation(copiedIndividuals);
   }
 
-  void naturalSelection({@required double retainPercentage}) {
+  Population naturalSelectionWithDiversity({@required double retainPercentage, @required double randomSelect,}) {
     final int finalLength = _retainLength(retainPercentage);
 
-    _deadIndividuals = _individuals.sublist(finalLength);
-    _individuals = _individuals.sublist(0, finalLength);
+    final List<Individual> selectedIndividuals =
+        _individuals.sublist(0, finalLength);
+
+    final List<Individual> deadIndividuals = _individuals.sublist(finalLength);
+    deadIndividuals.forEach((Individual deadIndividual) {
+      if (_randomSelectBiggerThanNextDouble(randomSelect)) {
+        selectedIndividuals.add(deadIndividual);
+      }
+    });
+
+    return _newPopulationFromThisPopulation(selectedIndividuals);
   }
 
   int _retainLength(double retainPercentage) =>
       (_individuals.length * retainPercentage).toInt();
-
-  void promoteDiversity({@required double randomSelect}) =>
-      _deadIndividuals.forEach((Individual deadIndividual) {
-        if (_randomSelectBiggerThanNextDouble(randomSelect)) {
-          _individuals.add(deadIndividual);
-        }
-      });
 
   bool _randomSelectBiggerThanNextDouble(double randomSelect) =>
       randomSelect > randomGenerator.nextDouble();

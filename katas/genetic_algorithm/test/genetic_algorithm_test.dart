@@ -56,28 +56,29 @@ void main() {
       for (int individualIndex = 0;
           individualIndex < sortedPopulation.individuals.length;
           individualIndex++) {
-        expect(sortedPopulation.individuals[individualIndex].values,
-            correctIndividualsList[individualIndex].values);
+        final Individual sortedIndividual =
+            sortedPopulation.individuals[individualIndex];
+        final Individual correctIndividual =
+            correctIndividualsList[individualIndex];
+
+        expect(sortedIndividual.values, correctIndividual.values);
       }
+
+      expect(
+          ListEquality()
+              .equals(population1.individuals, sortedPopulation.individuals),
+          isFalse);
     });
 
     test('Natural selection', () {
-      population2.sort();
-      population2.naturalSelection(retainPercentage: 0.4);
+      final Population randomPopulation = getRandomPop(1000);
 
-      expect(population2.individuals.length, 4);
-    });
-
-    test('Promoting diversity', () {
-      final Population population = getRandomPop(1000);
-
-      population.sort();
-      population.naturalSelection(retainPercentage: 0.5);
-      population.promoteDiversity(randomSelect: 0.05);
+      final Population selectedPopulation =
+          randomPopulation.naturalSelectionWithDiversity(retainPercentage: 0.5, randomSelect: 0.05);
 
       /// It should be between 500 and 500 + .05 * 500 ~ 525
-      expect(population.individuals.length, greaterThan(500));
-      expect(population.individuals.length, lessThan(540));
+      expect(selectedPopulation.individuals.length, greaterThan(500));
+      expect(selectedPopulation.individuals.length, lessThan(540));
     });
 
     test('Mutating some individuals', () {
@@ -95,7 +96,7 @@ void main() {
       final Population population = getRandomPop(1000);
 
       population.sort();
-      population.naturalSelection(retainPercentage: 0.5);
+      population.naturalSelectionWithDiversity(retainPercentage: 0.5, randomSelect: 0.05);
       population.crossover();
 
       expect(population.individuals.length, 1000);
@@ -128,7 +129,6 @@ void main() {
       populationStream = geneticEvolver.populationStream;
     });
 
-    test('Evolving the population', () async {
-    });
+    test('Evolving the population', () async {});
   });
 }

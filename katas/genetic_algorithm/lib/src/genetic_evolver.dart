@@ -48,8 +48,8 @@ class GeneticEvolver {
   Stream<Population> _evolveNTimes(int totalCycles) async* {
     for (int cycle = 0; cycle < totalCycles; cycle++) {
       _currentPopulation.sort();
-      _currentPopulation.naturalSelection(retainPercentage: _retainPercentage);
-      _currentPopulation.promoteDiversity(randomSelect: _randomSelect);
+      _currentPopulation.naturalSelectionWithDiversity(
+          retainPercentage: _retainPercentage, randomSelect: _randomSelect);
       _currentPopulation.mutate(mutationPercentage: _mutationPercentage);
       _currentPopulation.crossover();
 
