@@ -114,16 +114,17 @@ void main() {
     final PopulationParams populationParams = PopulationParams(
       gradeFunction: gradeExampleFunction,
       size: 100,
-      individualParams: IndividualParams(
+    );
+
+    final IndividualParams individualParams = IndividualParams(
         length: 5,
         fitnessFunction: fitnessExampleFunction,
-      ),
-    );
+      );
 
     setUp(() {
       geneticEvolutionSimulator = GeneticEvolver(
           geneticEvolverParams: geneticEvolverParams,
-          populationParams: populationParams);
+          populationParams: populationParams, individualParams: individualParams);
     });
 
     test('Evolving the population', () async {

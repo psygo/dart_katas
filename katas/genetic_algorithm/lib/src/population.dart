@@ -16,11 +16,14 @@ class Population {
   List<Individual> _deadIndividuals;
   int _originalSize;
 
-  Population([PopulationParams populationParams = const PopulationParams()])
+  Population({
+    PopulationParams populationParams = const PopulationParams(),
+    IndividualParams individualParams = const IndividualParams(),
+  })
       : _individuals = populationParams.individuals ??
             _createRandomIndividualsList(
               populationParams.size,
-              populationParams.individualParams,
+              individualParams,
             ),
         _gradeFunction = populationParams.gradeFunction,
         _originalSize = populationParams.size;

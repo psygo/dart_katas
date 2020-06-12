@@ -32,13 +32,11 @@ class PopulationParams {
 
   final List<Individual> individuals;
   final GradeFunction gradeFunction;
-  final IndividualParams individualParams;
   final int size;
 
   const PopulationParams({
     this.individuals,
     this.gradeFunction = defaultGradeFunction,
-    this.individualParams = const IndividualParams(),
     this.size = defaultPopulationSize,
   });
 }
