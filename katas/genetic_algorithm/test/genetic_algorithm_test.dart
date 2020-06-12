@@ -96,12 +96,12 @@ void main() {
     test('Crossover of parents to create children', () {
       final Population population = getRandomPop(1000);
 
-      population.sort();
-      population.naturalSelectionWithDiversity(
+      final Population sortedPopulation = population.sort();
+      final Population selectedPopulation = sortedPopulation.naturalSelectionWithDiversity(
           retainPercentage: 0.5, randomSelect: 0.05);
-      population.crossover();
+      final Population crossedoverPopulation = selectedPopulation.crossover(desiredLength: population.length);
 
-      expect(population.length, 1000);
+      expect(crossedoverPopulation.length, 1000);
     });
   });
 

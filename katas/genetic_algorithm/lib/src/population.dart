@@ -81,7 +81,8 @@ class Population {
     List<Individual> mutatedIndividuals = <Individual>[];
 
     for (int individualIndex = 0; individualIndex < length; individualIndex++) {
-      Individual individual = _newIndividualFromValues(_individuals[individualIndex].values);
+      Individual individual =
+          _newIndividualFromValues(_individuals[individualIndex].values);
 
       if (_mutationPercentageBiggerThanNextDouble(mutationPercentage)) {
         final int positionToMutate = _positionToMutate(individual);
@@ -112,9 +113,9 @@ class Population {
       Individual(IndividualParams(
           values: values, fitnessFunction: _individuals[0].fitnessFunction));
 
-  void crossover() {
+  Population crossover({@required int desiredLength}) {
     List<Individual> children = <Individual>[];
-    while (children.length < _childrenDesiredLength) {
+    while (children.length < _childrenLength(desiredLength)) {
       final int maleIndex = _generateParentRandomIndex();
       final int femaleIndex = _generateParentRandomIndex();
 
@@ -128,10 +129,11 @@ class Population {
       }
     }
 
-    _individuals.addAll(children);
+    return _newPopulationFromThisPopulation(
+        <Individual>[..._individuals, ...children]);
   }
 
-  int get _childrenDesiredLength => _originalSize - _individuals.length;
+  int _childrenLength(int desiredLength) => desiredLength - length;
   int _generateParentRandomIndex() =>
       randomGenerator.nextInt(_individuals.length);
   bool _maleIsNotFemale(int maleIndex, int femaleIndex) =>
