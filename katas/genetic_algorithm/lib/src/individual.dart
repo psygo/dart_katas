@@ -25,6 +25,8 @@ class Individual with Comparable<Individual> {
 
   List<double> get values => _values;
 
+  int get length => _values.length;
+
   FitnessFunction get fitnessFunction => _fitnessFunction;
 
   /// The lower the fitness the better.

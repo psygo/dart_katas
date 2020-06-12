@@ -54,7 +54,7 @@ void main() {
       ];
 
       for (int individualIndex = 0;
-          individualIndex < sortedPopulation.individuals.length;
+          individualIndex < sortedPopulation.length;
           individualIndex++) {
         final Individual sortedIndividual =
             sortedPopulation.individuals[individualIndex];
@@ -74,11 +74,12 @@ void main() {
       final Population randomPopulation = getRandomPop(1000);
 
       final Population selectedPopulation =
-          randomPopulation.naturalSelectionWithDiversity(retainPercentage: 0.5, randomSelect: 0.05);
+          randomPopulation.naturalSelectionWithDiversity(
+              retainPercentage: 0.5, randomSelect: 0.05);
 
       /// It should be between 500 and 500 + .05 * 500 ~ 525
-      expect(selectedPopulation.individuals.length, greaterThan(500));
-      expect(selectedPopulation.individuals.length, lessThan(540));
+      expect(selectedPopulation.length, greaterThan(500));
+      expect(selectedPopulation.length, lessThan(540));
     });
 
     test('Mutating some individuals', () {
@@ -96,10 +97,11 @@ void main() {
       final Population population = getRandomPop(1000);
 
       population.sort();
-      population.naturalSelectionWithDiversity(retainPercentage: 0.5, randomSelect: 0.05);
+      population.naturalSelectionWithDiversity(
+          retainPercentage: 0.5, randomSelect: 0.05);
       population.crossover();
 
-      expect(population.individuals.length, 1000);
+      expect(population.length, 1000);
     });
   });
 

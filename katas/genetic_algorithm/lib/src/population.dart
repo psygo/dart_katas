@@ -31,6 +31,8 @@ class Population {
       List<Individual>.generate(size, (int _) => Individual(individualParams));
 
   List<Individual> get individuals => _individuals;
+  
+  int get length => _individuals.length;
 
   /// The lower the grade the better.
   double get grade => _gradeFunction(_individuals);
@@ -67,14 +69,14 @@ class Population {
   }
 
   int _retainLength(double retainPercentage) =>
-      (_individuals.length * retainPercentage).toInt();
+      (length * retainPercentage).toInt();
 
   bool _randomSelectBiggerThanNextDouble(double randomSelect) =>
       randomSelect > randomGenerator.nextDouble();
 
   void mutate({@required double mutationPercentage}) {
     for (int individualIndex = 0;
-        individualIndex < _individuals.length;
+        individualIndex < length;
         individualIndex++) {
       final Individual individual = _individuals[individualIndex];
       if (_mutationPercentageBiggerThanNextDouble(mutationPercentage)) {
