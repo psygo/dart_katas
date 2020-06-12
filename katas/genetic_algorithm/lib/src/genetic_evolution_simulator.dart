@@ -34,7 +34,7 @@ class GeneticEvolutionSimulator {
   Population get currentPopulation => _currentPopulation;
 
   /// Do use `await` or `.then` with this function, because it uses `addStream`
-  /// under the hood. Otherwise, not all events on the original stream will end 
+  /// under the hood. Otherwise, not all events on the original stream will end
   /// up in the `StreamController`.
   Future<void> evolve({int totalCycles = 1}) async {
     await _populationStreamController.addStream(_evolver(totalCycles));

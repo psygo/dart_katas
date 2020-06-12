@@ -29,11 +29,12 @@ class InsertionSorter {
   }
 
   bool _isNotFirstPositionAndCurrentCharIsSmallerThanPreviousChar() =>
-      _isNotFirstPosition() &&
-      _currentCharIsSmallerThanPreviousChar();
+      _isNotFirstPosition() && _currentCharIsSmallerThanPreviousChar();
 
   bool _currentCharIsSmallerThanPreviousChar() =>
-      _charsList[_backtrackingIndex].compareTo(_charsList[_backtrackingIndex - 1]) < 0;
+      _charsList[_backtrackingIndex]
+          .compareTo(_charsList[_backtrackingIndex - 1]) <
+      0;
 
   bool _isNotFirstPosition() => _backtrackingIndex > 0;
 
