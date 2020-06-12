@@ -1,5 +1,6 @@
-import 'package:genetic_algorithm/genetic_algorithm.dart';
 import 'package:meta/meta.dart';
+
+import 'package:genetic_algorithm/genetic_algorithm.dart';
 
 import 'individual.dart';
 

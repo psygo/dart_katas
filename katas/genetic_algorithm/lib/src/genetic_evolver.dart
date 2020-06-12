@@ -21,27 +21,24 @@ class GeneticEvolver {
     IndividualParams individualParams = const IndividualParams(),
   })  : _retainPercentage = geneticEvolverParams.retainPercentage,
         _randomSelect = geneticEvolverParams.randomSelect,
-        _mutationPercentage =
-            geneticEvolverParams.mutationPercentage {
+        _mutationPercentage = geneticEvolverParams.mutationPercentage {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
 
-    _populationStreamController
-        .add(Population(populationParams: populationParams, individualParams: individualParams));
+    _populationStreamController.add(Population(
+        populationParams: populationParams,
+        individualParams: individualParams));
   }
-
+  
   Stream<Population> get populationStream => _populationStreamController.stream;
-
-  Population get currentPopulation => _currentPopulation;
 
   /// Do use `await` or `.then` with this function, because it uses `addStream`
   /// under the hood. Otherwise, not all events on the original stream will end
   /// up in the `StreamController`.
-  Future<void> evolve({int totalCycles = 1}) async {
-    await _populationStreamController.addStream(_evolver(totalCycles));
-  }
+  Future<void> evolve({int totalCycles = 1}) =>
+      _populationStreamController.addStream(_evolveNTimes(totalCycles));
 
-  Stream<Population> _evolver(int totalCycles) async* {
+  Stream<Population> _evolveNTimes(int totalCycles) async* {
     for (int cycle = 0; cycle < totalCycles; cycle++) {
       _currentPopulation.sort();
       _currentPopulation.naturalSelection(retainPercentage: _retainPercentage);
@@ -52,4 +49,6 @@ class GeneticEvolver {
       yield _currentPopulation;
     }
   }
+
+  Future<void> stop() => _populationStreamController.close();
 }

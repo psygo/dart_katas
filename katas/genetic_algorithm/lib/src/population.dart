@@ -135,6 +135,6 @@ class Population {
   String toString() => '$runtimeType: ${individuals.toString()}';
 }
 
-extension FancyIterable on Iterable<double> {
+extension IterableWithMaxGetter on Iterable<double> {
   double get max => reduce(math.max);
 }

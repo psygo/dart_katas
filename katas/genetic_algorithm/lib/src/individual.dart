@@ -8,7 +8,7 @@ typedef FitnessFunction = double Function(List<double> values);
 
 @immutable
 class Individual with Comparable<Individual> {
-  static final Random randomNumberGenerator = Random();
+  static final Random randomGenerator = Random();
 
   final List<double> _values;
   final FitnessFunction _fitnessFunction;
@@ -21,7 +21,7 @@ class Individual with Comparable<Individual> {
 
   static List<double> _createRandomList(int length, int ceiling) =>
       List<double>.generate(
-          length, (int _) => randomNumberGenerator.nextInt(ceiling).toDouble());
+          length, (int _) => randomGenerator.nextInt(ceiling).toDouble());
 
   List<double> get values => _values;
 

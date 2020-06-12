@@ -34,7 +34,7 @@ void main() {
       final Population population2 = Population();
 
       expect(population1, equals(population1));
-      expect(population1 == population2, isFalse);
+      expect(population1, isNot(equals(population2)));
     });
 
     test('Calculating the grade of a population', () {
@@ -76,8 +76,8 @@ void main() {
       population.promoteDiversity(randomSelect: 0.05);
 
       /// It should be between 500 and 500 + .05 * 500 ~ 525
-      expect(population.individuals.length > 500, isTrue);
-      expect(population.individuals.length < 540, isTrue);
+      expect(population.individuals.length, greaterThan(500));
+      expect(population.individuals.length, lessThan(540));
     });
 
     test('Mutating some individuals', () {
@@ -103,40 +103,52 @@ void main() {
   });
 
   group('| Evolution Simulator |', () {
-    GeneticEvolver geneticEvolutionSimulator;
-
     final GeneticEvolverParams geneticEvolverParams = GeneticEvolverParams(
       retainPercentage: 0.2,
       randomSelect: 0.05,
       mutationPercentage: 0.01,
     );
-
     final PopulationParams populationParams = PopulationParams(
       gradeFunction: gradeExampleFunction,
       size: 100,
     );
-
     final IndividualParams individualParams = IndividualParams(
-        length: 5,
-        fitnessFunction: fitnessExampleFunction,
-      );
+      length: 5,
+      fitnessFunction: fitnessExampleFunction,
+    );
+
+    GeneticEvolver geneticEvolver;
+    Stream<Population> populationStream;
+    Population firstPopulation;
 
     setUp(() {
-      geneticEvolutionSimulator = GeneticEvolver(
+      geneticEvolver = GeneticEvolver(
           geneticEvolverParams: geneticEvolverParams,
-          populationParams: populationParams, individualParams: individualParams);
+          populationParams: populationParams,
+          individualParams: individualParams);
+      populationStream = geneticEvolver.populationStream;
+      firstPopulation = geneticEvolver.currentPopulation;
     });
 
     test('Evolving the population', () async {
-      final double initialPopulationGrade =
-          geneticEvolutionSimulator.currentPopulation.grade;
+      // final Population firstPopulation = geneticEvolver.currentPopulation;
 
-      await geneticEvolutionSimulator.evolve(totalCycles: 200);
+      populationStream.listen((Population population) {
+        print(population.grade);
+      });
 
-      expectLater(
-          initialPopulationGrade >
-              geneticEvolutionSimulator.currentPopulation.grade,
-          isTrue);
+      await geneticEvolver.evolve(totalCycles: 200);
+
+      // await geneticEvolver.stop();
+
+      // final Population lastPopulation = await populationStream.last;
+
+      print('');
+      print(firstPopulation.grade);
+      // print(lastPopulation.grade);
+
+      expectLater(await populationStream.length, 201);
+      // expectLater(firstPopulation.grade, greaterThan(lastPopulation.grade));
     });
   });
 }
