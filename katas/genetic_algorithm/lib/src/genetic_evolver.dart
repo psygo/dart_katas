@@ -16,8 +16,8 @@ class GeneticEvolver {
   Population _currentPopulation;
 
   GeneticEvolver({
-    GeneticEvolverParams geneticEvolverParams =
-        const GeneticEvolverParams(),
+    GeneticEvolverParams geneticEvolverParams = const GeneticEvolverParams(),
+    PopulationParams populationParams = const PopulationParams(),
   })  : _retainPercentage = geneticEvolverParams.retainPercentage,
         _randomSelect = geneticEvolverParams.randomSelect,
         _mutationPercentage =
@@ -26,7 +26,7 @@ class GeneticEvolver {
         (Population newPopulation) => _currentPopulation = newPopulation);
 
     _populationStreamController
-        .add(Population(geneticEvolverParams.populationParams));
+        .add(Population(populationParams));
   }
 
   Stream<Population> get populationStream => _populationStreamController.stream;

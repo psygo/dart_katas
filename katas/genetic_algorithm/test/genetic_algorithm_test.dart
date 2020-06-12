@@ -109,19 +109,21 @@ void main() {
       retainPercentage: 0.2,
       randomSelect: 0.05,
       mutationPercentage: 0.01,
-      populationParams: PopulationParams(
-        gradeFunction: gradeExampleFunction,
-        size: 100,
-        individualParams: IndividualParams(
-          length: 5,
-          fitnessFunction: fitnessExampleFunction,
-        ),
+    );
+
+    final PopulationParams populationParams = PopulationParams(
+      gradeFunction: gradeExampleFunction,
+      size: 100,
+      individualParams: IndividualParams(
+        length: 5,
+        fitnessFunction: fitnessExampleFunction,
       ),
     );
 
     setUp(() {
-      geneticEvolutionSimulator =
-          GeneticEvolver(geneticEvolverParams: geneticEvolverParams);
+      geneticEvolutionSimulator = GeneticEvolver(
+          geneticEvolverParams: geneticEvolverParams,
+          populationParams: populationParams);
     });
 
     test('Evolving the population', () async {

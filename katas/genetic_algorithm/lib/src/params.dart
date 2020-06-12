@@ -51,12 +51,10 @@ class GeneticEvolverParams {
   final double retainPercentage;
   final double randomSelect;
   final double mutationPercentage;
-  final PopulationParams populationParams;
 
   const GeneticEvolverParams({
     this.retainPercentage = defaultRetainPercentage,
     this.randomSelect = defaultRandomSelect,
     this.mutationPercentage = defaultMutationPercentage,
-    this.populationParams = const PopulationParams(),
   });
 }
