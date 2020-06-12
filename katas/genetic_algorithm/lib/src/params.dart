@@ -43,7 +43,7 @@ class PopulationParams {
   });
 }
 
-class GeneticEvolutionSimulatorParams {
+class GeneticEvolverParams {
   static const double defaultRetainPercentage = 0.2;
   static const double defaultRandomSelect = 0.05;
   static const double defaultMutationPercentage = 0.01;
@@ -53,7 +53,7 @@ class GeneticEvolutionSimulatorParams {
   final double mutationPercentage;
   final PopulationParams populationParams;
 
-  const GeneticEvolutionSimulatorParams({
+  const GeneticEvolverParams({
     this.retainPercentage = defaultRetainPercentage,
     this.randomSelect = defaultRandomSelect,
     this.mutationPercentage = defaultMutationPercentage,

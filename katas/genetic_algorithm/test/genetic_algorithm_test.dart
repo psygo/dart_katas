@@ -103,10 +103,9 @@ void main() {
   });
 
   group('| Evolution Simulator |', () {
-    GeneticEvolutionSimulator geneticEvolutionSimulator;
+    GeneticEvolver geneticEvolutionSimulator;
 
-    final GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
-        GeneticEvolutionSimulatorParams(
+    final GeneticEvolverParams geneticEvolverParams = GeneticEvolverParams(
       retainPercentage: 0.2,
       randomSelect: 0.05,
       mutationPercentage: 0.01,
@@ -121,8 +120,8 @@ void main() {
     );
 
     setUp(() {
-      geneticEvolutionSimulator = GeneticEvolutionSimulator(
-          geneticEvolutionSimulatorParams: geneticEvolutionSimulatorParams);
+      geneticEvolutionSimulator =
+          GeneticEvolver(geneticEvolverParams: geneticEvolverParams);
     });
 
     test('Evolving the population', () async {

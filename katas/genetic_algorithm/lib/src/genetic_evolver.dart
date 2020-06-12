@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'params.dart';
 import 'population.dart';
 
-class GeneticEvolutionSimulator {
+class GeneticEvolver {
   final BehaviorSubject<Population> _populationStreamController =
       BehaviorSubject<Population>();
   final double _retainPercentage;
@@ -15,18 +15,18 @@ class GeneticEvolutionSimulator {
 
   Population _currentPopulation;
 
-  GeneticEvolutionSimulator({
-    GeneticEvolutionSimulatorParams geneticEvolutionSimulatorParams =
-        const GeneticEvolutionSimulatorParams(),
-  })  : _retainPercentage = geneticEvolutionSimulatorParams.retainPercentage,
-        _randomSelect = geneticEvolutionSimulatorParams.randomSelect,
+  GeneticEvolver({
+    GeneticEvolverParams geneticEvolverParams =
+        const GeneticEvolverParams(),
+  })  : _retainPercentage = geneticEvolverParams.retainPercentage,
+        _randomSelect = geneticEvolverParams.randomSelect,
         _mutationPercentage =
-            geneticEvolutionSimulatorParams.mutationPercentage {
+            geneticEvolverParams.mutationPercentage {
     populationStream.listen(
         (Population newPopulation) => _currentPopulation = newPopulation);
 
     _populationStreamController
-        .add(Population(geneticEvolutionSimulatorParams.populationParams));
+        .add(Population(geneticEvolverParams.populationParams));
   }
 
   Stream<Population> get populationStream => _populationStreamController.stream;
