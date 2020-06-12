@@ -85,7 +85,8 @@ void main() {
     test('Mutating some individuals', () {
       final Population population = getPop(individuals2());
 
-      final Population mutatedPopulation = population.mutate(mutationPercentage: 0.1);
+      final Population mutatedPopulation =
+          population.mutate(mutationPercentage: 0.1);
 
       expect(
           DeepCollectionEquality()
@@ -97,40 +98,47 @@ void main() {
       final Population population = getRandomPop(1000);
 
       final Population sortedPopulation = population.sort();
-      final Population selectedPopulation = sortedPopulation.naturalSelectionWithDiversity(
-          retainPercentage: 0.5, randomSelect: 0.05);
-      final Population crossedoverPopulation = selectedPopulation.crossover(desiredLength: population.length);
+      final Population selectedPopulation =
+          sortedPopulation.naturalSelectionWithDiversity(
+              retainPercentage: 0.5, randomSelect: 0.05);
+      final Population crossedoverPopulation =
+          selectedPopulation.crossover(desiredLength: population.length);
 
       expect(crossedoverPopulation.length, 1000);
     });
   });
 
   group('| Evolution Simulator |', () {
-    final GeneticEvolverParams geneticEvolverParams = GeneticEvolverParams(
-      retainPercentage: 0.2,
-      randomSelect: 0.05,
-      mutationPercentage: 0.01,
-    );
-    final PopulationParams populationParams = PopulationParams(
-      gradeFunction: gradeExampleFunction,
-      size: 100,
-    );
-    final IndividualParams individualParams = IndividualParams(
-      length: 5,
-      fitnessFunction: fitnessExampleFunction,
-    );
+    test('Evolving the population', () async {
+      final GeneticEvolverParams geneticEvolverParams = GeneticEvolverParams(
+        retainPercentage: 0.2,
+        randomSelect: 0.05,
+        mutationPercentage: 0.01,
+      );
+      final PopulationParams populationParams = PopulationParams(
+        gradeFunction: gradeExampleFunction,
+        size: 100,
+      );
+      final IndividualParams individualParams = IndividualParams(
+        length: 5,
+        fitnessFunction: fitnessExampleFunction,
+      );
 
-    GeneticEvolver geneticEvolver;
-    Stream<Population> populationStream;
-
-    setUp(() {
-      geneticEvolver = GeneticEvolver(
+      final GeneticEvolver geneticEvolver = GeneticEvolver(
           geneticEvolverParams: geneticEvolverParams,
           populationParams: populationParams,
           individualParams: individualParams);
-      populationStream = geneticEvolver.populationStream;
-    });
+      final Stream<Population> populationStream = geneticEvolver.populationStream;
 
-    test('Evolving the population', () async {});
+      final Population firstPopulation = await populationStream.first;
+
+      await geneticEvolver.evolve(totalCycles: 200);
+
+      await geneticEvolver.stop();
+
+      final Population lastPopulation = await populationStream.last;
+
+      expect(lastPopulation.grade, lessThan(firstPopulation.grade));
+    });
   });
 }

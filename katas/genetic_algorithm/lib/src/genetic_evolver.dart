@@ -12,7 +12,6 @@ class GeneticEvolver {
   final double _randomSelect;
   final double _mutationPercentage;
 
-  List<Population> _populations = <Population>[];
   Population _currentPopulation;
 
   GeneticEvolver({
@@ -28,13 +27,10 @@ class GeneticEvolver {
             individualParams: individualParams,
           ),
         ) {
-    // populationStream.listen((Population newPopulation) {
-    //   _currentPopulation = newPopulation;
-    //   _populations.add(newPopulation);
-    // });
+    populationStream.listen(
+        (Population newPopulation) => _currentPopulation = newPopulation);
   }
 
-  List<Population> get populations => _populations;
   Population get currentPopulation => _currentPopulation;
 
   Stream<Population> get populationStream => _populationStreamController.stream;
@@ -47,14 +43,21 @@ class GeneticEvolver {
 
   Stream<Population> _evolveNTimes(int totalCycles) async* {
     for (int cycle = 0; cycle < totalCycles; cycle++) {
-      _currentPopulation.sort();
-      _currentPopulation.naturalSelectionWithDiversity(
-          retainPercentage: _retainPercentage, randomSelect: _randomSelect);
-      _currentPopulation.mutate(mutationPercentage: _mutationPercentage);
-      _currentPopulation.crossover();
-
-      yield _currentPopulation;
+      yield* _evolveOnce();
     }
+  }
+
+  Stream<Population> _evolveOnce() async* {
+    final Population sortedPopulation = _currentPopulation.sort();
+    final Population selectedPopulation =
+        sortedPopulation.naturalSelectionWithDiversity(
+            retainPercentage: _retainPercentage, randomSelect: _randomSelect);
+    final Population mutatedPopulation =
+        selectedPopulation.mutate(mutationPercentage: _mutationPercentage);
+    final Population crossedoverPopulation =
+        mutatedPopulation.crossover(desiredLength: _currentPopulation.length);
+
+    yield crossedoverPopulation;
   }
 
   Future<void> stop() => _populationStreamController.close();

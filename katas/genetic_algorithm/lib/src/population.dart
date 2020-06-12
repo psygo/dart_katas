@@ -7,13 +7,12 @@ import 'individual.dart';
 
 typedef GradeFunction = double Function(List<Individual> individuals);
 
+@immutable
 class Population {
   static final math.Random randomGenerator = math.Random();
 
   final GradeFunction _gradeFunction;
-
-  List<Individual> _individuals;
-  int _originalSize;
+  final List<Individual> _individuals;
 
   Population({
     PopulationParams populationParams = const PopulationParams(),
@@ -23,8 +22,7 @@ class Population {
               populationParams.size,
               individualParams,
             ),
-        _gradeFunction = populationParams.gradeFunction,
-        _originalSize = populationParams.size;
+        _gradeFunction = populationParams.gradeFunction;
 
   static List<Individual> _createRandomIndividualsList(
           int size, IndividualParams individualParams) =>
@@ -43,6 +41,7 @@ class Population {
         gradeFunction: _gradeFunction,
         individuals: individuals,
       ));
+      
   List<Individual> _copyIndividuals() => List<Individual>.from(_individuals);
 
   Population sort() {
