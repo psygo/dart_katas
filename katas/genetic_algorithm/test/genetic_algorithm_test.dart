@@ -85,11 +85,11 @@ void main() {
     test('Mutating some individuals', () {
       final Population population = getPop(individuals2());
 
-      population.mutate(mutationPercentage: 0.1);
+      final Population mutatedPopulation = population.mutate(mutationPercentage: 0.1);
 
       expect(
           DeepCollectionEquality()
-              .equals(individuals2(), population.individuals),
+              .equals(population.individuals, mutatedPopulation.individuals),
           isFalse);
     });
 

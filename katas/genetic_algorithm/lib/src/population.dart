@@ -31,7 +31,7 @@ class Population {
       List<Individual>.generate(size, (int _) => Individual(individualParams));
 
   List<Individual> get individuals => _individuals;
-  
+
   int get length => _individuals.length;
 
   /// The lower the grade the better.
@@ -52,7 +52,10 @@ class Population {
     return _newPopulationFromThisPopulation(copiedIndividuals);
   }
 
-  Population naturalSelectionWithDiversity({@required double retainPercentage, @required double randomSelect,}) {
+  Population naturalSelectionWithDiversity({
+    @required double retainPercentage,
+    @required double randomSelect,
+  }) {
     final int finalLength = _retainLength(retainPercentage);
 
     final List<Individual> selectedIndividuals =
@@ -74,30 +77,32 @@ class Population {
   bool _randomSelectBiggerThanNextDouble(double randomSelect) =>
       randomSelect > randomGenerator.nextDouble();
 
-  void mutate({@required double mutationPercentage}) {
-    for (int individualIndex = 0;
-        individualIndex < length;
-        individualIndex++) {
-      final Individual individual = _individuals[individualIndex];
+  Population mutate({@required double mutationPercentage}) {
+    List<Individual> mutatedIndividuals = <Individual>[];
+
+    for (int individualIndex = 0; individualIndex < length; individualIndex++) {
+      Individual individual = _newIndividualFromValues(_individuals[individualIndex].values);
+
       if (_mutationPercentageBiggerThanNextDouble(mutationPercentage)) {
         final int positionToMutate = _positionToMutate(individual);
+        final List<double> values = List<double>.from(individual.values);
 
-        individual.values[positionToMutate] =
-            _calculateMutatedValue(individual);
+        values[positionToMutate] = _mutatedValue(individual);
 
-        final Individual mutatedIndividual =
-            _newIndividualFromValues(individual.values);
-
-        _individuals[individualIndex] = mutatedIndividual;
+        individual = _newIndividualFromValues(values);
       }
+
+      mutatedIndividuals.add(individual);
     }
+
+    return _newPopulationFromThisPopulation(mutatedIndividuals);
   }
 
   bool _mutationPercentageBiggerThanNextDouble(double mutationPercentage) =>
       mutationPercentage > randomGenerator.nextDouble();
   int _positionToMutate(Individual individual) =>
       randomGenerator.nextInt(individual.values.length);
-  double _calculateMutatedValue(Individual individual) {
+  double _mutatedValue(Individual individual) {
     final List<double> values = individual.values;
     final int max = values.max.toInt();
     return randomGenerator.nextDouble() * randomGenerator.nextInt(max);
