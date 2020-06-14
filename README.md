@@ -8,6 +8,11 @@ All of the katas were done using TDD, meaning they are not only tested but were 
 
 ## Featured Katas
 
+1. [Genetic Algorithm](https://lethain.com/genetic-algorithms-cool-name-damn-simple/)
+    - Is done with OOP, in a more maintainable way than the original article.
+    - The object that manages the evolution (`GeneticEvolutionSimulator`) outputs to a stream, making further reactive client-side programming much easier.
+    - The core objects &mdash; `Individual` and `Population` &mdash; are immutable.
+    - The hierarchical parameters are organized into objects.
 1. [Prime Factors](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata)
     - By Object Mentor (probably, hopefully Robert C. Martin, aka Uncle Bob).
 1. [Bowling Game](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata)
@@ -38,11 +43,6 @@ All of the katas were done using TDD, meaning they are not only tested but were 
     - This is only at its beginning stages right now.
     1. Observer
         - So far, only the Observer pattern is featured. To achieve it I could have implemented the vanilla interfaces in the GoF book (I still intend on doing it). However, I was interested in knowing how to do it in a way that's more in tune with Dart. So, naturally, I chose to try doing it `Stream`s. It isn't very trivial, native support isn't very straightforward at all and I needed Rémi Rousselet's help in order to make it work. You can find out more about it in [this answer](https://stackoverflow.com/a/60341534/4756173).
-1. [Genetic Algorithm](https://lethain.com/genetic-algorithms-cool-name-damn-simple/)
-    - Is done with OOP, in a more maintainable way than the original article.
-    - The object that manages the evolution (`GeneticEvolutionSimulator`) outputs to a stream, making further reactive client-side programming much easier.
-    - The core objects &mdash; `Individual` and `Population` &mdash; are immutable.
-    - The hierarchical parameters are organized into objects.
 
 > I've taken the liberty (good practice?) of refactoring the repetitive tests into for's with organized maps of input-outputs inside the `mocks` folder. If you want to check out how they looked like before this refactoring, look for the tag `refactored_generalized_tests`.
 
