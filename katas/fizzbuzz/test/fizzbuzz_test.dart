@@ -13,8 +13,8 @@ void main() {
       });
     });
 
-    test('Fizz', () {
-      const List<int> multiplesOfThree = <int>[3, 6, 9, 12, 300];
+    test('Fizz only', () {
+      const List<int> multiplesOfThree = <int>[3, 6, 9, 12, 303];
 
       multiplesOfThree.forEach((int multipleOfThree) {
         final String response = FizzBuzz.calculate(multipleOfThree);
@@ -23,8 +23,24 @@ void main() {
       });
     });
 
-    test('Buzz', () {
-      
+    test('Buzz only', () {
+      const List<int> multiplesOfFive = <int>[5, 10, 20, 505];
+
+      multiplesOfFive.forEach((int multipleOfFive) {
+        final String response = FizzBuzz.calculate(multipleOfFive);
+
+        expect(response, 'Buzz');
+      });
+    });
+
+    test('FizzBuzz', () {
+      const List<int> multiplesOfFiveAndThree = <int>[15, 30, 450];
+
+      multiplesOfFiveAndThree.forEach((int multipleOfFiveAndThree) {
+        final String response = FizzBuzz.calculate(multipleOfFiveAndThree);
+
+        expect(response, 'FizzBuzz');
+      });
     });
   });
 }
