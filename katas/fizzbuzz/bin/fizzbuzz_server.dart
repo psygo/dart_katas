@@ -9,7 +9,7 @@ Future<void> main() async {
   server.listen((HttpRequest req) {
     final int number = int.parse(req.uri.pathSegments.last);
     final String fizzBuzzAnswer = FizzBuzz.calculate(number);
-    
+
     req.response
       ..write(fizzBuzzAnswer)
       ..close();
