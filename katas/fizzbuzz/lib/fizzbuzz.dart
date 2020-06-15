@@ -2,4 +2,4 @@
 /// {@category Server, Kata}
 library fizzbuzz;
 
-export 'src/fizzbuzz.dart';
+export 'src/fizzbuzz.dart' show FizzBuzz;
