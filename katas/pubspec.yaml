@@ -23,6 +23,8 @@ dependencies:
     path: dungeon_problem/
   eratos_sieve:
     path: eratos_sieve/
+  fizzbuzz:
+    path: fizzbuzz/
   game_of_life:
     path: game_of_life/
   genetic_algorithm:
