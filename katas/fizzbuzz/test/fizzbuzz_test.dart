@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:test/test.dart';
 
+import '../bin/fizzbuzz_server.dart' as fizzbuzz_server;
 import 'package:fizzbuzz/fizzbuzz.dart';
 
 void main() {
@@ -46,8 +50,42 @@ void main() {
   });
 
   group('FizzBuzz Server', () {
-    test('', () {
-      
+    Future<String> getUrl(int number) async {
+      try {
+        final HttpClient client = HttpClient();
+        final HttpClientRequest request =
+            await client.get('localhost', 4040, '/' + number.toString());
+        final HttpClientResponse response = await request.close();
+        final List<String> data = await utf8.decoder.bind(response).toList();
+        return data.join('');
+      } catch (_) {
+        rethrow;
+      }
+    }
+
+    test('Fizzbuzz on the server with different values', () async {
+      fizzbuzz_server.main();
+
+      const Map<int, String> intsToTest = <int, String>{
+        1: '1',
+        2: '2',
+        3: 'Fizz',
+        5: 'Buzz',
+        7: '7',
+        9: 'Fizz',
+        15: 'FizzBuzz',
+        30: 'FizzBuzz',
+        20: 'Buzz',
+      };
+
+      await Future.forEach(intsToTest.entries, (MapEntry entry) async {
+        final int number = entry.key;
+        final String correctAnswer = entry.value;
+
+        final String response = await getUrl(number);
+
+        expect(response, correctAnswer);
+      });
     });
   });
 }
