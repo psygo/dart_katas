@@ -13,6 +13,8 @@ All of the katas were done using TDD, meaning they are not only tested but were 
     - The object that manages the evolution (`GeneticEvolutionSimulator`) outputs to a stream, making further reactive client-side programming much easier.
     - The core objects &mdash; `Individual` and `Population` &mdash; are immutable.
     - The hierarchical parameters are organized into objects.
+1. [FizzBuzz](https://en.wikipedia.org/wiki/Fizz_buzz)
+    - Also features a minimal server.
 1. [Prime Factors](http://butunclebob.com/ArticleS.UncleBob.ThePrimeFactorsKata)
     - By Object Mentor (probably, hopefully Robert C. Martin, aka Uncle Bob).
 1. [Bowling Game](http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata)
