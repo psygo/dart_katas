@@ -23,6 +23,8 @@ dependencies:
     path: dungeon_problem/
   eratos_sieve:
     path: eratos_sieve/
+  erlang:
+    path: erlang/
   fizzbuzz:
     path: fizzbuzz/
   game_of_life:
