@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:erlang/erlang.dart';
 
 void main() {
-  group('Erlang | ', () {
+  group('Erlang |', () {
     test('`e` is the product of the call rate and call time', () {
       final Erlang erlang = Erlang(callRate: 2, callTime: 3);
 
@@ -13,18 +13,26 @@ void main() {
   });
 
   group('Erlang Calculator |', () {
-    test('Calculating `B` for different values', () {
-      final double callRate = 1, callTime = 0.87;
-      final Erlang erlang = Erlang(callRate: callRate, callTime: callTime);
-      final int numChannels = 4;
+    double calcB(List<double> params) {
+      final Erlang erlang = Erlang(callRate: params[0], callTime: params[1]);
+      final int numChannels = params[2].toInt();
 
       final ErlangCalculator erlangCalculator =
           ErlangCalculator(erlangs: erlang, numChannels: numChannels);
 
-      final double blockageProbability = erlangCalculator.calcB();
+      return erlangCalculator.calcB();
+    }
 
-      expect(blockageProbability, lessThan(0.02));
-      expect(blockageProbability, greaterThan(0));
+    test('Calculating `B` for different values', () {
+      <List<double>, List<double>>{
+        <double>[1, 0.87, 4]: <double>[0, 0.02],
+        <double>[1, 15.2, 20]: <double>[0.049, 0.05],
+        <double>[1, 4.01, 5]: <double>[0.19, 0.21],
+      }..forEach((List<double> params, List<double> correctRange) {
+          final double blockageProbability = calcB(params);
+          expect(blockageProbability, greaterThan(correctRange[0]));
+          expect(blockageProbability, lessThan(correctRange[1]));
+        });
     });
   });
 }
