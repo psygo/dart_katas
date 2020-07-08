@@ -13,15 +13,15 @@ void main() {
   });
 
   group('Erlang Calculator |', () {
-    double calcB(List<double> params) {
+    ErlangCalculator setupCalculator(List<double> params) {
       final Erlang erlang = Erlang(callRate: params[0], callTime: params[1]);
       final int numChannels = params[2].toInt();
 
-      final ErlangCalculator erlangCalculator =
-          ErlangCalculator(erlangs: erlang, numChannels: numChannels);
-
-      return erlangCalculator.calcB();
+      return ErlangCalculator(erlangs: erlang, numChannels: numChannels);
     }
+
+    double calcB(List<double> params) => setupCalculator(params).calcB();
+    double calcC(List<double> params) => setupCalculator(params).calcC();
 
     test('Calculating `B` for different values', () {
       <List<double>, List<double>>{
@@ -32,6 +32,18 @@ void main() {
           final double blockageProbability = calcB(params);
           expect(blockageProbability, greaterThan(correctRange[0]));
           expect(blockageProbability, lessThan(correctRange[1]));
+        });
+    });
+
+    test('Calculating `C` for different values', () {
+      <List<double>, List<double>>{
+        <double>[1, 0.66, 4]: <double>[0, 0.005],
+        <double>[1, 8.46, 15]: <double>[0.02, 0.03],
+        <double>[1, 38.1, 45]: <double>[0.19, 0.2],
+      }..forEach((List<double> params, List<double> correctRange) {
+          final double delayProbability = calcC(params);
+          expect(delayProbability, greaterThan(correctRange[0]));
+          expect(delayProbability, lessThan(correctRange[1]));
         });
     });
   });

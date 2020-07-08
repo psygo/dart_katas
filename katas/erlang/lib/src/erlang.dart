@@ -40,7 +40,7 @@ class ErlangCalculator {
   int _factorial(int n) => n == 0 ? 1 : n * _factorial(n - 1);
 
   /// Probability of a delay with Erlang's C function.
-  double caclC() {
+  double calcC() {
     return 0;
   }
 }
