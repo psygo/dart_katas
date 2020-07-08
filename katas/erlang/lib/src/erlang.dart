@@ -15,13 +15,22 @@ class Erlang {
 
 @immutable
 class ErlangCalculator {
-  const ErlangCalculator();
+  final Erlang _erlangs;
+  final int _numChannles;
 
-  double calcB(double e, int n) {
+  const ErlangCalculator({
+    @required Erlang erlangs,
+    @required int numChannels,
+  })  : _erlangs = erlangs,
+        _numChannles = numChannels;
+
+  /// Probability of blockage with Erlang's B function.
+  double calcB() {
     return 0;
   }
 
-  double caclC(double e, int n) {
+  /// Probability of a delay with Erlang's C function.
+  double caclC() {
     return 0;
   }
 }
