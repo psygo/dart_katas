@@ -5,13 +5,15 @@ import 'package:erlang/erlang.dart';
 void main() {
   group('Erlang |', () {
     test('`e` is the product of the call rate and call time', () {
-      final Erlang erlang = Erlang(callRate: 2, callDuration: 3);
+      const Erlang erlang = Erlang(callRate: 2, callDuration: 3);
 
       expect(erlang.e, isA<double>());
       expect(erlang.e, 6);
     });
   });
 
+  /// Another very useful resource for checking answers is 
+  /// [this book](https://books.google.com.br/books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table&source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl=en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v=onepage&q&f=false).
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
       final Erlang erlang =
