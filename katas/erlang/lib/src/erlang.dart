@@ -42,6 +42,7 @@ class ErlangCalculator {
     }
   }
 
+  /// Using `n == 1` won't work usually because the `n` input can be `0`.
   int _factorial(int n) => n == 0 ? 1 : n * _factorial(n - 1);
 
   /// Probability of a delay with Erlang's C function.

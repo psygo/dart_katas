@@ -38,6 +38,8 @@ void main() {
         });
     });
 
+    /// An even better set of tests would check the inner parts of each equation
+    /// (including the B formula).
     test('Calculating `C` for different values', () {
       <List<double>, List<double>>{
         <double>[1, 3.68, 10]: <double>[0, 0.007],
@@ -48,6 +50,12 @@ void main() {
           expect(delayProbability, greaterThan(correctRange[0]));
           expect(delayProbability, lessThan(correctRange[1]));
         });
+    });
+  });
+
+  group('Erlang Reverse Calculator', () {
+    test('', () {
+      
     });
   });
 }
