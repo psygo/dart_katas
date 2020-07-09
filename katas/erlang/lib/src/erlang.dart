@@ -4,15 +4,15 @@ import 'package:meta/meta.dart';
 
 @immutable
 class Erlang {
-  final double _callRate, _callTime;
+  final double _callRate, _callDuration;
 
   const Erlang({
     @required double callRate,
-    @required double callTime,
+    @required double callDuration,
   })  : _callRate = callRate,
-        _callTime = callTime;
+        _callDuration = callDuration;
 
-  double get e => _callRate * _callTime;
+  double get e => _callRate * _callDuration;
 }
 
 @immutable
@@ -41,6 +41,12 @@ class ErlangCalculator {
 
   /// Probability of a delay with Erlang's C function.
   double calcC() {
-    return 0;
+    if (_numChannels == 0) {
+      return 1;
+    } else {
+      final double top = _numChannels * calcB();
+      final double bottom = _numChannels - _erlangs.e * (1 - calcB());
+      return min(1, top / bottom);
+    }
   }
 }
