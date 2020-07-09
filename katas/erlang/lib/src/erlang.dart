@@ -30,9 +30,9 @@ class ErlangCalculator {
   double calcB() {
     final double top = pow(_erlangs.e, _numChannels) / _factorial(_numChannels);
     final List<double> bottomVector = List<double>.generate(
-        _numChannels,
+        _numChannels + 1,
         (int channelIndex) =>
-            pow(_erlangs.e, channelIndex + 1) / _factorial(channelIndex + 1));
+            pow(_erlangs.e, channelIndex) / _factorial(channelIndex));
     final double bottom = bottomVector.reduce((double a, double b) => a + b);
     return top / bottom;
   }

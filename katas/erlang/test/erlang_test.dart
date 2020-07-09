@@ -26,15 +26,11 @@ void main() {
 
     test('Calculating `B` for different values', () {
       <List<double>, List<double>>{
-        <double>[1, 0.87, 4]: <double>[0, 0.02],
-        <double>[1, 15.2, 20]: <double>[0.049, 0.05],
+        <double>[1, 0.87, 4]: <double>[0.009, 0.011],
+        <double>[1, 15.2, 20]: <double>[0.049, 0.050],
         <double>[1, 4.01, 5]: <double>[0.19, 0.21],
       }..forEach((List<double> params, List<double> correctRange) {
           final double blockageProbability = calcB(params);
-          // print(blockageProbability);
-          final double top = params[2] * blockageProbability;
-          final double bottom = params[2] - params[1] * (1 - blockageProbability);
-          print(top / bottom);
           expect(blockageProbability, greaterThan(correctRange[0]));
           expect(blockageProbability, lessThan(correctRange[1]));
         });
