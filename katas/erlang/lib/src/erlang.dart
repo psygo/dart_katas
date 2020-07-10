@@ -56,3 +56,35 @@ class ErlangCalculator {
     }
   }
 }
+
+@immutable
+class ErlangSolver {
+  final Erlang _erlangs;
+  final double _b;
+  final double _precision;
+
+  const ErlangSolver({
+    @required Erlang erlangs,
+    @required double b,
+    double precision = .01,
+  })  : _erlangs = erlangs,
+        _b = b,
+        _precision = precision;
+
+  /// Precision doesn't play a part in here. We are going to find the number of
+  /// channels that strictly yield a `B` smaller or equal to what was passed in.
+  int findNumChannels() {
+    int numChannels = 1;
+    while (true) {
+      final ErlangCalculator erlangCalculator =
+          ErlangCalculator(erlangs: _erlangs, numChannels: numChannels);
+      final double bFound = erlangCalculator.calcB();
+
+      if (bFound <= _b) {
+        return numChannels;
+      } else {
+        numChannels++;
+      }
+    }
+  }
+}
