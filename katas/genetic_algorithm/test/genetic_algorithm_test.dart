@@ -26,7 +26,6 @@ void main() {
 
   group('| `Population` |', () {
     final Population population1 = getPop(individuals1());
-    final Population population2 = getPop(individuals2());
 
     test('Checks that 2 random populations don\'t have the same individuals',
         () {
