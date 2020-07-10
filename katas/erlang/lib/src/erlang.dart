@@ -45,6 +45,7 @@ class ErlangCalculator {
 
   double _bottomVector(int channelIndex) =>
       pow(_erlangs.e, channelIndex) / _factorial(channelIndex);
+
   /// Using `n == 1` won't work usually because the `n` input can be `0`.
   int _factorial(int n) => n == 0 ? 1 : n * _factorial(n - 1);
 
