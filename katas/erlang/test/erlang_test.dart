@@ -12,7 +12,7 @@ void main() {
     });
   });
 
-  /// Another very useful resource for checking answers is 
+  /// Another very useful resource for checking answers is
   /// [this book](https://books.google.com.br/books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table&source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl=en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v=onepage&q&f=false).
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
@@ -54,18 +54,34 @@ void main() {
   });
 
   group('Erlang Reverse Calculator', () {
-    test('Find N, given E and B', () {
+    test('Finds N, given E and B', () {
       <List<double>, int>{
-        <double>[1, 0.86, .01]: 4,
+        <double>[1, .86, .01]: 4,
         <double>[1, 15.2, .05]: 20,
         <double>[1, 4.01, .2]: 5,
         <double>[1, 7.96, .03]: 13,
       }..forEach((List<double> params, int correctN) {
-        final Erlang erlangs = Erlang(callDuration: params[0], callRate: params[1]);
-        final ErlangSolver erlangSolver = ErlangSolver(erlangs: erlangs, b: params[2]);
-        final int numChannels = erlangSolver.findNumChannels();
-        expect(numChannels, correctN);
-      });
+          final Erlang erlangs =
+              Erlang(callDuration: params[0], callRate: params[1]);
+          final ErlangSolver erlangSolver =
+              ErlangSolver(erlangs: erlangs, b: params[2]);
+          final int numChannels = erlangSolver.findNumChannels();
+          expect(numChannels, correctN);
+        });
+    });
+
+    test('Finds E, given N and B', () {
+      <List<double>, Erlang>{
+        <double>[.01, 4]: Erlang(callDuration: 1, callRate: .86),
+        <double>[.05, 20]: Erlang(callDuration: 1, callRate: 15.2),
+        <double>[.2, 5]: Erlang(callDuration: 1, callRate: 4.01),
+        <double>[.03, 13]: Erlang(callDuration: 1, callRate: 7.96),
+      }..forEach((List<double> params, Erlang correctE) {
+          final ErlangSolver erlangSolver =
+              ErlangSolver(b: params[0], numChannels: params[1].toInt());
+          final Erlang erlangs = erlangSolver.findErlangs();
+          expect(erlangs.e, correctE.e);
+        });
     });
   });
 }
