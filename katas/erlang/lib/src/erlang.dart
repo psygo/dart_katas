@@ -84,21 +84,22 @@ class ErlangSolver {
       throw Exception('E is also necessary for this method');
     }
 
+    double bFound = double.infinity;
     int numChannels = 1;
-    while (true) {
+    for (; bFound > _b; numChannels++) {
       final ErlangCalculator erlangCalculator =
           ErlangCalculator(erlangs: _erlangs, numChannels: numChannels);
-      final double bFound = erlangCalculator.calcB();
-
-      if (bFound <= _b) {
-        return numChannels;
-      } else {
-        numChannels++;
-      }
+      bFound = erlangCalculator.calcB();
     }
+
+    return numChannels - 1;
   }
 
   Erlang findErlangs() {
+    if (_numChannels == null) {
+      throw Exception('It is also necessary to specify the number of channels');
+    }
+
     return Erlang(callDuration: 1, callRate: 1);
   }
 }
