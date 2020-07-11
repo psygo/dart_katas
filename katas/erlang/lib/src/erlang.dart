@@ -71,7 +71,7 @@ class ErlangSolver {
     @required double b,
     Erlang erlangs,
     int numChannels,
-    double precision = .001,
+    double precision = .0001,
   })  : _erlangs = erlangs,
         _b = b,
         _numChannels = numChannels,
@@ -95,11 +95,34 @@ class ErlangSolver {
     return numChannels - 1;
   }
 
+  /// The precision is currently linked to approximating `B`, not `E`, so the
+  /// precision on `E` might be different. A formula of how their errors relate
+  /// would be necessary to solve this issue. Generally speaking,
+  /// `precision_E << precision_B` in this setup.
   Erlang findErlangs() {
     if (_numChannels == null) {
       throw Exception('It is also necessary to specify the number of channels');
     }
 
+    final List<double> initialApproximations = _getInitialErlangsApproximation();
+    double bFound = initialApproximations.first, eFound = initialApproximations.last;
+
+    double eReference = 0;
+    while ((bFound - _b).abs() >= _precision) {
+      final double halfStep = (eFound - eReference).abs() / 2;
+      eReference = eFound;
+      bFound - _b >= _precision ? eFound -= halfStep : eFound += halfStep;
+
+      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
+      final ErlangCalculator erlangCalculator =
+          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
+      bFound = erlangCalculator.calcB();
+    }
+
+    return Erlang(callDuration: 1, callRate: eFound);
+  }
+
+  List<double> _getInitialErlangsApproximation() {
     double bFound = 0;
     double eFound = 1;
     while (bFound - _b <= _precision) {
@@ -110,22 +133,36 @@ class ErlangSolver {
       eFound++;
     }
 
-    double eReference = 0;
-    while ((bFound - _b).abs() >= _precision) {
-      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
-      final ErlangCalculator erlangCalculator =
-          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
-      bFound = erlangCalculator.calcB();
-      final double step = (eFound - eReference).abs();
+    return <double>[bFound, eFound];
+  }
+}
 
-      eReference = eFound;
-      if (bFound - _b >= _precision) {
-        eFound -= step / 2;
-      } else if (bFound - _b <= -_precision) {
-        eFound += step / 2;
-      }
-    }
+@immutable
+class ErlangTableGenerator {
+  final List<double> _blockagePercentages;
+  final int _maxNumChannels;
 
-    return Erlang(callDuration: 1, callRate: eFound);
+  const ErlangTableGenerator(
+    int maxNumChannels, [
+    List<double> blockagePercentages = const <double>[
+      .01,
+      .012,
+      .015,
+      .02,
+      .03,
+      .05,
+      .07,
+      .1,
+      .15,
+      .2,
+      .3,
+      .4,
+      .5
+    ],
+  ])  : _maxNumChannels = maxNumChannels,
+        _blockagePercentages = blockagePercentages;
+
+  Map<int, List<double>> generateBTable() {
+    return <int, List<double>>{};
   }
 }
