@@ -104,9 +104,15 @@ class ErlangSolver {
       throw Exception('It is also necessary to specify the number of channels');
     }
 
-    final List<double> initialApproximations = _getInitialErlangsApproximation();
-    double bFound = initialApproximations.first, eFound = initialApproximations.last;
+    final List<double> initialApproximations =
+        _getInitialErlangsApproximation();
+    double bFound = initialApproximations.first,
+        eFound = initialApproximations.last;
 
+    return _approximateErlangs(bFound, eFound);
+  }
+
+  Erlang _approximateErlangs(double bFound, double eFound) {
     double eReference = 0;
     while ((bFound - _b).abs() >= _precision) {
       final double halfStep = (eFound - eReference).abs() / 2;

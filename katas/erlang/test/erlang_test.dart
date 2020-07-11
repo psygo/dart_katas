@@ -85,9 +85,7 @@ void main() {
     });
   });
 
-  /// This can probably have some dramatic improvements if dynamic programming
-  /// concepts were used.
-  group('Erlang Table Generator', () {
-    
-  });
+  /// This can probably have some dramatic performance improvements if dynamic
+  /// programming concepts were used.
+  group('Erlang Table Generator', () {});
 }
