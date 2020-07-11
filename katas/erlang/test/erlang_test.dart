@@ -12,8 +12,8 @@ void main() {
     });
   });
 
-  /// Another very useful resource for checking answers is
-  /// [this book](https://books.google.com.br/books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table&source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl=en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v=onepage&q&f=false).
+  // Another very useful resource for checking answers is
+  // [this book](https://books.google.com.br/books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table&source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl=en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v=onepage&q&f=false).
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
       final Erlang erlang =
@@ -38,8 +38,8 @@ void main() {
         });
     });
 
-    /// An even better set of tests would check the inner parts of each equation
-    /// (including the B formula).
+    // An even better set of tests would check the inner parts of each equation
+    // (including the B formula).
     test('Calculating `C` for different values', () {
       <List<double>, List<double>>{
         <double>[1, 3.68, 10]: <double>[0, .006],
@@ -85,7 +85,26 @@ void main() {
     });
   });
 
-  /// This can probably have some dramatic performance improvements if dynamic
-  /// programming concepts were used.
-  group('Erlang Table Generator', () {});
+  // This can probably have some dramatic performance improvements if dynamic
+  // programming concepts were used.
+  group('Erlang Table Generator', () {
+    test('Checks the generation of an Erlang B Table', () {
+      const int maxNumChannels = 2;
+      const List<double> blockagePercentages = <double>[.01, .02, .2, .5];
+
+      final ErlangTableGenerator erlangTableGenerator = ErlangTableGenerator(
+          maxNumChannels: maxNumChannels,
+          blockagePercentages: blockagePercentages);
+
+      final Map<int, List<double>> erlangBTable =
+          erlangTableGenerator.generateBTable();
+
+      const Map<int, List<double>> correctErlangBTable = <int, List<double>>{
+        1: <double>[0.01, 0.02, 0.25, 1],
+        2: <double>[0.15, 0.22, 1, 2.73],
+      };
+
+      expect(erlangBTable, correctErlangBTable);
+    });
+  });
 }

@@ -46,7 +46,7 @@ class ErlangCalculator {
   double _bottomVector(int channelIndex) =>
       pow(_erlangs.e, channelIndex) / _factorial(channelIndex);
 
-  /// Using `n == 1` won't work usually because the `n` input can be `0`.
+  // Using `n == 1` won't work usually because the `n` input can be `0`.
   int _factorial(int n) => n == 0 ? 1 : n * _factorial(n - 1);
 
   /// Probability of a delay with Erlang's C function.
@@ -61,6 +61,9 @@ class ErlangCalculator {
   }
 }
 
+// `bFound` and maybe `eFound` in the approximation methods should probably
+// become properties, since they are shared throughout other methods. But that
+// would also render this class mutable...
 @immutable
 class ErlangSolver {
   final Erlang _erlangs;
@@ -148,8 +151,8 @@ class ErlangTableGenerator {
   final List<double> _blockagePercentages;
   final int _maxNumChannels;
 
-  const ErlangTableGenerator(
-    int maxNumChannels, [
+  const ErlangTableGenerator({
+    int maxNumChannels = 5,
     List<double> blockagePercentages = const <double>[
       .01,
       .012,
@@ -163,9 +166,9 @@ class ErlangTableGenerator {
       .2,
       .3,
       .4,
-      .5
+      .5,
     ],
-  ])  : _maxNumChannels = maxNumChannels,
+  })  : _maxNumChannels = maxNumChannels,
         _blockagePercentages = blockagePercentages;
 
   Map<int, List<double>> generateBTable() {

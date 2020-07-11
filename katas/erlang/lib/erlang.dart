@@ -3,4 +3,5 @@
 /// {@category Telecommunications}
 library erlang;
 
-export 'src/erlang.dart' show Erlang, ErlangCalculator, ErlangSolver;
+export 'src/erlang.dart'
+    show Erlang, ErlangCalculator, ErlangSolver, ErlangTableGenerator;
