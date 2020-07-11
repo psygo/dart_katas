@@ -71,7 +71,7 @@ class ErlangSolver {
     @required double b,
     Erlang erlangs,
     int numChannels,
-    double precision = .01,
+    double precision = .001,
   })  : _erlangs = erlangs,
         _b = b,
         _numChannels = numChannels,
@@ -100,6 +100,32 @@ class ErlangSolver {
       throw Exception('It is also necessary to specify the number of channels');
     }
 
-    return Erlang(callDuration: 1, callRate: 1);
+    double bFound = 0;
+    double eFound = 1;
+    while (bFound - _b <= _precision) {
+      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
+      final ErlangCalculator erlangCalculator =
+          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
+      bFound = erlangCalculator.calcB();
+      eFound++;
+    }
+
+    double eReference = 0;
+    while ((bFound - _b).abs() >= _precision) {
+      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
+      final ErlangCalculator erlangCalculator =
+          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
+      bFound = erlangCalculator.calcB();
+      final double step = (eFound - eReference).abs();
+
+      eReference = eFound;
+      if (bFound - _b >= _precision) {
+        eFound -= step / 2;
+      } else if (bFound - _b <= -_precision) {
+        eFound += step / 2;
+      }
+    }
+
+    return Erlang(callDuration: 1, callRate: eFound);
   }
 }
