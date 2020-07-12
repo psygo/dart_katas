@@ -2,13 +2,15 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 
+/// Not specifying `callRate` or `callDuration` gives back 1 Erlang, i.e., a
+/// normalized vector.
 @immutable
 class Erlang {
   final double _callRate, _callDuration;
 
   const Erlang({
-    @required double callRate,
-    @required double callDuration,
+    double callRate = 1,
+    double callDuration = 1,
   })  : _callRate = callRate,
         _callDuration = callDuration;
 
@@ -122,20 +124,20 @@ class ErlangSolver {
       eReference = eFound;
       bFound - _b >= _precision ? eFound -= halfStep : eFound += halfStep;
 
-      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
+      final Erlang erlangs = Erlang(callDuration: eFound);
       final ErlangCalculator erlangCalculator =
           ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
       bFound = erlangCalculator.calcB();
     }
 
-    return Erlang(callDuration: 1, callRate: eFound);
+    return Erlang(callDuration: eFound);
   }
 
   List<double> _getInitialErlangsApproximation() {
     double bFound = 0;
     double eFound = 1;
     while (bFound - _b <= _precision) {
-      final Erlang erlangs = Erlang(callRate: 1, callDuration: eFound);
+      final Erlang erlangs = Erlang(callDuration: eFound);
       final ErlangCalculator erlangCalculator =
           ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
       bFound = erlangCalculator.calcB();
@@ -171,7 +173,17 @@ class ErlangTableGenerator {
   })  : _maxNumChannels = maxNumChannels,
         _blockagePercentages = blockagePercentages;
 
-  Map<int, List<double>> generateBTable() {
-    return <int, List<double>>{};
+  Map<int, List<Erlang>> generateBTable() {
+    final Map<int, List<Erlang>> erlangBTable = <int, List<Erlang>>{};
+    for (int numChannels = 1; numChannels <= _maxNumChannels; numChannels++) {
+      erlangBTable[numChannels] = <Erlang>[];
+      _blockagePercentages.forEach((double blockagePercentage) {
+        final ErlangSolver erlangSolver = ErlangSolver(b: blockagePercentage, numChannels: numChannels);
+        final Erlang erlangs = erlangSolver.findErlangs();
+        erlangBTable[numChannels].add(erlangs);
+      });
+    }
+
+    return erlangBTable;
   }
 }

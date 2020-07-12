@@ -17,8 +17,8 @@ void main() {
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
       final Erlang erlang =
-          Erlang(callRate: params[0], callDuration: params[1]);
-      final int numChannels = params[2].toInt();
+          Erlang(callDuration: params[0]);
+      final int numChannels = params[1].toInt();
 
       return ErlangCalculator(erlangs: erlang, numChannels: numChannels);
     }
@@ -28,9 +28,9 @@ void main() {
 
     test('Calculating `B` for different values', () {
       <List<double>, List<double>>{
-        <double>[1, .87, 4]: <double>[.009, .011],
-        <double>[1, 15.2, 20]: <double>[.049, .050],
-        <double>[1, 4.01, 5]: <double>[.19, .21],
+        <double>[.87, 4]: <double>[.009, .011],
+        <double>[15.2, 20]: <double>[.049, .050],
+        <double>[4.01, 5]: <double>[.19, .21],
       }..forEach((List<double> params, List<double> correctRange) {
           final double blockageProbability = calcB(params);
           expect(blockageProbability, greaterThan(correctRange[0]));
@@ -42,9 +42,9 @@ void main() {
     // (including the B formula).
     test('Calculating `C` for different values', () {
       <List<double>, List<double>>{
-        <double>[1, 3.68, 10]: <double>[0, .006],
-        <double>[1, 8.46, 15]: <double>[.029, .031],
-        <double>[1, 15.5, 20]: <double>[.19, .21],
+        <double>[3.68, 10]: <double>[0, .006],
+        <double>[8.46, 15]: <double>[.029, .031],
+        <double>[15.5, 20]: <double>[.19, .21],
       }..forEach((List<double> params, List<double> correctRange) {
           final double delayProbability = calcC(params);
           expect(delayProbability, greaterThan(correctRange[0]));
@@ -56,15 +56,15 @@ void main() {
   group('Erlang Reverse Calculator', () {
     test('Finds N, given E and B', () {
       <List<double>, int>{
-        <double>[1, .86, .01]: 4,
-        <double>[1, 15.2, .05]: 20,
-        <double>[1, 4.01, .2]: 5,
-        <double>[1, 7.96, .03]: 13,
+        <double>[.86, .01]: 4,
+        <double>[15.2, .05]: 20,
+        <double>[4.01, .2]: 5,
+        <double>[7.96, .03]: 13,
       }..forEach((List<double> params, int correctN) {
           final Erlang erlangs =
-              Erlang(callDuration: params[0], callRate: params[1]);
+              Erlang(callDuration: params[0]);
           final ErlangSolver erlangSolver =
-              ErlangSolver(erlangs: erlangs, b: params[2]);
+              ErlangSolver(erlangs: erlangs, b: params[1]);
           final int numChannels = erlangSolver.findNumChannels();
           expect(numChannels, correctN);
         });
@@ -72,15 +72,15 @@ void main() {
 
     test('Finds E, given N and B', () {
       <List<double>, Erlang>{
-        <double>[.01, 4]: Erlang(callDuration: 1, callRate: .86),
-        <double>[.05, 20]: Erlang(callDuration: 1, callRate: 15.2),
-        <double>[.2, 5]: Erlang(callDuration: 1, callRate: 4.01),
-        <double>[.03, 13]: Erlang(callDuration: 1, callRate: 7.96),
+        <double>[.01, 4]: Erlang(callDuration: .86),
+        <double>[.05, 20]: Erlang(callDuration: 15.2),
+        <double>[.2, 5]: Erlang(callDuration: 4.01),
+        <double>[.03, 13]: Erlang(callDuration: 7.96),
       }..forEach((List<double> params, Erlang correctE) {
           final ErlangSolver erlangSolver =
               ErlangSolver(b: params[0], numChannels: params[1].toInt());
           final Erlang erlangs = erlangSolver.findErlangs();
-          expect(erlangs.e, lessThan(correctE.e + 0.1));
+          expect(erlangs.e, lessThan(correctE.e + .05));
         });
     });
   });
@@ -89,22 +89,42 @@ void main() {
   // programming concepts were used.
   group('Erlang Table Generator', () {
     test('Checks the generation of an Erlang B Table', () {
-      const int maxNumChannels = 2;
-      const List<double> blockagePercentages = <double>[.01, .02, .2, .5];
-
       final ErlangTableGenerator erlangTableGenerator = ErlangTableGenerator(
-          maxNumChannels: maxNumChannels,
-          blockagePercentages: blockagePercentages);
+        maxNumChannels: 3,
+        blockagePercentages: <double>[.01, .02, .2, .5],
+      );
 
-      final Map<int, List<double>> erlangBTable =
+      final Map<int, List<Erlang>> erlangBTable =
           erlangTableGenerator.generateBTable();
 
-      const Map<int, List<double>> correctErlangBTable = <int, List<double>>{
-        1: <double>[0.01, 0.02, 0.25, 1],
-        2: <double>[0.15, 0.22, 1, 2.73],
+      const Map<int, List<Erlang>> correctErlangBTable = <int, List<Erlang>>{
+        1: <Erlang>[
+          Erlang(callDuration: .01),
+          Erlang(callDuration: .02),
+          Erlang(callDuration: .25),
+          Erlang(callDuration: 1),
+        ],
+        2: <Erlang>[
+          Erlang(callDuration: .15),
+          Erlang(callDuration: .22),
+          Erlang(callDuration: 1),
+          Erlang(callDuration: 2.73),
+        ],
+        3: <Erlang>[
+          Erlang(callDuration: .46),
+          Erlang(callDuration: .6),
+          Erlang(callDuration: 1.93),
+          Erlang(callDuration: 4.59),
+        ],
       };
 
-      expect(erlangBTable, correctErlangBTable);
+      erlangBTable.forEach((int numChannels, List<Erlang> erlangs) {
+        for (int colIndex = 0; colIndex < erlangs.length; colIndex++) {
+          final Erlang erlang = erlangs[colIndex],
+              correctErlang = correctErlangBTable[numChannels][colIndex];
+          expect(erlang.e, lessThan(correctErlang.e + .05));
+        }
+      });
     });
   });
 }
