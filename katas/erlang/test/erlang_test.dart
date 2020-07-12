@@ -12,12 +12,7 @@ void main() {
     });
   });
 
-  // Another very useful resource for checking answers is
-  // [this book](https://books.google.com.br/
-  // books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table
-  // &source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl
-  // =en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v
-  // =onepage&q&f=false).
+  // Another very useful resource for checking answers is [this book][1].
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
       final Erlang erlang = Erlang(callDuration: params[0]);
@@ -130,3 +125,9 @@ void main() {
     });
   });
 }
+
+// [1]: https://books.google.com.br/
+// books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table
+// &source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl
+// =en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v
+// =onepage&q&f=false
