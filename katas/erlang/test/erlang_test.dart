@@ -16,8 +16,7 @@ void main() {
   // [this book](https://books.google.com.br/books?id=VXJwAAAAQBAJ&pg=PA424&lpg=PA424&dq=erlang+C+function+table&source=bl&ots=5jJ_2Rtpe1&sig=ACfU3U1x5dcXah2HznuQcuTQS8q5DBywWg&hl=en&sa=X&ved=2ahUKEwiM0sm48b7qAhVwCrkGHUk_AXQQ6AEwDnoECAoQAQ#v=onepage&q&f=false).
   group('Erlang Calculator |', () {
     ErlangCalculator setupCalculator(List<double> params) {
-      final Erlang erlang =
-          Erlang(callDuration: params[0]);
+      final Erlang erlang = Erlang(callDuration: params[0]);
       final int numChannels = params[1].toInt();
 
       return ErlangCalculator(erlangs: erlang, numChannels: numChannels);
@@ -61,8 +60,7 @@ void main() {
         <double>[4.01, .2]: 5,
         <double>[7.96, .03]: 13,
       }..forEach((List<double> params, int correctN) {
-          final Erlang erlangs =
-              Erlang(callDuration: params[0]);
+          final Erlang erlangs = Erlang(callDuration: params[0]);
           final ErlangSolver erlangSolver =
               ErlangSolver(erlangs: erlangs, b: params[1]);
           final int numChannels = erlangSolver.findNumChannels();

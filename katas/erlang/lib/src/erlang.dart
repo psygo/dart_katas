@@ -178,7 +178,8 @@ class ErlangTableGenerator {
     for (int numChannels = 1; numChannels <= _maxNumChannels; numChannels++) {
       erlangBTable[numChannels] = <Erlang>[];
       _blockagePercentages.forEach((double blockagePercentage) {
-        final ErlangSolver erlangSolver = ErlangSolver(b: blockagePercentage, numChannels: numChannels);
+        final ErlangSolver erlangSolver =
+            ErlangSolver(b: blockagePercentage, numChannels: numChannels);
         final Erlang erlangs = erlangSolver.findErlangs();
         erlangBTable[numChannels].add(erlangs);
       });
