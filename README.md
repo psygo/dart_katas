@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/psygo/dart_katas.svg?branch=master)](https://travis-ci.com/psygo/dart_katas)
 
+> **Quite frankly, I think that this should actually better be named something along the lines of Dart Lab, the examples/exercises below are much more suited to expose experimentation than demonstration. But I won't change anything, if this is shameful, so be it!**
+
 These are coding exercises meant to sharpen your programming abilities, analogous to martial arts'.
 
 All of the katas were done using TDD, meaning they are not only tested but were tailored for (*driven by*) the tests.
